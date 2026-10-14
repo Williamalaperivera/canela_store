@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Más Canela Store | Moda para cada versión de ti</title>
+  <meta name="description"
+    content="Jeans para dama y caballero. Encuentra tu estilo con asesoría cercana. Envíos a toda Colombia y contra entrega en Bogotá.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <!-- Tipografías Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- Barra de Anuncio Superior -->
+  <div class="announcement">
+    <span>DE BOGOTÁ PARA TODA COLOMBIA</span>
+    <span>·</span>
+    <span>Jeans a $70.000 · ¡Mayor a 6 unid a $60.000 c/u!</span>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <line x1="7" y1="17" x2="17" y2="7"></line>
+      <polyline points="7 7 17 7 17 17"></polyline>
+    </svg>
+  </div>
+
+  <!-- Encabezado / Barra de Navegación -->
+  <header class="header">
+    <a href="#" class="brand">
+      más canela
+      <span>STORE</span>
+    </a>
+
+    <nav class="nav" id="mainNav">
+      <a href="#catalogo">Colección denim</a>
+      <a href="#nosotros">Nuestra esencia</a>
+      <a href="#envios">Envíos y pagos</a>
+    </nav>
+
+    <div class="header-actions">
+      <!-- Enlace Instagram -->
+      <a href="https://wa.me/573026027989?text=Hola%2C%20quisiera%20los%20enlaces%20oficiales%20de%20sus%20redes."
+        target="_blank" rel="noopener noreferrer" title="Instagram oficial" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+      </a>
+
+      <!-- Botón Carrito con Contador -->
+      <button class="cart-button" id="openCartBtn" aria-label="Abrir Carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="cart-counter" id="cartCounter">0</span>
+      </button>
+
+      <!-- Botón Menú Móvil -->
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menú">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section con Slider -->
+  <section class="hero">
+    <div class="hero-stage">
+      <!-- Slide 1 -->
+      <div class="hero-slide active">
+        <img class="hero-photo" src="/images/hero1.jpg" alt="Moda Denim Más Canela">
+        <div class="hero-shade"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">DENIM CON ACTITUD. ESTILO SIN LÍMITES.</p>
+          <h1>Moda para<br>cada versión<br>de <em>ti.</em></h1>
+          <p>Jeans que van contigo, no al revés.<br>Descubre tu horma, encuentra tu estilo.</p>
+          <div class="hero-actions">
+            <a class="button" href="#catalogo">
+              Encuentra tu jean
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+            <span class="hero-note">DAMA & CABALLERO · HECHOS PARA TU DÍA A DÍA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="hero-slide">
+        <img class="hero-photo" src="https://images.hostinger.com/93df33b4-e26f-4670-86a9-7d4b9b634ee9.png"
+          alt="Tu ritmo, tus reglas, tu denim">
+        <div class="hero-shade"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">DENIM CON ACTITUD. ESTILO SIN LÍMITES.</p>
+          <h1>Tu ritmo.<br>Tus reglas.<br>Tu <em>denim.</em></h1>
+          <p>Prendas diseñadas para resaltar tu mejor versión con la máxima comodidad diaria.</p>
+          <div class="hero-actions">
+            <a class="button" href="#catalogo">
+              Ver colección
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+            <span class="hero-note">CALIDAD Y HORMA GARANTIZADA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sello distintivo -->
+      <div class="hero-stamp">
+        BUENA HORMA.<br>MUCHA ACTITUD.
+        <span>Más que un jean.</span>
+      </div>
+
+      <!-- Controles del Slider -->
+      <div class="slide-controls">
+        <span id="slideIndicator">01 <small>/ 02</small></span>
+        <button class="slide-btn" id="prevSlideBtn" aria-label="Imagen anterior">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button class="slide-btn" id="nextSlideBtn" aria-label="Imagen siguiente">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+        <button class="slide-btn" id="pauseSlideBtn" aria-label="Pausar o Reproducir">⏸</button>
+      </div>
+    </div>
+
+    <!-- Barra inferior del Hero -->
+    <div class="hero-bottom">
+      <span>NO SIGAS EL ESTILO. <b>HAZLO TUYO.</b></span>
+      <a href="#catalogo">Explora la colección ↓</a>
+    </div>
+  </section>
+
+  <!-- Sección Catálogo -->
+  <section id="catalogo" class="section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">TU PRÓXIMO FAVORITO ESTÁ AQUÍ</p>
+        <h2>Denim que se siente <em>tuyo.</em></h2>
+      </div>
+      <p>Buena horma. Calidad que se nota.<br>Estilo que no pasa desapercibido.</p>
+    </div>
+
+    <!-- Barra de Herramientas de Catálogo -->
+    <div class="catalog-toolbar">
+      <div class="filters">
+        <button class="filter-btn active" data-category="Todos">Todos</button>
+        <button class="filter-btn" data-category="Dama">Dama</button>
+        <button class="filter-btn" data-category="Caballero">Caballero</button>
+      </div>
+
+      <label class="sort-label">
+        Ordenar por
+        <select id="sortSelect">
+          <option value="featured">Destacados</option>
+          <option value="low">Menor precio</option>
+          <option value="high">Mayor precio</option>
+        </select>
+      </label>
+    </div>
+
+    <!-- Contenedor dinámico de Productos -->
+    <div class="product-grid" id="productGrid">
+      <!-- Los productos se cargan dinámicamente desde js/products.js -->
+    </div>
+
+    <p class="catalog-foot">
+      ¿No sabes cuál elegir?
+      <a href="https://wa.me/573026027989?text=Hola,%20necesito%20ayuda%20para%20elegir%20mi%20talla%20ideal"
+        target="_blank" rel="noopener noreferrer">
+        Te ayudamos a encontrar tu horma ideal ↗
+      </a>
+    </p>
+  </section>
+
+  <!-- Franja de Valor / Filosofía -->
+  <section class="value-band">
+    <p>NO ES SOLO DENIM. ES LA FORMA EN QUE TE SIENTES.</p>
+    <div class="words">
+      Selección <span>+</span> Estilo <span>+</span> Confianza <span>+</span> Asesoría <span>+</span> Experiencia
+    </div>
+    <small>Elegimos por horma, calidad y diseño. Te acompañamos a elegir por ti.</small>
+  </section>
+
+  <!-- Sección Nuestra Esencia / Historia -->
+  <section class="section story" id="nosotros">
+    <div class="story-image-wrap">
+      <img src="https://images.hostinger.com/93df33b4-e26f-4670-86a9-7d4b9b634ee9.png" loading="lazy"
+        alt="Estilo denim Más Canela">
+      <span class="story-badge">MUY TÚ.<br>MUY CANELA.</span>
+    </div>
+
+    <div class="story-copy">
+      <p class="eyebrow">NUESTRA ESENCIA</p>
+      <h2>Muchas versiones.<br>Una misma <em>actitud.</em></h2>
+      <p>No creemos en vestir a todo el mundo igual. Creemos en prendas que expresan quién eres, en la comodidad de una
+        buena horma y en la confianza de comprar con alguien que te escucha.</p>
+
+      <details open>
+        <summary>Nuestra misión</summary>
+        <p>Conectar a nuestros clientes con marcas y productos de moda que combinan estilo, calidad y personalidad,
+          ofreciendo una experiencia de compra cercana, confiable y accesible. Comenzamos con una selección de jeans
+          para dama y caballero.</p>
+      </details>
+
+      <details>
+        <summary>Nuestra visión</summary>
+        <p>Ser una tienda de moda reconocida en Colombia por ofrecer una selección diversa de marcas y productos que
+          representen diferentes estilos y formas de ser, creciendo desde nuestra propuesta inicial de denim hacia
+          nuevas categorías de moda, accesorios y belleza.</p>
+      </details>
+
+      <a href="https://wa.me/573026027989" class="text-link" target="_blank" rel="noopener noreferrer">
+        Conversemos de tu estilo
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="7" y1="17" x2="17" y2="7"></line>
+          <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Sección Envíos y Pagos (Logística) -->
+  <section class="logistics" id="envios">
+    <p class="eyebrow">CERCA DE TI, DONDE ESTÉS</p>
+    <h2>De Bogotá a tu <em>clóset.</em></h2>
+
+    <div class="logistics-grid">
+      <div class="logistics-card">
+        <div class="logistics-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="3" width="15" height="13"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+        </div>
+        <h3>Enviamos a toda Colombia</h3>
+        <p>Somos 100% digitales. Confirma con nuestra asesoría el costo y plazo del envío antes de cerrar tu pedido.</p>
+      </div>
+
+      <div class="logistics-card">
+        <div class="logistics-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 11 12 14 22 4"></polyline>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+        </div>
+        <h3>Contra entrega en Bogotá</h3>
+        <p>Paga cuando recibas, exclusivamente en Bogotá. Consulta cobertura y condiciones por WhatsApp.</p>
+      </div>
+
+      <div class="logistics-card">
+        <div class="logistics-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </div>
+        <h3>Compras con confianza</h3>
+        <p>Coordinamos tus métodos de pago por WhatsApp. Te acompañamos con tallas, disponibilidad y cada detalle de tu
+          compra.</p>
+      </div>
+    </div>
+
+    <a class="button" href="https://wa.me/573026027989" target="_blank" rel="noopener noreferrer">
+      Hablemos por WhatsApp
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="7" y1="17" x2="17" y2="7"></line>
+        <polyline points="7 7 17 7 17 17"></polyline>
+      </svg>
+    </a>
+  </section>
+
+  <!-- Pie de Página (Footer) -->
+  <footer>
+    <div class="footer-main">
+      <div>
+        <a href="#" class="brand">más canela<span>STORE</span></a>
+        <p style="margin-top: 15px;">Moda para cada versión de ti.</p>
+        <div class="footer-social-links">
+          <a href="https://wa.me/573026027989" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+            title="WhatsApp">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+              </path>
+            </svg>
+          </a>
+          <a href="https://wa.me/573026027989?text=Hola%2C%20comp%C3%A1rteme%20su%20Instagram%20oficial."
+            target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h3>Explora</h3>
+        <a href="#catalogo">Colección denim</a>
+        <a href="#nosotros">Sobre nosotros</a>
+        <a href="#envios">Envíos y pagos</a>
+      </div>
+
+      <div>
+        <h3>Hablemos de tu estilo</h3>
+        <p><a href="mailto:Mascanelacol@gmail.com">Mascanelacol@gmail.com</a></p>
+        <p><a href="https://wa.me/573026027989" target="_blank" rel="noopener noreferrer">+57 302 602 7989</a></p>
+        <p style="opacity: 0.8; margin-top: 8px;">Bogotá, Colombia · Tienda 100% digital</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© <span id="currentYear"></span> Más Canela Store. Todos los derechos reservados.</div>
+      <span>Hecho para ser tú.</span>
+    </div>
+  </footer>
+
+  <!-- Botón Flotante WhatsApp -->
+  <a class="floating-wa" href="https://wa.me/573026027989" target="_blank" rel="noopener noreferrer"
+    aria-label="Asesoría por WhatsApp">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path
+        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+      </path>
+    </svg>
+    <span>¿Te asesoramos?</span>
+  </a>
+
+  <!-- Drawer / Modal del Carrito Lateral -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <h3>Tu Carrito</h3>
+        <button id="closeCartBtn" aria-label="Cerrar Carrito" style="font-size: 24px; padding: 5px;">&times;</button>
+      </div>
+
+      <!-- Lista de Productos en el Carrito -->
+      <div class="cart-items" id="cartItems">
+        <!-- Generado dinámicamente -->
+      </div>
+
+      <!-- Resumen y Checkout -->
+      <div class="cart-footer">
+        <div class="cart-subtotal">
+          <span>Subtotal estimado:</span>
+          <span id="cartSubtotal">$0 COP</span>
+        </div>
+        <p>Precios al por mayor ($60.000 c/u) aplican automáticamente desde 6 unidades (puedes combinar dama y
+          caballero). Pago contra entrega disponible en Bogotá.</p>
+        <button class="btn-whatsapp-checkout" id="btnWhatsappCheckout">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+            </path>
+          </svg>
+          Enviar pedido por WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Vista Rápida de Producto -->
+  <div class="modal-overlay" id="productModalOverlay">
+    <div class="modal-content" id="productModalContent">
+      <!-- Generado dinámicamente al hacer clic en un producto -->
+    </div>
+  </div>
+
+  <!-- Modal Alerta Personalizada (Centro de Pantalla) -->
+  <div class="custom-alert-overlay" id="customAlertOverlay" role="dialog" aria-modal="true"
+    aria-labelledby="customAlertTitle">
+    <div class="custom-alert-card">
+      <div class="alert-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <p class="alert-eyebrow">DETALLE REQUERIDO</p>
+      <h3 id="customAlertTitle">Elige tu talla ideal</h3>
+      <p id="customAlertMessage">Para asegurar tu horma perfecta, por favor selecciona una talla antes de añadir este
+        jean al carrito.</p>
+      <button class="alert-btn" id="customAlertBtn">Entendido, elegir talla</button>
+    </div>
+  </div>
+
+  <!-- Notificación Toast -->
+  <div class="toast" id="toastNotification"></div>
+
+  <!-- Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
