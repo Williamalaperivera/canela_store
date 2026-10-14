@@ -571,12 +571,64 @@ function closeProductModal() {
 }
 
 /* ====================================================================
+   ANIMACIÓN DE ENTRADA Y SALIDA - HERO SECTION (SECCIÓN 1)
+   ==================================================================== */
+function initHeroAnimation() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Animación de entrada
+        hero.classList.add('in-view');
+      } else {
+        // Animación de salida al hacer scroll hacia abajo
+        hero.classList.remove('in-view');
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -20px 0px'
+  });
+
+  observer.observe(hero);
+}
+
+/* ====================================================================
+   ANIMACIÓN DE ENTRADA Y SALIDA - FRANJA DE VALOR (SECCIÓN 3)
+   ==================================================================== */
+function initValueBandAnimation() {
+  const valueBand = document.querySelector('.value-band');
+  if (!valueBand) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Animación de entrada
+        valueBand.classList.add('in-view');
+      } else {
+        // Animación de salida
+        valueBand.classList.remove('in-view');
+      }
+    });
+  }, {
+    threshold: 0.2,
+    rootMargin: '0px 0px -30px 0px'
+  });
+
+  observer.observe(valueBand);
+}
+
+/* ====================================================================
    INICIALIZACIÓN DE LA PÁGINA
    ==================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
   // Cargar datos
   loadCart();
   initHeroSlider();
+  initHeroAnimation();
+  initValueBandAnimation();
   renderProducts();
 
   // Filtros de categoría

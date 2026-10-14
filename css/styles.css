@@ -195,9 +195,13 @@ em {
   display: none;
 }
 
-/* Hero Section */
+/* ==========================================================================
+   HERO SECTION - ANIMACIONES DE ENTRADA Y SALIDA
+   ========================================================================== */
 .hero {
   padding: 20px 3% 0;
+  position: relative;
+  transition: opacity 0.6s ease;
 }
 
 .hero-stage {
@@ -208,6 +212,7 @@ em {
   overflow: hidden;
   background: #d8c7b6;
   border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
 }
 
 .hero-slide {
@@ -227,6 +232,12 @@ em {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1.06);
+  transition: opacity 0.8s ease-in-out, transform 6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.hero-slide.active .hero-photo {
+  transform: scale(1);
 }
 
 .hero-shade {
@@ -317,13 +328,13 @@ em {
   top: 10%;
   border: 1px solid var(--chocolate);
   padding: 18px 24px;
-  transform: rotate(6deg);
   font-size: 11px;
   line-height: 1.6;
   letter-spacing: 1.5px;
-  background: rgba(253, 251, 247, 0.85);
+  background: rgba(253, 251, 247, 0.88);
   backdrop-filter: blur(4px);
   z-index: 2;
+  box-shadow: var(--shadow-sm);
 }
 
 .hero-stamp span {
@@ -379,6 +390,129 @@ em {
   font-size: 11px;
   letter-spacing: 1.2px;
   border-bottom: 1px solid var(--border-light);
+}
+
+/* ==========================================================================
+   ESTADOS DE ENTRADA Y SALIDA (SCROLL & CAMBIO DE SLIDES)
+   ========================================================================== */
+
+/* Estado Fuera de Pantalla / Salida */
+.hero .hero-copy .eyebrow {
+  opacity: 0;
+  transform: translateY(-25px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero .hero-copy h1 {
+  opacity: 0;
+  transform: translateY(35px) scale(0.96);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero .hero-copy p:not(.eyebrow) {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero .hero-actions {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero .hero-stamp {
+  opacity: 0;
+  transform: rotate(14deg) scale(0.85) translateY(-25px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero .slide-controls {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-bottom {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Estado En Pantalla / Entrada (In-View) */
+.hero.in-view .hero-copy .eyebrow {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.05s;
+}
+
+.hero.in-view .hero-copy h1 {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0.15s;
+}
+
+.hero.in-view .hero-copy p:not(.eyebrow) {
+  opacity: 0.9;
+  transform: translateY(0);
+  transition-delay: 0.25s;
+}
+
+.hero.in-view .hero-actions {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.35s;
+}
+
+.hero.in-view .hero-stamp {
+  opacity: 1;
+  transform: rotate(6deg) scale(1) translateY(0);
+  transition-delay: 0.42s;
+  animation: heroStampFloat 5s ease-in-out 1.2s infinite alternate;
+}
+
+.hero.in-view .slide-controls {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.48s;
+}
+
+.hero.in-view .hero-bottom {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.55s;
+}
+
+/* Animación cuando cambia de slide mientras está en pantalla */
+.hero.in-view .hero-slide.active .hero-copy .eyebrow {
+  animation: heroItemFadeDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero.in-view .hero-slide.active .hero-copy h1 {
+  animation: heroItemFadeUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+.hero.in-view .hero-slide.active .hero-copy p:not(.eyebrow) {
+  animation: heroItemFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.hero.in-view .hero-slide.active .hero-actions {
+  animation: heroItemFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+@keyframes heroItemFadeDown {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroItemFadeUp {
+  0% { opacity: 0; transform: translateY(28px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes heroStampFloat {
+  0% { transform: rotate(6deg) translateY(0); }
+  100% { transform: rotate(4deg) translateY(-8px); }
 }
 
 /* Catálogo & Productos */
@@ -627,37 +761,136 @@ em {
   color: var(--chocolate);
 }
 
-/* Franja de Valor */
+/* ==========================================================================
+   FRANJA DE VALOR - ANIMACIONES DE ENTRADA Y SALIDA
+   ========================================================================== */
 .value-band {
-  padding: 50px 5%;
+  position: relative;
+  overflow: hidden;
+  padding: 65px 5%;
   text-align: center;
   background: var(--chocolate);
   color: var(--cream);
+  perspective: 1000px;
 }
 
-.value-band p {
-  letter-spacing: 2px;
-  font-size: 10px;
+.value-band::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(198, 139, 89, 0.16) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+
+.value-band.in-view::before {
+  opacity: 1;
+}
+
+/* Estado de salida / inicial (fuera de pantalla) */
+.value-band .val-eyebrow {
+  letter-spacing: 3px;
+  font-size: 11px;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .value-band .words {
   font-family: 'Libre Caslon Display', serif;
   font-size: 38px;
-  line-height: 1.2;
+  line-height: 1.25;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px 12px;
 }
 
-.value-band .words span {
+.value-band .val-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(35px) scale(0.92);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+}
+
+.value-band .val-plus {
+  display: inline-block;
   color: var(--caramel);
-  padding: 0 8px;
+  padding: 0 4px;
+  opacity: 0;
+  transform: scale(0.3) rotate(-45deg);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.value-band small {
+.value-band .val-desc {
   display: block;
-  margin-top: 18px;
-  font-size: 12px;
-  opacity: 0.8;
+  margin-top: 22px;
+  font-size: 13px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   ESTADO DE ENTRADA (IN-VIEW)
+   ========================================================================== */
+.value-band.in-view .val-eyebrow {
+  opacity: 0.95;
+  transform: translateY(0);
+  transition-delay: 0.05s;
+}
+
+.value-band.in-view .val-word:nth-of-type(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.15s; }
+.value-band.in-view .val-plus:nth-of-type(2) { opacity: 1; transform: scale(1) rotate(0deg); transition-delay: 0.22s; }
+.value-band.in-view .val-word:nth-of-type(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.28s; }
+.value-band.in-view .val-plus:nth-of-type(4) { opacity: 1; transform: scale(1) rotate(0deg); transition-delay: 0.34s; }
+.value-band.in-view .val-word:nth-of-type(5) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.40s; }
+.value-band.in-view .val-plus:nth-of-type(6) { opacity: 1; transform: scale(1) rotate(0deg); transition-delay: 0.46s; }
+.value-band.in-view .val-word:nth-of-type(7) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.52s; }
+.value-band.in-view .val-plus:nth-of-type(8) { opacity: 1; transform: scale(1) rotate(0deg); transition-delay: 0.58s; }
+.value-band.in-view .val-word:nth-of-type(9) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.64s; }
+
+.value-band.in-view .val-desc {
+  opacity: 0.85;
+  transform: translateY(0);
+  transition-delay: 0.72s;
+}
+
+/* Pulso vivo para los signos '+' cuando está visible */
+@keyframes pulsePlusSign {
+  0%, 100% {
+    transform: scale(1);
+    color: var(--caramel);
+    text-shadow: 0 0 0 transparent;
+  }
+  50% {
+    transform: scale(1.3);
+    color: var(--gold);
+    text-shadow: 0 0 12px rgba(170, 124, 17, 0.5);
+  }
+}
+
+.value-band.in-view .val-plus {
+  animation: pulsePlusSign 3s ease-in-out infinite;
+}
+
+.value-band.in-view .val-plus:nth-of-type(2) { animation-delay: 0.8s; }
+.value-band.in-view .val-plus:nth-of-type(4) { animation-delay: 1.3s; }
+.value-band.in-view .val-plus:nth-of-type(6) { animation-delay: 1.8s; }
+.value-band.in-view .val-plus:nth-of-type(8) { animation-delay: 2.3s; }
+
+.value-band .val-word:hover {
+  color: var(--caramel);
+  transform: scale(1.05) translateY(-2px);
+  cursor: default;
 }
 
 /* Sección Historia / Esencia */
@@ -674,13 +907,38 @@ em {
   border: 1px solid var(--caramel);
   padding: 10px;
   border-radius: var(--radius);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
 }
 
-.story-image-wrap img {
+.story-image-wrap:hover {
+  border-color: var(--chocolate);
+  box-shadow: var(--shadow-md);
+}
+
+.story-img-box {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 2px;
+  position: relative;
+}
+
+.story-image-wrap img,
+.story-img-box img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 70%;
+  display: block;
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+  will-change: transform;
+}
+
+.story-image-wrap:hover img,
+.story-img-box:hover img {
+  transform: scale(1.09);
+  filter: brightness(1.02) contrast(1.02);
 }
 
 .story-badge {
@@ -695,6 +953,14 @@ em {
   padding: 18px 24px;
   transform: rotate(-4deg);
   box-shadow: var(--shadow-md);
+  z-index: 2;
+  pointer-events: none;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+}
+
+.story-image-wrap:hover .story-badge {
+  transform: rotate(-2.5deg) scale(1.03);
+  box-shadow: var(--shadow-lg);
 }
 
 .story-copy p {
