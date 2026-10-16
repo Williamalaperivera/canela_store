@@ -621,6 +621,39 @@ function initValueBandAnimation() {
 }
 
 /* ====================================================================
+   ANIMACIÓN DE ENTRADA Y SALIDA POR SCROLL (SECCIONES 4, 5 Y 6)
+   ==================================================================== */
+function initScrollSectionsAnimation() {
+  const sectionsToAnimate = [
+    { selector: '.story', threshold: 0.15 },
+    { selector: '.logistics', threshold: 0.15 },
+    { selector: 'footer', threshold: 0.08 }
+  ];
+
+  sectionsToAnimate.forEach(({ selector, threshold }) => {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animación de entrada al scroll
+          el.classList.add('in-view');
+        } else {
+          // Animación de salida al scroll
+          el.classList.remove('in-view');
+        }
+      });
+    }, {
+      threshold: threshold,
+      rootMargin: '0px 0px -25px 0px'
+    });
+
+    observer.observe(el);
+  });
+}
+
+/* ====================================================================
    INICIALIZACIÓN DE LA PÁGINA
    ==================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
@@ -629,6 +662,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroSlider();
   initHeroAnimation();
   initValueBandAnimation();
+  initScrollSectionsAnimation();
   renderProducts();
 
   // Filtros de categoría

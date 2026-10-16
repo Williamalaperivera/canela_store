@@ -1032,6 +1032,105 @@ em {
   margin-top: 15px;
 }
 
+/* ==========================================================================
+   ANIMACIONES DE ENTRADA Y SALIDA POR SCROLL - SECCIÓN 4 (HISTORIA / ESENCIA)
+   ========================================================================== */
+/* Estado Fuera de Pantalla / Salida */
+.story .story-image-wrap {
+  opacity: 0;
+  transform: translateX(-35px) scale(0.97);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.story .story-badge {
+  opacity: 0;
+  transform: rotate(-8deg) translateY(20px) scale(0.9);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+}
+
+.story .story-copy .eyebrow {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story .story-copy h2 {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story .story-copy > p {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story .story-copy details {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story .story-copy .text-link {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Estado En Pantalla / Entrada (In-View) */
+.story.in-view .story-image-wrap {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  transition-delay: 0.1s;
+}
+
+.story.in-view .story-badge {
+  opacity: 1;
+  transform: rotate(-4deg) translateY(0) scale(1);
+  transition-delay: 0.35s;
+}
+
+.story.in-view .story-image-wrap:hover .story-badge {
+  transform: rotate(-2.5deg) scale(1.03) translateY(0);
+}
+
+.story.in-view .story-copy .eyebrow {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.15s;
+}
+
+.story.in-view .story-copy h2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.25s;
+}
+
+.story.in-view .story-copy > p {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.35s;
+}
+
+.story.in-view .story-copy details:nth-of-type(1) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.45s;
+}
+
+.story.in-view .story-copy details:nth-of-type(2) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.55s;
+}
+
+.story.in-view .story-copy .text-link {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.65s;
+}
+
 /* Sección Envíos y Pagos (Logística) */
 .logistics {
   background: var(--bg-subtle);
@@ -1075,6 +1174,71 @@ em {
   font-size: 13px;
   line-height: 1.8;
   color: rgba(59, 34, 25, 0.85);
+}
+
+/* ==========================================================================
+   ANIMACIONES DE ENTRADA Y SALIDA POR SCROLL - SECCIÓN 5 (ENVÍOS Y PAGOS)
+   ========================================================================== */
+/* Estado Fuera de Pantalla / Salida */
+.logistics .eyebrow {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logistics h2 {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logistics .logistics-card {
+  opacity: 0;
+  transform: translateY(35px) scale(0.96);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logistics .button {
+  opacity: 0;
+  transform: translateY(25px) scale(0.95);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, border-color 0.2s ease;
+}
+
+/* Estado En Pantalla / Entrada (In-View) */
+.logistics.in-view .eyebrow {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+
+.logistics.in-view h2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.logistics.in-view .logistics-card:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0.3s;
+}
+
+.logistics.in-view .logistics-card:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0.42s;
+}
+
+.logistics.in-view .logistics-card:nth-child(3) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0.54s;
+}
+
+.logistics.in-view .button {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0.65s;
 }
 
 /* Footer */
@@ -1147,6 +1311,47 @@ footer {
   opacity: 0.75;
   max-width: 1500px;
   margin: 0 auto;
+}
+
+/* ==========================================================================
+   ANIMACIONES DE ENTRADA Y SALIDA POR SCROLL - SECCIÓN 6 (FOOTER)
+   ========================================================================== */
+/* Estado Fuera de Pantalla / Salida */
+footer .footer-main > div {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+footer .footer-bottom {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+/* Estado En Pantalla / Entrada (In-View) */
+footer.in-view .footer-main > div:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+
+footer.in-view .footer-main > div:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.22s;
+}
+
+footer.in-view .footer-main > div:nth-child(3) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.34s;
+}
+
+footer.in-view .footer-bottom {
+  opacity: 0.75;
+  transform: translateY(0);
+  transition-delay: 0.45s;
 }
 
 /* Botón Flotante WhatsApp */
@@ -1502,6 +1707,12 @@ footer {
     grid-template-columns: 1fr;
     gap: 40px;
   }
+  .story .story-image-wrap {
+    transform: translateY(25px) scale(0.97);
+  }
+  .story.in-view .story-image-wrap {
+    transform: translateY(0) scale(1);
+  }
   .story-badge {
     left: 0;
     font-size: 16px;
@@ -1706,3 +1917,25 @@ footer {
   padding-bottom: 10px;
   border-bottom: 1px dashed var(--border-medium);
 }
+
+/* Soporte para usuarios con preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .story .story-image-wrap,
+  .story .story-badge,
+  .story .story-copy .eyebrow,
+  .story .story-copy h2,
+  .story .story-copy > p,
+  .story .story-copy details,
+  .story .story-copy .text-link,
+  .logistics .eyebrow,
+  .logistics h2,
+  .logistics .logistics-card,
+  .logistics .button,
+  footer .footer-main > div,
+  footer .footer-bottom {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
