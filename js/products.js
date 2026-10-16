@@ -106,7 +106,7 @@ const PRODUCTS_DATA = [
     price: 70000,
     priceFormatted: "$70.000 COP",
     description: "Corte recto y denim azul resistente para acompañar tu ritmo diario. Estilo clásico sin complicaciones.",
-    image: "https://images.hostinger.com/cef0f94e-f65c-4212-bb63-0d84168a93d6.png",
+    image: "/images/jeans_hombre/bermuda_hombre_negro.jpeg",
     sizes: ["28", "30", "32", "34", "36", "38"],
     featured: true
   },
@@ -117,7 +117,7 @@ const PRODUCTS_DATA = [
     price: 70000,
     priceFormatted: "$70.000 COP",
     description: "Un toque urbano con amplios bolsillos cargo y silueta relajada. Cómodo, funcional y con mucha personalidad.",
-    image: "https://images.hostinger.com/bcc42534-a8e6-4805-b239-6335ca7d45d2.png",
+    image: "/images/jeans_hombre/bermuda_hombre_azul.jpeg",
     sizes: ["28", "30", "32", "34", "36", "38"],
     featured: true
   }
