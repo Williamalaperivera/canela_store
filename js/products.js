@@ -120,5 +120,27 @@ const PRODUCTS_DATA = [
     image: "images/jeans_hombre/bermuda_hombre_azul.jpeg",
     sizes: ["28", "30", "32", "34", "36", "38"],
     featured: true
+  },
+  {
+    id: "prod-009",
+    title: "Jean Skinny Caballero - Azul",
+    category: "Caballero",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Silueta skinny moderna con ajuste preciso y denim elástico para máxima libertad de movimiento y comodidad.",
+    image: "images/jeans_hombre/skinny_hombre_azul.jpeg",
+    sizes: ["28", "30", "32", "34", "36", "38"],
+    featured: true
+  },
+  {
+    id: "prod-010",
+    title: "Jean Skinny Caballero - Negro",
+    category: "Caballero",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Diseño skinny en tono negro clásico con confección flexible de alta durabilidad. El básico imprescindible de tu armario.",
+    image: "images/jeans_hombre/skinny_hombre_negro.jpeg",
+    sizes: ["28", "30", "32", "34", "36", "38"],
+    featured: true
   }
 ];
