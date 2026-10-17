@@ -7,7 +7,10 @@
 // Estado global de la aplicación
 const AppState = {
   cart: [],
-  currentCategory: 'Todos',
+  currentCategory: 'Dama',   // Carga inicial enfocada en Dama
+  currentSilhouette: 'baggy', // Silueta destacada inicial: Baggy Rígido (optimiza peticiones y rendimiento)
+  activeCardViews: {},       // { [productId]: 'front' | 'both' }
+  modalActiveView: 'front',
   currentSort: 'featured',
   currentSlide: 0,
   sliderTimer: null,
@@ -193,53 +196,150 @@ function initHeroSlider() {
 }
 
 /* ====================================================================
-   RENDERIZADO DE CATÁLOGO
+   SELECTOR VISUAL DE VISTAS (FRONTAL / AMBOS LADOS) - DAMA
    ==================================================================== */
-function renderProducts() {
-  const grid = document.getElementById('productGrid');
-  if (!grid) return;
+function switchProductCardView(event, productId, view) {
+  if (event) {
+    if (typeof event.stopPropagation === 'function') event.stopPropagation();
+    if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+    if (typeof event.preventDefault === 'function') event.preventDefault();
+  }
 
-  // Filtrado
-  let filtered = PRODUCTS_DATA.filter(p => {
-    if (AppState.currentCategory === 'Todos') return true;
-    return p.category.toLowerCase() === AppState.currentCategory.toLowerCase();
+  const product = PRODUCTS_DATA.find(p => p.id === productId);
+  if (!product || !product.images) return;
+
+  AppState.activeCardViews[productId] = view;
+
+  const card = document.getElementById(`card-${productId}`);
+  if (!card) return;
+
+  const img = card.querySelector('.product-image-container img');
+  const buttons = card.querySelectorAll('.card-view-switcher .view-btn');
+
+  buttons.forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-view') === view);
   });
 
-  // Ordenamiento
-  if (AppState.currentSort === 'low') {
-    filtered.sort((a, b) => a.price - b.price);
-  } else if (AppState.currentSort === 'high') {
-    filtered.sort((a, b) => b.price - a.price);
-  } else {
-    filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+  if (img) {
+    img.style.opacity = '0.35';
+    img.style.transform = 'scale(0.98)';
+    setTimeout(() => {
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.src = view === 'both' ? product.images.both : product.images.front;
+      const onLoaded = () => {
+        img.style.opacity = '1';
+        img.style.transform = 'scale(1)';
+      };
+      if (img.complete) {
+        onLoaded();
+      } else {
+        img.onload = onLoaded;
+      }
+    }, 110);
   }
+}
 
-  grid.innerHTML = '';
+function switchProductModalView(productId, view) {
+  const product = PRODUCTS_DATA.find(p => p.id === productId);
+  if (!product || !product.images) return;
 
-  if (filtered.length === 0) {
-    grid.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; padding: 40px;">No hay prendas disponibles en esta categoría.</p>`;
-    return;
+  AppState.modalActiveView = view;
+
+  const modalImg = document.getElementById('modalProductImg');
+  const buttons = document.querySelectorAll('.modal-view-switcher .modal-view-btn');
+
+  buttons.forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-view') === view);
+  });
+
+  if (modalImg) {
+    modalImg.style.opacity = '0.35';
+    modalImg.style.transform = 'scale(0.98)';
+    setTimeout(() => {
+      modalImg.src = view === 'both' ? product.images.both : product.images.front;
+      const onLoaded = () => {
+        modalImg.style.opacity = '1';
+        modalImg.style.transform = 'scale(1)';
+      };
+      if (modalImg.complete) {
+        onLoaded();
+      } else {
+        modalImg.onload = onLoaded;
+      }
+    }, 110);
   }
+}
 
-  filtered.forEach(product => {
-    const card = document.createElement('article');
-    card.className = 'product-card';
-    card.id = `card-${product.id}`;
+// Cambiar filtro de silueta para Dama
+function filterBySilhouette(silhouette) {
+  AppState.currentCategory = 'Dama';
+  AppState.currentSilhouette = silhouette;
 
-    const sizeOptionsHtml = product.sizes.map(size => 
-      `<option value="${size}">${size}</option>`
-    ).join('');
+  // Sincronizar botones de categoría principal
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-category') === 'Dama');
+  });
 
-    card.innerHTML = `
+  // Sincronizar pills de silueta
+  document.querySelectorAll('.silhouette-pill').forEach(pill => {
+    pill.classList.toggle('active', pill.getAttribute('data-silhouette') === silhouette);
+  });
+
+  renderProducts();
+}
+
+// Generador de HTML para tarjeta de producto con Lazy Loading nativo
+function createProductCardHtml(product) {
+  const isDama = product.category === 'Dama';
+  const hasMultipleViews = Boolean(product.images && product.images.both);
+  const activeView = AppState.activeCardViews[product.id] || 'front';
+  const displayImage = (hasMultipleViews && activeView === 'both') ? product.images.both : product.image;
+
+  const sizeOptionsHtml = product.sizes.map(size => 
+    `<option value="${size}">${size}</option>`
+  ).join('');
+
+  // Selector visual dinámico para Dama (frontal vs ambos lados)
+  const viewSwitcherHtml = hasMultipleViews ? `
+    <div class="card-view-switcher" onclick="event.stopPropagation(); event.stopImmediatePropagation();" role="group" aria-label="Selector de vista">
+      <button type="button" class="view-btn ${activeView === 'front' ? 'active' : ''}" 
+              data-view="front"
+              onclick="event.stopPropagation(); event.stopImmediatePropagation(); switchProductCardView(event, '${product.id}', 'front')" 
+              title="Ver foto frontal">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="7" r="4"></circle><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path></svg>
+        <span>Frontal</span>
+      </button>
+      <button type="button" class="view-btn ${activeView === 'both' ? 'active' : ''}" 
+              data-view="both"
+              onclick="event.stopPropagation(); event.stopImmediatePropagation(); switchProductCardView(event, '${product.id}', 'both')" 
+              title="Ver foto de ambos lados">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+        <span>Ambos lados</span>
+      </button>
+    </div>
+  ` : '';
+
+  const tagLabel = isDama && product.silhouetteName ? product.silhouetteName.toUpperCase() : 'DENIM EDIT';
+  const eyebrowLabel = isDama 
+    ? `PARA ELLA · ${product.refCode ? 'REF. ' + product.refCode : 'ZIROX LUXURY'}` 
+    : 'PARA ÉL';
+
+  return `
+    <article class="product-card ${isDama ? 'card-dama' : ''}" id="card-${product.id}">
       <div class="product-image-container" onclick="openProductModal('${product.id}')">
-        <img src="${product.image}" alt="${product.title}" loading="lazy">
-        <span class="tag-denim">DENIM EDIT</span>
+        <img src="${displayImage}" 
+             alt="${product.title}" 
+             loading="lazy" 
+             decoding="async">
+        <span class="tag-denim">${tagLabel}</span>
+        ${viewSwitcherHtml}
         <button class="quick-view-btn" title="Vista Rápida" aria-label="Ver detalles de ${product.title}">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
         </button>
       </div>
       <div class="product-info">
-        <p class="eyebrow">${product.category === 'Dama' ? 'PARA ELLA' : 'PARA ÉL'}</p>
+        <p class="eyebrow">${eyebrowLabel}</p>
         <div class="product-title">
           <h3 onclick="openProductModal('${product.id}')">${product.title}</h3>
           <div style="text-align: right;">
@@ -262,10 +362,152 @@ function renderProducts() {
           </button>
         </div>
       </div>
+    </article>
+  `;
+}
+
+/* ====================================================================
+   RENDERIZADO DE CATÁLOGO & VITRINA ESTRUCTURADA
+   ==================================================================== */
+function renderProducts() {
+  const grid = document.getElementById('productGrid');
+  if (!grid) return;
+
+  const silhouetteToolbar = document.getElementById('damaSilhouetteToolbar');
+
+  // Control de visualización del selector de siluetas de Dama
+  const isDamaActive = AppState.currentCategory === 'Dama';
+  if (silhouetteToolbar) {
+    if (isDamaActive) {
+      silhouetteToolbar.classList.add('visible');
+    } else {
+      silhouetteToolbar.classList.remove('visible');
+    }
+  }
+
+  // Filtrado de categoría principal
+  let filtered = PRODUCTS_DATA.filter(p => {
+    if (AppState.currentCategory === 'Todos') return true;
+    return p.category.toLowerCase() === AppState.currentCategory.toLowerCase();
+  });
+
+  // Filtrado por silueta si estamos en Dama y hay sub-filtro seleccionado
+  if (isDamaActive && AppState.currentSilhouette !== 'all') {
+    filtered = filtered.filter(p => p.silhouette === AppState.currentSilhouette);
+  }
+
+  // Ordenamiento
+  if (AppState.currentSort === 'low') {
+    filtered.sort((a, b) => a.price - b.price);
+  } else if (AppState.currentSort === 'high') {
+    filtered.sort((a, b) => b.price - a.price);
+  } else {
+    filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+  }
+
+  grid.innerHTML = '';
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; padding: 40px;">No hay prendas disponibles en esta selección.</p>`;
+    return;
+  }
+
+  // VISTA ESTRUCTURADA: TODAS LAS SILUETAS DE DAMA (Agrupadas para evitar scroll caótico)
+  if (isDamaActive && AppState.currentSilhouette === 'all') {
+    const baggyProducts = filtered.filter(p => p.silhouette === 'baggy');
+    const palazzoProducts = filtered.filter(p => p.silhouette === 'palazzo');
+
+    let html = `
+      <!-- Encabezado Silueta Baggy Rígido (Destacados de entrada) -->
+      <div class="silhouette-section-header">
+        <div class="silhouette-section-info">
+          <span class="silhouette-section-tag">DESTACADOS TENDENCIA</span>
+          <h3>Baggy Rígido <em>(6 modelos)</em></h3>
+          <p>Denim 100% rígido con estructura clásica, horma noventera y tiro alto relajado.</p>
+        </div>
+        <button type="button" class="silhouette-filter-link" onclick="filterBySilhouette('baggy')">
+          Ver solo Baggy (${baggyProducts.length}) →
+        </button>
+      </div>
+      <div class="silhouette-subgrid">
+        ${baggyProducts.map(p => createProductCardHtml(p)).join('')}
+      </div>
+
+      <!-- Encabezado Silueta Palazzo Licrado -->
+      <div class="silhouette-section-header" style="margin-top: 45px;">
+        <div class="silhouette-section-info">
+          <span class="silhouette-section-tag">SILUETA EXCLUSIVA</span>
+          <h3>Palazzo Licrado <em>(7 modelos)</em></h3>
+          <p>Tiro alto anatómico, pierna ancha y denim licrado de máxima comodidad.</p>
+        </div>
+        <button type="button" class="silhouette-filter-link" onclick="filterBySilhouette('palazzo')">
+          Ver solo Palazzo (${palazzoProducts.length}) →
+        </button>
+      </div>
+      <div class="silhouette-subgrid">
+        ${palazzoProducts.map(p => createProductCardHtml(p)).join('')}
+      </div>
     `;
 
-    grid.appendChild(card);
-  });
+    grid.innerHTML = html;
+    return;
+  }
+
+  // VISTA POR SILUETA ESPECÍFICA (Carga inicial optimizada y enfocada)
+  if (isDamaActive && AppState.currentSilhouette !== 'all') {
+    const isBaggy = AppState.currentSilhouette === 'baggy';
+    const currentName = isBaggy ? 'Baggy Rígido' : 'Palazzo Licrado';
+    const tagText = isBaggy ? 'DESTACADOS · SILUETA TENDENCIA' : 'SILUETA EXCLUSIVA';
+    const subtitle = isBaggy
+      ? 'Denim 100% rígido estructurado con actitud noventera y tiro alto relajado.'
+      : 'Silueta de pierna amplia en denim licrado con pretina alta y caída fluida.';
+
+    // Banner de exploración progresiva hacia la otra silueta o todo el catálogo
+    const nextSilhouette = isBaggy ? 'palazzo' : 'baggy';
+    const nextSilhouetteName = isBaggy ? 'Palazzo Licrado (7 modelos)' : 'Baggy Rígido (6 modelos)';
+    const nextSilhouetteDesc = isBaggy
+      ? 'Descubre también nuestras 7 referencias de Palazzo Licrado con tela elástica y pretina anatómica.'
+      : 'Explora nuestras 6 referencias de Baggy Rígido en denim estructurado 100% auténtico.';
+
+    let html = `
+      <div class="silhouette-active-banner">
+        <div>
+          <span class="silhouette-section-tag">${tagText}</span>
+          <h3>Colección ${currentName} <em>(${filtered.length} modelos)</em></h3>
+          <p>${subtitle}</p>
+        </div>
+        <button type="button" class="silhouette-reset-btn" onclick="filterBySilhouette('all')">
+          Ver todas las siluetas (13)
+        </button>
+      </div>
+      <div class="silhouette-subgrid">
+        ${filtered.map(p => createProductCardHtml(p)).join('')}
+      </div>
+
+      <!-- Tarjeta de Exploración Progresiva (Carga diferida bajo demanda) -->
+      <div class="progressive-catalog-loader">
+        <div class="progressive-loader-info">
+          <span class="progressive-tag">EXPLORA MÁS DENIM</span>
+          <h4>¿Deseas ver más estilos de dama?</h4>
+          <p>${nextSilhouetteDesc}</p>
+        </div>
+        <div class="progressive-loader-btns">
+          <button type="button" class="btn-progressive-cta" onclick="filterBySilhouette('${nextSilhouette}')">
+            Ver ${nextSilhouetteName} →
+          </button>
+          <button type="button" class="btn-progressive-secondary" onclick="filterBySilhouette('all')">
+            Ver todas las siluetas (13)
+          </button>
+        </div>
+      </div>
+    `;
+
+    grid.innerHTML = html;
+    return;
+  }
+
+  // Vista estándar para "Todos" o "Caballero" (con Lazy Loading nativo)
+  grid.innerHTML = filtered.map(p => createProductCardHtml(p)).join('');
 }
 
 // Agregar al carrito desde la tarjeta
@@ -501,15 +743,45 @@ function openProductModal(productId) {
   const content = document.getElementById('productModalContent');
   if (!overlay || !content) return;
 
+  const isDama = product.category === 'Dama';
+  const hasMultipleViews = Boolean(product.images && product.images.both);
+  const activeView = AppState.activeCardViews[productId] || 'front';
+  const displayImage = (hasMultipleViews && activeView === 'both') ? product.images.both : product.image;
+
   const sizeOptionsHtml = product.sizes.map(size => 
     `<option value="${size}">${size}</option>`
   ).join('');
 
+  // Selector visual dentro del modal para alternar frontal y ambos lados
+  const modalSwitcherHtml = hasMultipleViews ? `
+    <div class="modal-view-switcher" role="group" aria-label="Selector de fotos en detalle">
+      <button type="button" class="modal-view-btn ${activeView === 'front' ? 'active' : ''}" 
+              data-view="front"
+              onclick="switchProductModalView('${product.id}', 'front')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="7" r="4"></circle><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path></svg>
+        <span>Foto Frontal</span>
+      </button>
+      <button type="button" class="modal-view-btn ${activeView === 'both' ? 'active' : ''}" 
+              data-view="both"
+              onclick="switchProductModalView('${product.id}', 'both')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+        <span>Ambos Lados</span>
+      </button>
+    </div>
+  ` : '';
+
+  const eyebrowLabel = isDama 
+    ? `EDICIÓN DAMA · ${product.refCode ? 'REF. ' + product.refCode : 'ZIROX LUXURY'}${product.silhouetteName ? ' · ' + product.silhouetteName.toUpperCase() : ''}` 
+    : 'EDICIÓN CABALLERO';
+
   content.innerHTML = `
     <button class="modal-close-btn" onclick="closeProductModal()" aria-label="Cerrar">&times;</button>
-    <img src="${product.image}" alt="${product.title}" class="modal-img">
+    <div class="modal-media-col">
+      <img src="${displayImage}" alt="${product.title}" id="modalProductImg" class="modal-img" loading="lazy" decoding="async">
+      ${modalSwitcherHtml}
+    </div>
     <div class="modal-details">
-      <p class="eyebrow" style="color: var(--gold); margin-bottom: 8px;">${product.category === 'Dama' ? 'EDICIÓN DAMA' : 'EDICIÓN CABALLERO'}</p>
+      <p class="eyebrow" style="color: var(--gold); margin-bottom: 8px;">${eyebrowLabel}</p>
       <h2>${product.title}</h2>
       <span class="modal-price">
         ${product.priceFormatted}
@@ -665,13 +937,30 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollSectionsAnimation();
   renderProducts();
 
-  // Filtros de categoría
+  // Filtros de categoría principal
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       e.target.classList.add('active');
       AppState.currentCategory = e.target.getAttribute('data-category');
+      
+      // Si entra a Dama y no tenía silueta seleccionada, aseguramos 'all'
+      if (AppState.currentCategory === 'Dama') {
+        AppState.currentSilhouette = 'all';
+        document.querySelectorAll('.silhouette-pill').forEach(pill => {
+          pill.classList.toggle('active', pill.getAttribute('data-silhouette') === 'all');
+        });
+      }
       renderProducts();
+    });
+  });
+
+  // Sub-filtros de Silueta de Dama
+  document.querySelectorAll('.silhouette-pill').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const targetBtn = e.currentTarget;
+      const silhouette = targetBtn.getAttribute('data-silhouette');
+      filterBySilhouette(silhouette);
     });
   });
 

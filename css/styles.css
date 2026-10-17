@@ -611,16 +611,350 @@ em {
   outline: none;
 }
 
-/* Cuadrícula de Productos */
+/* ==========================================================================
+   SUB-BARRA DE SILUETAS PARA DAMA (NAVEGACIÓN LIMPIA Y SIN SCROLL PESADO)
+   ========================================================================== */
+.silhouette-toolbar {
+  display: none;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  margin-bottom: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.silhouette-toolbar.visible {
+  display: block;
+  opacity: 1;
+  max-height: 120px;
+  margin-bottom: 28px;
+}
+
+.silhouette-toolbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  background: rgba(59, 34, 25, 0.035);
+  border: 1px solid var(--border-light);
+  border-radius: 30px;
+  width: fit-content;
+  flex-wrap: wrap;
+}
+
+.silhouette-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--chocolate);
+}
+
+.silhouette-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.silhouette-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--chocolate);
+  background: var(--cream);
+  border: 1px solid var(--border-medium);
+  border-radius: 20px;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.silhouette-pill:hover {
+  border-color: var(--chocolate);
+  transform: translateY(-1px);
+}
+
+.silhouette-pill.active {
+  background: var(--chocolate);
+  color: var(--cream);
+  border-color: var(--chocolate);
+  box-shadow: 0 3px 10px rgba(59, 34, 25, 0.2);
+}
+
+.pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  font-size: 10px;
+  font-weight: 800;
+  border-radius: 10px;
+  background: rgba(59, 34, 25, 0.1);
+  color: inherit;
+}
+
+.silhouette-pill.active .pill-badge {
+  background: var(--gold);
+  color: #fff;
+}
+
+/* ==========================================================================
+   CUADRÍCULA DE PRODUCTOS & SECCIONES DE SILUETA
+   ========================================================================== */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 28px;
 }
 
+/* Encabezados de sección para ordenar la vitrina de Dama */
+.silhouette-section-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 26px;
+  background: linear-gradient(135deg, rgba(243, 238, 230, 0.9) 0%, rgba(253, 251, 247, 0.98) 100%);
+  border-left: 4px solid var(--caramel);
+  border-radius: var(--radius);
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
+  border-top: 1px solid var(--border-light);
+  border-right: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.silhouette-section-tag {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.silhouette-section-info h3 {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 28px;
+  color: var(--chocolate);
+  line-height: 1.1;
+}
+
+.silhouette-section-info h3 em {
+  font-size: 17px;
+  font-family: 'Manrope', sans-serif;
+  font-style: normal;
+  color: var(--caramel);
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+.silhouette-section-info p {
+  font-size: 12.5px;
+  color: rgba(59, 34, 25, 0.75);
+  margin-top: 4px;
+}
+
+.silhouette-filter-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--chocolate);
+  border: 1px solid var(--border-medium);
+  padding: 9px 18px;
+  border-radius: 20px;
+  background: var(--cream);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+}
+
+.silhouette-filter-link:hover {
+  background: var(--chocolate);
+  color: var(--cream);
+  border-color: var(--chocolate);
+  transform: translateX(2px);
+}
+
+/* Banner de Silueta Activa (Vista Filtrada y Ultra Limpia) */
+.silhouette-active-banner {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 28px;
+  background: linear-gradient(135deg, rgba(59, 34, 25, 0.05) 0%, rgba(198, 139, 89, 0.08) 100%);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius);
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.silhouette-active-banner h3 {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 28px;
+  color: var(--chocolate);
+}
+
+.silhouette-active-banner h3 em {
+  font-size: 16px;
+  font-family: 'Manrope', sans-serif;
+  font-style: normal;
+  color: var(--caramel);
+}
+
+.silhouette-active-banner p {
+  font-size: 13px;
+  color: rgba(59, 34, 25, 0.8);
+  margin-top: 3px;
+}
+
+.silhouette-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--chocolate);
+  background: var(--cream);
+  border: 1px solid var(--chocolate);
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.silhouette-reset-btn:hover {
+  background: var(--chocolate);
+  color: var(--cream);
+  transform: translateY(-1px);
+}
+
+/* Sub-grilla para agrupar siluetas */
+.silhouette-subgrid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  width: 100%;
+}
+
+/* Tarjeta de Exploración y Carga Progresiva del Catálogo */
+.progressive-catalog-loader {
+  grid-column: 1 / -1;
+  margin-top: 36px;
+  padding: 28px 32px;
+  background: linear-gradient(135deg, rgba(243, 238, 230, 0.82) 0%, rgba(253, 251, 247, 0.98) 100%);
+  border: 1px dashed var(--caramel);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
+}
+
+.progressive-tag {
+  display: inline-block;
+  font-size: 9.5px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.progressive-loader-info h4 {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 24px;
+  color: var(--chocolate);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.progressive-loader-info p {
+  font-size: 13px;
+  color: rgba(59, 34, 25, 0.8);
+  line-height: 1.6;
+}
+
+.progressive-loader-btns {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-progressive-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--chocolate);
+  color: var(--cream);
+  border: 1px solid var(--chocolate);
+  padding: 12px 22px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  letter-spacing: 0.3px;
+}
+
+.btn-progressive-cta:hover {
+  background: var(--caramel);
+  border-color: var(--caramel);
+  transform: translateX(2px);
+  box-shadow: 0 4px 14px rgba(198, 139, 89, 0.35);
+}
+
+.btn-progressive-secondary {
+  display: inline-flex;
+  align-items: center;
+  background: var(--cream);
+  color: var(--chocolate);
+  border: 1px solid var(--border-medium);
+  padding: 12px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.btn-progressive-secondary:hover {
+  border-color: var(--chocolate);
+  background: rgba(59, 34, 25, 0.05);
+}
+
+/* Tarjeta de Producto */
 .product-card {
   display: flex;
   flex-direction: column;
+  position: relative;
+  transition: transform 0.3s ease;
 }
 
 .product-image-container {
@@ -636,11 +970,81 @@ em {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: opacity 0.25s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .product-card:hover .product-image-container img {
-  transform: scale(1.05);
+  transform: scale(1.04);
+}
+
+/* ==========================================================================
+   SELECTOR VISUAL DE FOTOS (FRONTAL / AMBOS LADOS) EN TARJETA
+   ========================================================================== */
+.card-view-switcher {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: rgba(253, 251, 247, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(59, 34, 25, 0.16);
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(59, 34, 25, 0.14);
+  transition: all 0.2s ease;
+}
+
+.card-view-switcher:hover {
+  background: rgba(253, 251, 247, 0.98);
+  box-shadow: 0 6px 18px rgba(59, 34, 25, 0.2);
+}
+
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--chocolate);
+  border-radius: 14px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.view-btn svg {
+  flex-shrink: 0;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+
+.view-btn:hover {
+  background: rgba(198, 139, 89, 0.18);
+  color: var(--chocolate);
+}
+
+.view-btn:hover svg {
+  opacity: 1;
+}
+
+.view-btn.active {
+  background: var(--chocolate);
+  color: var(--cream);
+  box-shadow: 0 2px 6px rgba(59, 34, 25, 0.28);
+}
+
+.view-btn.active svg {
+  opacity: 1;
+  stroke: var(--cream);
 }
 
 .tag-denim {
@@ -652,6 +1056,9 @@ em {
   font-size: 9px;
   letter-spacing: 1.2px;
   font-weight: 700;
+  z-index: 4;
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(59, 34, 25, 0.08);
 }
 
 .quick-view-btn {
@@ -664,8 +1071,10 @@ em {
   display: grid;
   place-items: center;
   border-radius: var(--radius);
-  opacity: 0.9;
+  opacity: 0.92;
   transition: all 0.2s;
+  z-index: 6;
+  box-shadow: 0 2px 8px rgba(59, 34, 25, 0.12);
 }
 
 .quick-view-btn:hover {
@@ -1585,11 +1994,30 @@ footer.in-view .footer-bottom {
   position: absolute;
   top: 15px;
   right: 15px;
-  font-size: 22px;
-  width: 32px;
-  height: 32px;
+  font-size: 26px;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
+  cursor: pointer;
+  z-index: 20;
+  border-radius: 50%;
+  background: rgba(59, 34, 25, 0.06);
+  color: var(--chocolate);
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.modal-close-btn:hover {
+  background: var(--chocolate);
+  color: var(--cream);
+  transform: rotate(90deg);
+}
+
+.modal-media-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .modal-img {
@@ -1597,6 +2025,51 @@ footer.in-view .footer-bottom {
   aspect-ratio: 3/4;
   object-fit: cover;
   border-radius: var(--radius);
+  transition: opacity 0.25s ease, transform 0.35s ease;
+}
+
+.modal-view-switcher {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border: 1px solid var(--border-medium);
+  border-radius: 20px;
+  background: var(--cream);
+  color: var(--chocolate);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-view-btn svg {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.modal-view-btn:hover {
+  border-color: var(--chocolate);
+  transform: translateY(-1px);
+}
+
+.modal-view-btn.active {
+  background: var(--chocolate);
+  color: var(--cream);
+  border-color: var(--chocolate);
+  box-shadow: 0 3px 8px rgba(59, 34, 25, 0.25);
+}
+
+.modal-view-btn.active svg {
+  opacity: 1;
+  stroke: var(--cream);
 }
 
 .modal-details h2 {
@@ -1647,7 +2120,8 @@ footer.in-view .footer-bottom {
 
 /* Responsividad */
 @media (max-width: 1024px) {
-  .product-grid {
+  .product-grid,
+  .silhouette-subgrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
@@ -1703,6 +2177,18 @@ footer.in-view .footer-bottom {
   .hero h1 {
     font-size: 48px;
   }
+  .silhouette-toolbar-inner {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .silhouette-section-header,
+  .silhouette-active-banner,
+  .progressive-catalog-loader {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 20px;
+    gap: 14px;
+  }
   .story {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -1747,6 +2233,20 @@ footer.in-view .footer-bottom {
   .header-social-links a svg {
     width: 18px;
     height: 18px;
+  }
+  .product-grid,
+  .silhouette-subgrid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .card-view-switcher {
+    bottom: 8px;
+    left: 8px;
+    padding: 3px;
+  }
+  .view-btn {
+    padding: 4px 8px;
+    font-size: 10px;
   }
 }
 
