@@ -1659,9 +1659,22 @@ footer {
   margin: 0 auto;
 }
 
-.footer-main p, .footer-main a {
+.footer-main p, .footer-main a:not(.brand) {
   font-size: 12px;
   line-height: 1.7;
+}
+
+.footer-main .brand {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 28px;
+  line-height: 0.9;
+  letter-spacing: -1.2px;
+}
+
+.footer-main .brand span {
+  font-family: 'Manrope', sans-serif;
+  font-size: 9px;
+  letter-spacing: 4px;
 }
 
 .footer-main h3 {
@@ -2421,9 +2434,67 @@ footer.in-view .footer-bottom {
     grid-template-columns: 1fr;
     padding: 20px;
   }
+  /* Optimización Envíos y Pagos (Logística) para tablet / móvil */
+  .logistics {
+    padding: 42px 4% 45px;
+  }
+  .logistics h2 {
+    font-size: 32px;
+    margin-top: 6px;
+  }
+  .logistics-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin: 28px auto 26px;
+  }
+  .logistics-card {
+    border-left: 2.5px solid var(--caramel);
+    padding: 12px 16px;
+    background: rgba(253, 251, 247, 0.7);
+    border-radius: var(--radius);
+  }
+  .logistics-icon {
+    margin-bottom: 8px;
+  }
+  .logistics-card h3 {
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  .logistics-card p {
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+  .logistics .button {
+    padding: 13px 24px;
+    font-size: 12px;
+  }
+
+  /* Optimización Footer para tablet / móvil */
+  footer {
+    padding: 38px 4% 22px;
+  }
   .footer-main {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 22px;
+    padding-bottom: 25px;
+  }
+  .footer-main h3 {
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+  .footer-social-links {
+    margin-top: 10px;
+    gap: 12px;
+  }
+  .footer-links a {
+    margin-bottom: 6px;
+  }
+  .footer-bottom {
+    padding-top: 16px;
+    font-size: 10.5px;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
   }
   .value-band .words {
     font-size: 24px;
@@ -2576,6 +2647,101 @@ footer.in-view .footer-bottom {
   .product-card .add-to-cart-btn svg {
     width: 11px;
     height: 11px;
+  }
+
+  /* Optimización compacta Envíos y Pagos para celulares */
+  .logistics {
+    padding: 30px 4% 32px;
+  }
+  .logistics .eyebrow {
+    font-size: 8.5px;
+    letter-spacing: 1.5px;
+  }
+  .logistics h2 {
+    font-size: 25px;
+    margin-top: 4px;
+    line-height: 1.1;
+  }
+  .logistics-grid {
+    gap: 12px;
+    margin: 18px auto 20px;
+  }
+  .logistics-card {
+    padding: 10px 14px;
+  }
+  .logistics-icon {
+    margin-bottom: 6px;
+  }
+  .logistics-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  .logistics-card h3 {
+    font-size: 13.5px;
+    margin-bottom: 3px;
+  }
+  .logistics-card p {
+    font-size: 11.5px;
+    line-height: 1.5;
+  }
+  .logistics .button {
+    width: 100%;
+    max-width: 280px;
+    padding: 12px 18px;
+    font-size: 11px;
+    justify-content: center;
+  }
+
+  /* Optimización compacta Footer para celulares */
+  footer {
+    padding: 26px 4% 65px;
+  }
+  .footer-main {
+    gap: 18px;
+    padding-bottom: 18px;
+  }
+  .footer-main .brand {
+    font-size: 24px;
+  }
+  .footer-main .brand span {
+    font-size: 8px;
+    letter-spacing: 3.5px;
+  }
+  .footer-main p,
+  .footer-main a {
+    font-size: 11.5px;
+    line-height: 1.5;
+  }
+  .footer-main h3 {
+    font-size: 10.5px;
+    margin-bottom: 6px;
+    letter-spacing: 0.8px;
+  }
+  .footer-social-links {
+    margin-top: 8px;
+    gap: 8px;
+  }
+  .footer-social-links a svg {
+    width: 19px;
+    height: 19px;
+  }
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    align-items: center;
+  }
+  .footer-links h3 {
+    width: 100%;
+    margin-bottom: 2px;
+  }
+  .footer-links a {
+    margin-bottom: 0;
+  }
+  .footer-bottom {
+    padding-top: 12px;
+    font-size: 9.5px;
+    gap: 4px;
   }
 }
 
