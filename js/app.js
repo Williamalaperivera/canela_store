@@ -899,6 +899,7 @@ function initScrollSectionsAnimation() {
   const sectionsToAnimate = [
     { selector: '.story', threshold: 0.15 },
     { selector: '.logistics', threshold: 0.15 },
+    { selector: '.faq-section', threshold: 0.1 },
     { selector: 'footer', threshold: 0.08 }
   ];
 
@@ -1010,4 +1011,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
+
+  // Acordeón interactivo exclusivo para FAQ
+  document.querySelectorAll('.faq-accordion details').forEach((item) => {
+    item.addEventListener('toggle', () => {
+      if (item.open) {
+        document.querySelectorAll('.faq-accordion details').forEach((other) => {
+          if (other !== item && other.open) {
+            other.open = false;
+          }
+        });
+      }
+    });
+  });
 });
