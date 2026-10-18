@@ -2182,6 +2182,23 @@ footer.in-view .footer-bottom {
   }
   .hero h1 {
     font-size: 48px;
+    margin: 10px 0 12px;
+  }
+  .hero-copy {
+    justify-content: flex-start;
+    padding: 28px 4% 20px 4%;
+    max-width: 60%;
+  }
+  .hero-copy p:not(.eyebrow) {
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .hero-actions {
+    gap: 10px;
+  }
+  .hero-note {
+    display: block;
+    width: 100%;
   }
 
   /* Catálogo y Vitrina en móvil (2 columnas estrictas y márgenes compactos) */
@@ -2517,6 +2534,23 @@ footer.in-view .footer-bottom {
   .header-social-links a svg {
     width: 18px;
     height: 18px;
+  }
+
+  /* Posicionamiento despejado del Hero en celular (rostro y figura de la modelo libres) */
+  .hero-copy {
+    justify-content: flex-start;
+    padding: 20px 4% 16px 4%;
+    max-width: 57%;
+  }
+  .hero h1 {
+    margin: 8px 0 10px;
+  }
+  .hero-copy p:not(.eyebrow) {
+    margin-bottom: 14px;
+    line-height: 1.45;
+  }
+  .hero-actions .button {
+    padding: 12px 18px;
   }
 
   .hero-bottom {
