@@ -1024,4 +1024,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // Enlace para volver al catálogo con desplazamiento suave
+  const backToCatalogBtn = document.getElementById('backToCatalogBtn');
+  if (backToCatalogBtn) {
+    backToCatalogBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const catalogEl = document.getElementById('catalogo');
+      if (catalogEl) {
+        catalogEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.pushState(null, '', '#catalogo');
+      }
+    });
+  }
 });
