@@ -944,11 +944,11 @@ document.addEventListener('DOMContentLoaded', () => {
       e.target.classList.add('active');
       AppState.currentCategory = e.target.getAttribute('data-category');
       
-      // Si entra a Dama y no tenía silueta seleccionada, aseguramos 'all'
+      // Si entra a Dama y no tenía silueta seleccionada, aseguramos 'baggy'
       if (AppState.currentCategory === 'Dama') {
-        AppState.currentSilhouette = 'all';
+        if (!AppState.currentSilhouette) AppState.currentSilhouette = 'baggy';
         document.querySelectorAll('.silhouette-pill').forEach(pill => {
-          pill.classList.toggle('active', pill.getAttribute('data-silhouette') === 'all');
+          pill.classList.toggle('active', pill.getAttribute('data-silhouette') === AppState.currentSilhouette);
         });
       }
       renderProducts();
@@ -963,15 +963,6 @@ document.addEventListener('DOMContentLoaded', () => {
       filterBySilhouette(silhouette);
     });
   });
-
-  // Selector de orden
-  const sortSelect = document.getElementById('sortSelect');
-  if (sortSelect) {
-    sortSelect.addEventListener('change', (e) => {
-      AppState.currentSort = e.target.value;
-      renderProducts();
-    });
-  }
 
   // Eventos Carrito
   document.getElementById('openCartBtn')?.addEventListener('click', openCart);
