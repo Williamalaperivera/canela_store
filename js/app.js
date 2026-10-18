@@ -422,7 +422,7 @@ function renderProducts() {
       <div class="silhouette-section-header">
         <div class="silhouette-section-info">
           <span class="silhouette-section-tag">DESTACADOS TENDENCIA</span>
-          <h3>Baggy Rígido <em>(6 modelos)</em></h3>
+          <h3>Baggy Rígido <em>(6 colores)</em></h3>
           <p>Denim 100% rígido con estructura clásica, horma noventera y tiro alto relajado.</p>
         </div>
         <button type="button" class="silhouette-filter-link" onclick="filterBySilhouette('baggy')">
@@ -437,7 +437,7 @@ function renderProducts() {
       <div class="silhouette-section-header" style="margin-top: 45px;">
         <div class="silhouette-section-info">
           <span class="silhouette-section-tag">SILUETA EXCLUSIVA</span>
-          <h3>Palazzo Licrado <em>(7 modelos)</em></h3>
+          <h3>Palazzo Licrado <em>(7 colores)</em></h3>
           <p>Tiro alto anatómico, pierna ancha y denim licrado de máxima comodidad.</p>
         </div>
         <button type="button" class="silhouette-filter-link" onclick="filterBySilhouette('palazzo')">
@@ -464,16 +464,16 @@ function renderProducts() {
 
     // Banner de exploración progresiva hacia la otra silueta o todo el catálogo
     const nextSilhouette = isBaggy ? 'palazzo' : 'baggy';
-    const nextSilhouetteName = isBaggy ? 'Palazzo Licrado (7 modelos)' : 'Baggy Rígido (6 modelos)';
+    const nextSilhouetteName = isBaggy ? 'Palazzo Licrado (7 colores)' : 'Baggy Rígido (6 colores)';
     const nextSilhouetteDesc = isBaggy
-      ? 'Descubre también nuestras 7 referencias de Palazzo Licrado con tela elástica y pretina anatómica.'
-      : 'Explora nuestras 6 referencias de Baggy Rígido en denim estructurado 100% auténtico.';
+      ? 'Descubre también nuestros 7 colores de Palazzo Licrado con tela elástica y pretina anatómica.'
+      : 'Explora nuestros 6 colores de Baggy Rígido en denim estructurado 100% auténtico.';
 
     let html = `
       <div class="silhouette-active-banner">
         <div>
           <span class="silhouette-section-tag">${tagText}</span>
-          <h3>Colección ${currentName} <em>(${filtered.length} modelos)</em></h3>
+          <h3>Colección ${currentName} <em>(${filtered.length} colores)</em></h3>
           <p>${subtitle}</p>
         </div>
         <button type="button" class="silhouette-reset-btn" onclick="filterBySilhouette('all')">
