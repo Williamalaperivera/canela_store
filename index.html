@@ -18,8 +18,14 @@
     href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Manrope:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
 
-  <!-- Estilos CSS -->
-  <link rel="stylesheet" href="css/styles.css">
+  <!-- Estilos CSS con control de versión automático (Cache Busting dinámico) -->
+  <script>
+    const APP_CACHE_VERSION = Date.now();
+    document.write('<link rel="stylesheet" href="css/styles.css?v=' + APP_CACHE_VERSION + '">');
+  </script>
+  <noscript>
+    <link rel="stylesheet" href="css/styles.css">
+  </noscript>
 </head>
 
 <body>
@@ -562,9 +568,18 @@
   <!-- Notificación Toast -->
   <div class="toast" id="toastNotification"></div>
 
-  <!-- Scripts -->
-  <script src="js/products.js"></script>
-  <script src="js/app.js"></script>
+  <!-- Scripts con control de versión automático (Cache Busting dinámico) -->
+  <script>
+    (function () {
+      const v = typeof APP_CACHE_VERSION !== 'undefined' ? APP_CACHE_VERSION : Date.now();
+      document.write('<script src="js/products.js?v=' + v + '"><\/script>');
+      document.write('<script src="js/app.js?v=' + v + '"><\/script>');
+    })();
+  </script>
+  <noscript>
+    <script src="js/products.js"></script>
+    <script src="js/app.js"></script>
+  </noscript>
 </body>
 
 </html>
