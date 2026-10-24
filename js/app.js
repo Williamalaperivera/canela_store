@@ -260,7 +260,7 @@ function switchProductModalView(productId, view) {
       modalImg.src = view === 'both' ? product.images.both : product.images.front;
       const onLoaded = () => {
         modalImg.style.opacity = '1';
-        modalImg.style.transform = 'scale(1)';
+        modalImg.style.transform = '';
       };
       if (modalImg.complete) {
         onLoaded();
@@ -770,7 +770,13 @@ function openProductModal(productId) {
   content.innerHTML = `
     <button class="modal-close-btn" onclick="closeProductModal()" aria-label="Cerrar">&times;</button>
     <div class="modal-media-col">
-      <img src="${displayImage}" alt="${product.title}" id="modalProductImg" class="modal-img" loading="lazy" decoding="async">
+      <div class="modal-img-container" id="modalImgContainer" title="Pasa el cursor para ver detalles del denim">
+        <img src="${displayImage}" alt="${product.title}" id="modalProductImg" class="modal-img" loading="lazy" decoding="async">
+        <span class="modal-zoom-hint" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+          Zoom
+        </span>
+      </div>
       ${modalSwitcherHtml}
     </div>
     <div class="modal-details">
@@ -808,6 +814,49 @@ function openProductModal(productId) {
   `;
 
   overlay.classList.add('open');
+  initModalZoom();
+}
+
+// Efecto de lupa interactiva y zoom para la vista detallada
+function initModalZoom() {
+  const container = document.getElementById('modalImgContainer');
+  const img = document.getElementById('modalProductImg');
+  if (!container || !img) return;
+
+  // Seguimiento interactivo del cursor en escritorio
+  container.onmousemove = (e) => {
+    const rect = container.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+    const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
+    img.style.transformOrigin = `${x}% ${y}%`;
+  };
+
+  container.onmouseleave = () => {
+    img.style.transformOrigin = 'center center';
+  };
+
+  // Soporte táctil para dispositivos móviles (tocar la foto alterna zoom/restablecer)
+  let isZoomedTouch = false;
+  container.onclick = (e) => {
+    if (window.matchMedia('(hover: none)').matches) {
+      isZoomedTouch = !isZoomedTouch;
+      if (isZoomedTouch) {
+        const rect = container.getBoundingClientRect();
+        const clientX = e.clientX || rect.left + rect.width / 2;
+        const clientY = e.clientY || rect.top + rect.height / 2;
+        const x = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+        const y = Math.max(0, Math.min(100, ((clientY - rect.top) / rect.height) * 100));
+        img.style.transformOrigin = `${x}% ${y}%`;
+        img.style.transform = 'scale(1.6)';
+        container.style.cursor = 'zoom-out';
+      } else {
+        img.style.transformOrigin = 'center center';
+        img.style.transform = '';
+        container.style.cursor = 'zoom-in';
+      }
+    }
+  };
 }
 
 function handleAddFromModal(productId) {

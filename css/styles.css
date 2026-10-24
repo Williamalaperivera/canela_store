@@ -2265,13 +2265,72 @@ footer.in-view .footer-bottom {
   gap: 14px;
 }
 
-.modal-img {
+/* Contenedor interactivo de zoom para la foto principal en la vista detallada */
+.modal-img-container {
+  position: relative;
   width: 100%;
   aspect-ratio: 2/3;
-  object-fit: contain;
-  background: #ece7df;
+  overflow: hidden;
   border-radius: var(--radius);
-  transition: opacity 0.25s ease, transform 0.35s ease;
+  background: #ece7df;
+  cursor: zoom-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(59, 34, 25, 0.08);
+}
+
+.modal-img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 2/3;
+  object-fit: contain;
+  background: transparent;
+  border-radius: var(--radius);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  transform-origin: center center;
+  will-change: transform;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .modal-img-container:hover .modal-img {
+    transform: scale(1.6);
+  }
+
+  .modal-img-container:hover .modal-zoom-hint {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.modal-zoom-hint {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background: rgba(253, 251, 247, 0.9);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(59, 34, 25, 0.14);
+  border-radius: 14px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--chocolate);
+  letter-spacing: 0.3px;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 3;
+  box-shadow: 0 2px 8px rgba(59, 34, 25, 0.1);
+}
+
+@media (max-width: 768px) {
+  .modal-zoom-hint {
+    display: none;
+  }
 }
 
 .modal-view-switcher {
