@@ -952,23 +952,27 @@ em {
 
 .product-image-container {
   position: relative;
-  aspect-ratio: 3/4;
+  aspect-ratio: 2/3;
   background: #ece7df;
   overflow: hidden;
   border-radius: var(--radius);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .product-image-container img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   transition: opacity 0.25s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
 .product-card:hover .product-image-container img {
-  transform: scale(1.04);
+  transform: scale(1.03);
 }
 
 /* ==========================================================================
@@ -2263,8 +2267,9 @@ footer.in-view .footer-bottom {
 
 .modal-img {
   width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
+  aspect-ratio: 2/3;
+  object-fit: contain;
+  background: #ece7df;
   border-radius: var(--radius);
   transition: opacity 0.25s ease, transform 0.35s ease;
 }
