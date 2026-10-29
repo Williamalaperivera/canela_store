@@ -7,7 +7,7 @@
 // Estado global de la aplicación
 const AppState = {
   cart: [],
-  currentCategory: 'Dama',   // Carga inicial enfocada en Dama
+  currentCategory: null,     // Carga inicial limpia: solo los círculos; los productos aparecen al elegir Dama o Caballero
   currentSilhouette: 'baggy', // Silueta destacada inicial: Baggy Rígido (optimiza peticiones y rendimiento)
   silhouetteByCategory: { Dama: 'baggy', Caballero: 'skinny' }, // Última silueta elegida en cada pestaña
   activeCardViews: {},       // { [productId]: 'front' | 'both' }
@@ -281,12 +281,32 @@ function filterBySilhouette(silhouette, category) {
   AppState.currentSilhouette = silhouette;
   AppState.silhouetteByCategory[targetCategory] = silhouette;
 
-  // Sincronizar botones de categoría principal
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-category') === targetCategory);
+  syncCategoryOptions(targetCategory);
+  renderProducts();
+}
+
+// Marca como activa la colección elegida (círculos y enlace "Ver todo el catálogo")
+function syncCategoryOptions(category) {
+  document.querySelectorAll('.category-option').forEach(opt => {
+    const isActive = opt.getAttribute('data-category') === category;
+    opt.classList.toggle('active', isActive);
+    opt.setAttribute('aria-pressed', isActive ? 'true' : 'false');
   });
 
-  renderProducts();
+  // Sin colección elegida, ambos círculos se ven a todo color; al elegir una, la otra se atenúa
+  const picker = document.querySelector('.category-picker');
+  if (picker) picker.classList.toggle('has-selection', Boolean(SILHOUETTES_BY_CATEGORY[category]));
+}
+
+// Muestra cuántas referencias tiene cada colección bajo su círculo
+function updateCategoryCounts() {
+  document.querySelectorAll('[data-count-for]').forEach(el => {
+    const cat = el.getAttribute('data-count-for');
+    const total = cat === 'Todos'
+      ? PRODUCTS_DATA.length
+      : PRODUCTS_DATA.filter(p => p.category === cat).length;
+    el.textContent = cat === 'Todos' ? `(${total})` : `${total} referencias`;
+  });
 }
 
 // Generador de HTML para tarjeta de producto con Lazy Loading nativo
@@ -367,25 +387,37 @@ function getSilhouetteCount(category, key) {
   return PRODUCTS_DATA.filter(p => p.category === category && (key === 'all' || p.silhouette === key)).length;
 }
 
-// Dibuja los botones de silueta de la categoría activa con sus contadores
+// Dibuja las píldoras de silueta de la colección activa con sus contadores
 function renderSilhouettePills(category) {
   const list = SILHOUETTES_BY_CATEGORY[category];
   const pills = document.getElementById('silhouettePills');
-  const label = document.getElementById('silhouetteLabelText');
   if (!list || !pills) return;
 
-  if (label) label.textContent = `Silueta ${category}:`;
+  const isNewContext = pills.dataset.category !== category;
+  pills.dataset.category = category;
+  pills.setAttribute('aria-label', `Siluetas de ${category}`);
   const current = AppState.currentSilhouette;
 
-  pills.innerHTML = list.map((sil, i) => `
-    <button type="button" class="silhouette-pill ${current === sil.key ? 'active' : ''}" data-silhouette="${sil.key}">
-      ${i === 0 ? '<span class="pill-dot"></span> ' : ''}<span>${sil.pill || sil.name}</span> <span class="pill-badge">${getSilhouetteCount(category, sil.key)}</span>
+  const options = [{ key: 'all', label: 'Ver todas las referencias', count: getSilhouetteCount(category, 'all') }]
+    .concat(list.map(sil => ({ key: sil.key, label: sil.pill || sil.name, count: getSilhouetteCount(category, sil.key) })));
+
+  pills.innerHTML = options.map((opt, i) => `
+    <button type="button" class="silhouette-pill ${current === opt.key ? 'active' : ''} ${isNewContext ? 'is-entering' : ''}"
+            data-silhouette="${opt.key}" aria-pressed="${current === opt.key ? 'true' : 'false'}" style="--i: ${i}">
+      <span>${opt.label}</span> <span class="pill-count">${opt.count}</span>
     </button>
-  `).join('') + `
-    <button type="button" class="silhouette-pill ${current === 'all' ? 'active' : ''}" data-silhouette="all">
-      <span>Todas las siluetas</span> <span class="pill-badge">${getSilhouetteCount(category, 'all')}</span>
-    </button>
-  `;
+  `).join('');
+
+  // Al cambiar de colección se vuelve al inicio; si no, la píldora activa se mantiene a la vista (scroll móvil)
+  if (isNewContext) {
+    pills.scrollLeft = 0;
+  } else {
+    const active = pills.querySelector('.silhouette-pill.active');
+    if (active && pills.scrollWidth > pills.clientWidth) {
+      const target = active.offsetLeft - (pills.clientWidth - active.offsetWidth) / 2;
+      pills.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+    }
+  }
 }
 
 function renderProducts() {
@@ -394,6 +426,30 @@ function renderProducts() {
 
   const silhouetteToolbar = document.getElementById('silhouetteToolbar');
   const category = AppState.currentCategory;
+
+  updateCategoryCounts();
+
+  // Estado inicial: sin colección elegida no se muestran productos ni píldoras
+  const catalogSection = document.getElementById('catalogo');
+  if (!category) {
+    syncCategoryOptions(null);
+    if (silhouetteToolbar) {
+      silhouetteToolbar.classList.remove('visible');
+      silhouetteToolbar.setAttribute('aria-hidden', 'true');
+    }
+    const pills = document.getElementById('silhouettePills');
+    if (pills) delete pills.dataset.category;
+    grid.classList.remove('is-refreshing');
+    grid.innerHTML = '';
+    if (catalogSection) catalogSection.classList.add('is-idle');
+    return;
+  }
+  if (catalogSection) catalogSection.classList.remove('is-idle');
+
+  // Transición suave de la vitrina al cambiar de colección o silueta
+  grid.classList.remove('is-refreshing');
+  void grid.offsetWidth;
+  grid.classList.add('is-refreshing');
   const silList = SILHOUETTES_BY_CATEGORY[category];
 
   // Dama y Caballero comparten la misma vitrina por siluetas; "Todos" usa la vista estándar
@@ -405,8 +461,17 @@ function renderProducts() {
     renderSilhouettePills(category);
   }
 
+  syncCategoryOptions(category);
+
+  // Las píldoras solo se despliegan cuando hay una colección (Dama o Caballero) elegida
   if (silhouetteToolbar) {
     silhouetteToolbar.classList.toggle('visible', hasSilhouettes);
+    silhouetteToolbar.setAttribute('aria-hidden', hasSilhouettes ? 'false' : 'true');
+    if (!hasSilhouettes) {
+      // Al volver a desplegarse, las píldoras entran de nuevo con su animación
+      const pills = document.getElementById('silhouettePills');
+      if (pills) delete pills.dataset.category;
+    }
   }
 
   // Filtrado de categoría principal
@@ -487,7 +552,7 @@ function renderProducts() {
           <p>${subtitle}</p>
         </div>
         <button type="button" class="silhouette-reset-btn" onclick="filterBySilhouette('all', '${category}')">
-          Ver todas las siluetas (${totalCategory})
+          Ver todas las referencias (${totalCategory})
         </button>
       </div>
       <div class="silhouette-subgrid">
@@ -506,7 +571,7 @@ function renderProducts() {
             Ver ${nextSilhouetteName} →
           </button>
           <button type="button" class="btn-progressive-secondary" onclick="filterBySilhouette('all', '${category}')">
-            Ver todas las siluetas (${totalCategory})
+            Ver todas las referencias (${totalCategory})
           </button>
         </div>
       </div>
@@ -978,6 +1043,7 @@ function initValueBandAnimation() {
    ==================================================================== */
 function initScrollSectionsAnimation() {
   const sectionsToAnimate = [
+    { selector: '.catalog-heading', threshold: 0.4 },
     { selector: '.story', threshold: 0.15 },
     { selector: '.logistics', threshold: 0.15 },
     { selector: '.faq-section', threshold: 0.1 },
@@ -1019,16 +1085,16 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollSectionsAnimation();
   renderProducts();
 
-  // Filtros de categoría principal
-  document.querySelectorAll('.filter-btn').forEach(btn => {
+  // Selector de colección (círculos Dama / Caballero y enlace "Ver todo el catálogo")
+  document.querySelectorAll('.category-option').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      e.target.classList.add('active');
-      AppState.currentCategory = e.target.getAttribute('data-category');
-      
-      // Dama y Caballero recuerdan la última silueta elegida en cada pestaña
-      if (SILHOUETTES_BY_CATEGORY[AppState.currentCategory]) {
-        AppState.currentSilhouette = AppState.silhouetteByCategory[AppState.currentCategory];
+      const category = e.currentTarget.getAttribute('data-category');
+      AppState.currentCategory = category;
+      syncCategoryOptions(category);
+
+      // Dama y Caballero recuerdan la última silueta elegida en cada colección
+      if (SILHOUETTES_BY_CATEGORY[category]) {
+        AppState.currentSilhouette = AppState.silhouetteByCategory[category];
       }
       renderProducts();
     });

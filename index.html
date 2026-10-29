@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Manrope:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Manrope:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
   <!-- Estilos CSS con control de versión automático (Cache Busting dinámico) -->
@@ -59,7 +59,8 @@
       <!-- Redes Sociales: Instagram, Facebook, TikTok (Edita los enlaces en href="...") -->
       <div class="header-social-links">
         <!-- Instagram -->
-        <a href="https://instagram.com/tu_cuenta" target="_blank" rel="noopener noreferrer" title="Instagram oficial" aria-label="Instagram">
+        <a href="https://instagram.com/tu_cuenta" target="_blank" rel="noopener noreferrer" title="Instagram oficial"
+          aria-label="Instagram">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -69,7 +70,8 @@
         </a>
 
         <!-- Facebook -->
-        <a href="https://facebook.com/tu_pagina" target="_blank" rel="noopener noreferrer" title="Facebook oficial" aria-label="Facebook">
+        <a href="https://facebook.com/tu_pagina" target="_blank" rel="noopener noreferrer" title="Facebook oficial"
+          aria-label="Facebook">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
@@ -77,7 +79,8 @@
         </a>
 
         <!-- TikTok -->
-        <a href="https://tiktok.com/@tu_cuenta" target="_blank" rel="noopener noreferrer" title="TikTok oficial" aria-label="TikTok">
+        <a href="https://tiktok.com/@tu_cuenta" target="_blank" rel="noopener noreferrer" title="TikTok oficial"
+          aria-label="TikTok">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
@@ -183,31 +186,53 @@
   </section>
 
   <!-- Sección Catálogo -->
-  <section id="catalogo" class="section">
-    <div class="section-heading">
-      <p class="eyebrow">SELECCIÓN PREMIUM</p>
-      <h2>Catálogo Exclusivo</h2>
+  <section id="catalogo" class="section is-idle">
+    <div class="section-heading catalog-heading">
+      <h2 class="catalog-title">Catalogo Exclusivo Premium</h2>
+      <p class="catalog-subtitle">Explora las siluetas diseñadas para ti</p>
     </div>
 
-    <!-- Barra de Herramientas de Catálogo -->
-    <div class="catalog-toolbar">
-      <div class="filters">
-        <button class="filter-btn active" data-category="Dama">Dama</button>
-        <button class="filter-btn" data-category="Caballero">Caballero</button>
-        <button class="filter-btn" data-category="Todos">Todos</button>
+    <!-- Selector de colección: círculos para Dama y Caballero, enlace discreto para todo el catálogo -->
+    <div class="category-picker">
+      <div class="category-circles" role="group" aria-label="Elige la colección">
+        <button type="button" class="category-option category-circle" data-category="Dama" aria-pressed="false">
+          <span class="category-portrait">
+            <img src="images/categorias/categoria-dama.jpeg" alt="" width="280" height="280" decoding="async">
+            <svg class="category-stitch" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+              <defs>
+                <mask id="stitch-dama">
+                  <circle class="stitch-reveal" cx="50" cy="50" r="48.6" pathLength="100"></circle>
+                </mask>
+              </defs>
+              <circle class="stitch-thread" cx="50" cy="50" r="48.6" pathLength="64" mask="url(#stitch-dama)"></circle>
+            </svg>
+          </span>
+          <span class="category-name">Dama</span>
+          <span class="category-count" data-count-for="Dama"></span>
+        </button>
+        <button type="button" class="category-option category-circle" data-category="Caballero" aria-pressed="false">
+          <span class="category-portrait">
+            <img src="images/categorias/categoria-caballero.jpeg" alt="" width="280" height="280" decoding="async">
+            <svg class="category-stitch" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+              <defs>
+                <mask id="stitch-caballero">
+                  <circle class="stitch-reveal" cx="50" cy="50" r="48.6" pathLength="100"></circle>
+                </mask>
+              </defs>
+              <circle class="stitch-thread" cx="50" cy="50" r="48.6" pathLength="64" mask="url(#stitch-caballero)">
+              </circle>
+            </svg>
+          </span>
+          <span class="category-name">Caballero</span>
+          <span class="category-count" data-count-for="Caballero"></span>
+        </button>
       </div>
     </div>
 
-    <!-- Sub-barra de Siluetas (Dama y Caballero): los botones se generan desde products.js -->
-    <div class="silhouette-toolbar visible" id="silhouetteToolbar" aria-label="Filtrar por silueta">
+    <!-- Siluetas de la colección activa (se generan desde products.js) -->
+    <div class="silhouette-toolbar" id="silhouetteToolbar" aria-hidden="true">
       <div class="silhouette-toolbar-inner">
-        <span class="silhouette-label">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-          </svg>
-          <span id="silhouetteLabelText">Silueta Dama:</span>
-        </span>
-        <div class="silhouette-pills" id="silhouettePills"></div>
+        <div class="silhouette-pills" id="silhouettePills" role="group" aria-label="Siluetas de Dama"></div>
       </div>
     </div>
 
@@ -335,7 +360,8 @@
       <div class="faq-header">
         <p class="eyebrow">RESOLVEMOS TUS DUDAS</p>
         <h2>Preguntas Frecuentes</h2>
-        <p class="faq-subtitle">Todo lo que necesitas saber sobre compras, tallas, pagos y envíos en Más Canela Store.</p>
+        <p class="faq-subtitle">Todo lo que necesitas saber sobre compras, tallas, pagos y envíos en Más Canela Store.
+        </p>
       </div>
 
       <div class="faq-accordion">
@@ -344,13 +370,15 @@
           <summary class="faq-question">
             <span>¿Cómo funciona el descuento al por mayor?</span>
             <span class="faq-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </span>
           </summary>
           <div class="faq-answer">
-            <p>¡Es automático! Al llevar 6 prendas o más, el sistema reduce el precio de cada jean a $60.000 COP. Puedes combinar libremente referencias, tallas y estilos (dama y caballero).</p>
+            <p>¡Es automático! Al llevar 6 prendas o más, el sistema reduce el precio de cada jean a $60.000 COP. Puedes
+              combinar libremente referencias, tallas y estilos (dama y caballero).</p>
           </div>
         </details>
 
@@ -359,13 +387,16 @@
           <summary class="faq-question">
             <span>¿Cuáles son los métodos y zonas de pago?</span>
             <span class="faq-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </span>
           </summary>
           <div class="faq-answer">
-            <p>Ofrecemos pago contra entrega exclusivamente en Bogotá (pagas al recibir tu pedido). Para el resto de ciudades de Colombia, coordinamos el pago y el envío de forma segura a través de nuestro botón de asesoría por WhatsApp.</p>
+            <p>Ofrecemos pago contra entrega exclusivamente en Bogotá (pagas al recibir tu pedido). Para el resto de
+              ciudades de Colombia, coordinamos el pago y el envío de forma segura a través de nuestro botón de asesoría
+              por WhatsApp.</p>
           </div>
         </details>
 
@@ -374,13 +405,15 @@
           <summary class="faq-question">
             <span>¿Cómo elijo la talla perfecta?</span>
             <span class="faq-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </span>
           </summary>
           <div class="faq-answer">
-            <p>Nuestros jeans tienen horma y ajuste impecable. Si tienes dudas entre dos tallas, te recomendamos elegir tu talla habitual o escribirnos por WhatsApp para guiarte de manera personalizada.</p>
+            <p>Nuestros jeans tienen horma y ajuste impecable. Si tienes dudas entre dos tallas, te recomendamos elegir
+              tu talla habitual o escribirnos por WhatsApp para guiarte de manera personalizada.</p>
           </div>
         </details>
 
@@ -389,13 +422,15 @@
           <summary class="faq-question">
             <span>¿Cuánto tarda el envío a mi ciudad?</span>
             <span class="faq-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </span>
           </summary>
           <div class="faq-answer">
-            <p>En Bogotá solemos coordinar entregas rápidas, y para el resto de Colombia trabajamos con transportadoras aliadas. Al realizar tu pedido te confirmamos el tiempo estimado exacto.</p>
+            <p>En Bogotá solemos coordinar entregas rápidas, y para el resto de Colombia trabajamos con transportadoras
+              aliadas. Al realizar tu pedido te confirmamos el tiempo estimado exacto.</p>
           </div>
         </details>
       </div>
@@ -414,7 +449,8 @@
       <!-- Enlace estático para volver al catálogo -->
       <div class="back-to-catalog-wrap">
         <a href="#catalogo" class="back-to-catalog-link" id="backToCatalogBtn" aria-label="Volver arriba al Catálogo">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"
+            stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="19" x2="12" y2="5"></line>
             <polyline points="5 12 12 5 19 12"></polyline>
           </svg>
@@ -439,7 +475,8 @@
               </path>
             </svg>
           </a>
-          <a href="https://instagram.com/tu_cuenta" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+          <a href="https://instagram.com/tu_cuenta" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+            title="Instagram">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -447,13 +484,15 @@
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
             </svg>
           </a>
-          <a href="https://facebook.com/tu_pagina" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+          <a href="https://facebook.com/tu_pagina" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+            title="Facebook">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
             </svg>
           </a>
-          <a href="https://tiktok.com/@tu_cuenta" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">
+          <a href="https://tiktok.com/@tu_cuenta" target="_blank" rel="noopener noreferrer" aria-label="TikTok"
+            title="TikTok">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
