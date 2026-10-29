@@ -2,7 +2,7 @@
    MÁS CANELA STORE - ESTILOS PRINCIPALES (VANILLA CSS)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Pinyon+Script&family=Manrope:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   --cream: #FDFBF7;
@@ -3976,5 +3976,595 @@ footer.in-view .footer-bottom {
   .hero .slide-btn {
     width: 28px;
     height: 28px;
+  }
+}
+
+/* ==========================================================================
+   FRANJA DE VALORES: PARCHE DE CUERO COSIDO
+   Inspirada en la etiqueta de cuero de la pretina del jean. El pespunte se
+   "cose" al entrar en pantalla (mismo gesto que el círculo activo).
+   Solo informativa: sin botones ni enlaces.
+   ========================================================================== */
+.value-band-editorial {
+  padding: 26px 0 24px;
+  background: var(--cream);
+}
+
+.vbe-patch {
+  position: relative;
+  width: min(88%, calc(1500px - 12vw));
+  margin: 0 auto;
+  padding: 38px 6% 34px;
+  border-radius: 18px;
+  text-align: center;
+  color: var(--cream);
+  /* cuero: luz cenital suave sobre el café de la marca */
+  background:
+    radial-gradient(120% 150% at 50% -10%, rgba(255, 220, 190, 0.10) 0%, rgba(255, 220, 190, 0) 55%),
+    radial-gradient(140% 120% at 50% 120%, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0) 60%),
+    var(--chocolate);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 235, 215, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+    0 24px 40px -32px rgba(59, 34, 25, 0.75);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* grano del cuero, muy tenue */
+.vbe-patch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.14;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Pespunte */
+.vbe-stitch {
+  position: absolute;
+  inset: 11px;
+  width: calc(100% - 22px);
+  height: calc(100% - 22px);
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* radio de la costura acorde a la esquina del parche */
+.vbe-stitch rect {
+  rx: 9px;
+  ry: 9px;
+}
+
+.vbe-thread {
+  fill: none;
+  stroke: var(--caramel);
+  stroke-width: 1.4;
+  stroke-dasharray: 7 5;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.vbe-sew-reveal {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 6;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 1.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.value-band-editorial.in-view .vbe-sew-reveal {
+  stroke-dashoffset: 0;
+}
+
+/* Frase en cursiva, en relieve sobre el cuero */
+.vbe-title {
+  position: relative;
+  margin: 0 auto;
+  font-family: 'Pinyon Script', 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(30px, 3vw, 42px);
+  line-height: 1.2;
+  letter-spacing: 0.005em;
+  color: var(--cream);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35), 0 -1px 0 rgba(255, 235, 215, 0.06);
+}
+
+.vbe-rule {
+  display: block;
+  width: 48px;
+  height: 1px;
+  margin: 16px auto 13px;
+  background: var(--caramel);
+  opacity: 0.75;
+}
+
+.vbe-values {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+  font-size: 10.5px;
+  line-height: 2;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--caramel);
+}
+
+.vbe-values li + li::before {
+  content: "·";
+  margin: 0 0.9em 0 0.55em;
+  letter-spacing: 0;
+  color: rgba(253, 251, 247, 0.45);
+}
+
+/* Entrada: primero se cose el borde, luego aparece el texto */
+.vbe-title,
+.vbe-rule,
+.vbe-values {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.vbe-rule { transform: scaleX(0.2); }
+
+.value-band-editorial.in-view .vbe-title { opacity: 1; transform: none; transition-delay: 0.45s; }
+.value-band-editorial.in-view .vbe-rule { opacity: 0.75; transform: none; transition-delay: 0.75s; }
+.value-band-editorial.in-view .vbe-values { opacity: 1; transform: none; transition-delay: 0.9s; }
+
+@media (max-width: 768px) {
+  .value-band-editorial {
+    padding: 16px 0 14px;
+  }
+
+  .vbe-patch {
+    width: calc(100% - 28px);
+    padding: 24px 16px 20px;
+    border-radius: 14px;
+  }
+
+  .vbe-stitch {
+    inset: 6px;
+    width: calc(100% - 12px);
+    height: calc(100% - 12px);
+  }
+
+  .vbe-thread {
+    stroke-dasharray: 5 4;
+  }
+
+  .vbe-stitch rect {
+    rx: 8px;
+    ry: 8px;
+  }
+
+  /* cada oración en su propia línea */
+  .vbe-title {
+    font-size: clamp(19px, 5.9vw, 24px);
+    line-height: 1.28;
+  }
+
+  .vbe-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .vbe-rule {
+    width: 32px;
+    margin: 10px auto 8px;
+  }
+
+  /* filas centradas, sin puntos sueltos al final de línea */
+  .vbe-values {
+    column-gap: 1.3em;
+    row-gap: 2px;
+    max-width: 250px; /* filas equilibradas: 3 + 2 */
+    margin: 0 auto;
+    font-size: 9px;
+    line-height: 1.9;
+    letter-spacing: 0.24em;
+  }
+
+  .vbe-values li + li::before {
+    content: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vbe-sew-reveal {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .vbe-title,
+  .vbe-rule,
+  .vbe-values {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .vbe-rule {
+    opacity: 0.75 !important;
+  }
+}
+
+/* ==========================================================================
+   NUESTRA ESENCIA
+   "Muchas versiones" se muestra literal: tres retratos en arcos de vitrina
+   de boutique. El arco central lleva el pespunte dorado de la marca.
+   ========================================================================== */
+.essence {
+  background: var(--cream);
+  padding: clamp(56px, 7vw, 104px) 0;
+  overflow: hidden;
+}
+
+.essence-inner {
+  width: min(88%, calc(1500px - 12vw));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(40px, 6vw, 96px);
+}
+
+/* ---------- Galería de arcos ---------- */
+.essence-gallery {
+  position: relative;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 0.78fr 1.12fr 0.78fr;
+  align-items: end;
+  gap: clamp(10px, 1.4vw, 18px);
+  padding-bottom: 54px;
+}
+
+.essence-arch {
+  position: relative;
+  border-radius: 999px 999px 16px 16px;
+  background: #efe7dc;
+}
+
+.essence-arch img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: inherit;
+}
+
+.essence-arch--side {
+  aspect-ratio: 0.5;
+  margin-bottom: 9%;
+}
+
+.essence-arch--center {
+  aspect-ratio: 0.66;
+  box-shadow: 0 30px 50px -36px rgba(59, 34, 25, 0.7);
+}
+
+/* pespunte del arco central */
+.essence-arch--center::after {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  border: 1.4px dashed var(--caramel);
+  border-radius: 999px 999px 22px 22px;
+  pointer-events: none;
+}
+
+.essence-signature {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  font-family: 'Pinyon Script', 'Libre Caslon Display', Georgia, serif;
+  font-size: clamp(26px, 2.4vw, 34px);
+  line-height: 1;
+  color: var(--caramel);
+}
+
+/* ---------- Relato ---------- */
+.essence-copy {
+  max-width: 520px;
+}
+
+/* Encabezado de la sección: la caligrafía toma el protagonismo */
+.essence-kicker {
+  margin: 0;
+  font-family: 'Pinyon Script', 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(46px, 4.4vw, 66px);
+  line-height: 1.05;
+  color: var(--chocolate);
+}
+
+.essence-title {
+  margin: 0;
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  color: var(--chocolate);
+}
+
+.essence-lead {
+  margin: 22px 0 0;
+  max-width: 46ch;
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgba(59, 34, 25, 0.78);
+}
+
+.essence-pillars {
+  margin-top: 26px;
+  border-top: 1px solid var(--border-light);
+}
+
+.essence-pillar {
+  border-bottom: 1px solid var(--border-light);
+}
+
+.essence-pillar summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 21px;
+  color: var(--chocolate);
+}
+
+.essence-pillar summary::-webkit-details-marker {
+  display: none;
+}
+
+/* + que gira a × al abrir */
+.essence-pillar summary::after {
+  content: "+";
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border-medium);
+  border-radius: 50%;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--chocolate);
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.essence-pillar[open] summary::after {
+  transform: rotate(45deg);
+  background: var(--chocolate);
+  border-color: var(--chocolate);
+  color: var(--cream);
+}
+
+.essence-pillar summary:hover::after {
+  border-color: var(--chocolate);
+}
+
+.essence-pillar summary:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.essence-pillar p {
+  margin: 0;
+  padding: 0 44px 20px 0;
+  font-size: 14px;
+  line-height: 1.75;
+  color: rgba(59, 34, 25, 0.75);
+}
+
+.essence-pillar[open] p {
+  animation: pillarIn 0.45s ease both;
+}
+
+@keyframes pillarIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.essence-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--chocolate);
+  text-decoration: underline;
+  text-decoration-color: var(--caramel);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  transition: gap 0.25s ease, text-decoration-color 0.25s ease;
+}
+
+.essence-link:hover {
+  gap: 12px;
+  text-decoration-color: var(--chocolate);
+}
+
+.essence-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+/* ---------- Entrada: los arcos emergen uno a uno, luego el relato ---------- */
+.essence .essence-arch {
+  clip-path: inset(100% 0 0 0 round 999px 999px 16px 16px);
+  transition: clip-path 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.essence .essence-arch--center::after,
+.essence .essence-signature,
+.essence .essence-copy > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.essence .essence-arch--center::after {
+  transform: none;
+}
+
+.essence.in-view .essence-arch {
+  clip-path: inset(0 0 0 0 round 999px 999px 16px 16px);
+}
+
+.essence.in-view .essence-arch:nth-child(1) { transition-delay: 0.1s; }
+.essence.in-view .essence-arch:nth-child(2) { transition-delay: 0s; }
+.essence.in-view .essence-arch:nth-child(3) { transition-delay: 0.2s; }
+
+.essence.in-view .essence-arch--center::after { opacity: 1; transition-delay: 0.9s; }
+.essence.in-view .essence-signature { opacity: 1; transform: none; transition-delay: 1.05s; }
+
+.essence.in-view .essence-copy > * { opacity: 1; transform: none; }
+.essence.in-view .essence-copy > :nth-child(1) { transition-delay: 0.3s; }
+.essence.in-view .essence-copy > :nth-child(2) { transition-delay: 0.42s; }
+.essence.in-view .essence-copy > :nth-child(3) { transition-delay: 0.54s; }
+.essence.in-view .essence-copy > :nth-child(4) { transition-delay: 0.66s; }
+.essence.in-view .essence-copy > :nth-child(5) { transition-delay: 0.78s; }
+
+/* el pespunte sigue la forma del arco al aparecer (sin clip) */
+.essence-arch--center {
+  clip-path: none !important;
+}
+
+.essence-arch--center img {
+  clip-path: inset(100% 0 0 0 round 999px 999px 16px 16px);
+  transition: clip-path 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.essence.in-view .essence-arch--center img {
+  clip-path: inset(0 0 0 0 round 999px 999px 16px 16px);
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 980px) {
+  .essence-inner {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+
+  .essence-gallery {
+    max-width: 560px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .essence-copy {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 600px) {
+  .essence {
+    padding: 44px 0 48px;
+  }
+
+  .essence-inner {
+    width: calc(100% - 32px);
+    gap: 32px;
+  }
+
+  .essence-gallery {
+    gap: 8px;
+    padding-bottom: 40px;
+  }
+
+  .essence-arch {
+    border-radius: 999px 999px 12px 12px;
+  }
+
+  .essence-arch--center::after {
+    inset: -6px;
+    border-radius: 999px 999px 16px 16px;
+  }
+
+  .essence-signature {
+    font-size: 25px;
+  }
+
+  .essence-kicker {
+    font-size: 42px;
+  }
+
+  .essence-title {
+    font-size: 32px;
+  }
+
+  .essence-lead {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .essence-pillars {
+    margin-top: 18px;
+  }
+
+  .essence-pillar summary {
+    padding: 15px 0;
+    font-size: 19px;
+  }
+
+  .essence-pillar summary::after {
+    width: 28px;
+    height: 28px;
+  }
+
+  .essence-pillar p {
+    padding-right: 0;
+    font-size: 13.5px;
+  }
+
+  .essence-link {
+    margin-top: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .essence .essence-arch,
+  .essence .essence-arch--center img {
+    clip-path: none !important;
+    transition: none !important;
+  }
+
+  .essence .essence-arch--center::after,
+  .essence .essence-signature,
+  .essence .essence-copy > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .essence-pillar summary::after,
+  .essence-pillar[open] p {
+    transition: none;
+    animation: none;
   }
 }
