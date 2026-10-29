@@ -112,58 +112,55 @@
   <!-- Hero Section con Slider -->
   <section class="hero">
     <div class="hero-stage">
-      <!-- Slide 1 -->
-      <div class="hero-slide active">
-        <img class="hero-photo" src="images/hero1.jpg" alt="Moda Denim Más Canela">
-        <div class="hero-shade"></div>
-        <div class="hero-copy">
-          <p class="eyebrow">DENIM CON ACTITUD. ESTILO SIN LÍMITES.</p>
-          <h1>Moda para<br>cada versión<br>de <em>ti.</em></h1>
-          <p>Jeans que van contigo, no al revés.<br>Descubre tu horma, encuentra tu estilo.</p>
-          <div class="hero-actions">
-            <a class="button" href="#catalogo">
-              Encuentra tu jean
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-            <span class="hero-note">DAMA & CABALLERO · HECHOS PARA TU DÍA A DÍA</span>
-          </div>
-        </div>
+      <!-- Banners del hero (images/banner/): el logo y el eslogan ya vienen en cada imagen -->
+      <!-- Banner 1 -->
+      <div class="hero-slide active" style="--edge-l: #eee5dc; --edge-r: #ece0d7;">
+        <img class="hero-backdrop" src="images/banner/banner-01.jpeg" alt="" aria-hidden="true" decoding="async">
+        <img class="hero-photo" src="images/banner/banner-01.jpeg" alt="Pareja luciendo jean skinny y jean clásico de tiro alto" width="1600" height="900" decoding="async">
       </div>
 
-      <!-- Slide 2 -->
-      <div class="hero-slide">
-        <img class="hero-photo" src="https://images.hostinger.com/93df33b4-e26f-4670-86a9-7d4b9b634ee9.png"
-          alt="Tu ritmo, tus reglas, tu denim">
-        <div class="hero-shade"></div>
-        <div class="hero-copy">
-          <p class="eyebrow">DENIM CON ACTITUD. ESTILO SIN LÍMITES.</p>
-          <h1>Tu ritmo.<br>Tus reglas.<br>Tu <em>denim.</em></h1>
-          <p>Prendas diseñadas para resaltar tu mejor versión con la máxima comodidad diaria.</p>
-          <div class="hero-actions">
-            <a class="button" href="#catalogo">
-              Ver colección
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-            <span class="hero-note">CALIDAD Y HORMA GARANTIZADA</span>
-          </div>
-        </div>
+      <!-- Banner 2 -->
+      <div class="hero-slide" style="--edge-l: #eee6e0; --edge-r: #d1baa4;">
+        <img class="hero-backdrop" src="images/banner/banner-02.jpeg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <img class="hero-photo" src="images/banner/banner-02.jpeg" alt="Pareja luciendo jeans baggy rígidos" width="1600" height="900" loading="lazy" decoding="async">
       </div>
 
-      <!-- Sello distintivo -->
-      <div class="hero-stamp">
-        BUENA HORMA.<br>MUCHA ACTITUD.
-        <span>Más que un jean.</span>
+      <!-- Banner 3 -->
+      <div class="hero-slide" style="--edge-l: #0a0603; --edge-r: #6a4225;">
+        <img class="hero-backdrop" src="images/banner/banner-03.jpeg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <img class="hero-photo" src="images/banner/banner-03.jpeg" alt="Pareja con jeans baggy en una calle de noche" width="1600" height="900" loading="lazy" decoding="async">
       </div>
+
+      <!-- Banner 4 -->
+      <div class="hero-slide" style="--edge-l: #e1d5cc; --edge-r: #e4d6c9;">
+        <img class="hero-backdrop" src="images/banner/banner-04.jpeg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <img class="hero-photo" src="images/banner/banner-04.jpeg" alt="Modelos con jean skinny y jean clásico 4 botones" width="1600" height="900" loading="lazy" decoding="async">
+      </div>
+
+      <!-- Banner 5 -->
+      <div class="hero-slide" style="--edge-l: #ebddd1; --edge-r: #d9c2ae;">
+        <img class="hero-backdrop" src="images/banner/banner-05.jpeg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <img class="hero-photo" src="images/banner/banner-05.jpeg" alt="Modelo con jean ochentero clásico azul oscuro" width="1600" height="900" loading="lazy" decoding="async">
+      </div>
+
+      <!-- Banner 6 -->
+      <div class="hero-slide" style="--edge-l: #e9ded2; --edge-r: #e9dfd4;">
+        <img class="hero-backdrop" src="images/banner/banner-06.jpeg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <img class="hero-photo" src="images/banner/banner-06.jpeg" alt="Modelo con bermuda rígida gris" width="1600" height="900" loading="lazy" decoding="async">
+      </div>
+
+      <!-- Acceso directo al catálogo -->
+      <a class="button hero-banner-cta" href="#catalogo">
+        Encuentra tu jean
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="7" y1="17" x2="17" y2="7"></line>
+          <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
+      </a>
 
       <!-- Controles del Slider -->
       <div class="slide-controls">
-        <span id="slideIndicator">01 <small>/ 02</small></span>
+        <span id="slideIndicator">01 <small>/ 06</small></span>
         <button class="slide-btn" id="prevSlideBtn" aria-label="Imagen anterior">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="15 18 9 12 15 6"></polyline>

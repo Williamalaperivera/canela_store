@@ -20,8 +20,12 @@ const STORE_CONFIG = {
   wholesalePrice: 60000,       // Precio por mayor por unidad
   wholesaleMinUnits: 6,        // Cantidad mínima para activar precio al por mayor
   heroImages: [
-    "https://images.hostinger.com/341ae631-588a-4b77-8282-0c3e95f11582.png",
-    "https://images.hostinger.com/93df33b4-e26f-4670-86a9-7d4b9b634ee9.png"
+    "images/banner/banner-01.jpeg",
+    "images/banner/banner-02.jpeg",
+    "images/banner/banner-03.jpeg",
+    "images/banner/banner-04.jpeg",
+    "images/banner/banner-05.jpeg",
+    "images/banner/banner-06.jpeg"
   ]
 };
 

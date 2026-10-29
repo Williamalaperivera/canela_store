@@ -3721,7 +3721,7 @@ footer.in-view .footer-bottom {
 
 /* Ritmo vertical compacto: banner → título → círculos → productos o pie */
 #catalogo.section {
-  padding-top: 26px;
+  padding-top: 14px;
   padding-bottom: 40px;
 }
 
@@ -3837,5 +3837,144 @@ footer.in-view .footer-bottom {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   HERO CON BANNERS (images/banner/, 1600×900)
+   Cada banner trae el logo y el eslogan, así que se muestra completo en 16:9,
+   sin textos superpuestos ni degradado.
+   ========================================================================== */
+/* Ancho completo y altura que cabe en la primera pantalla:
+   --hero-h = la menor entre la proporción natural (16:9), el alto disponible
+   (pantalla − anuncio y menú − franja y título del catálogo) y 700px; nunca menos de 420px */
+.hero {
+  padding: 0;
+}
+
+.hero .hero-stage {
+  --hero-h: min(56.25vw, max(420px, calc(100vh - 250px)), 700px);
+  --img-w: calc(var(--hero-h) * 16 / 9);
+  --side: max(0px, calc((100% - var(--img-w)) / 2));
+  aspect-ratio: auto;
+  width: 100%;
+  height: var(--hero-h);
+  min-height: 0;
+  max-height: none;
+  max-width: none;
+  margin: 0;
+  background: #efe7dc;
+  border-radius: 0 0 22px 22px;
+  box-shadow: 0 18px 40px -30px rgba(59, 34, 25, 0.45);
+  isolation: isolate;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+@supports (height: 100svh) {
+  .hero .hero-stage {
+    --hero-h: min(56.25vw, max(420px, calc(100svh - 250px)), 700px);
+  }
+}
+
+/* Fondo: la misma imagen ampliada y difuminada continúa el mármol hacia los lados */
+.hero .hero-slide {
+  /* Color real de los bordes de cada banner (medido en la imagen) para continuar el fondo */
+  background: linear-gradient(90deg, var(--edge-l, #efe7dc) 0 50%, var(--edge-r, #efe7dc) 50% 100%);
+}
+
+.hero .hero-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(40px) saturate(0.9);
+  transform: scale(1.15);
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* Banner completo, sin recortes ni estiramiento, con bordes laterales fundidos */
+.hero .hero-photo {
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+  object-position: center;
+  -webkit-mask-image: linear-gradient(90deg, transparent var(--fs, 0px), #000 var(--fe, 0px), #000 calc(100% - var(--fe, 0px)), transparent calc(100% - var(--fs, 0px)));
+  mask-image: linear-gradient(90deg, transparent var(--fs, 0px), #000 var(--fe, 0px), #000 calc(100% - var(--fe, 0px)), transparent calc(100% - var(--fs, 0px)));
+}
+
+/* Solo cuando hay franjas laterales se funden los bordes del banner */
+@media (min-width: 900px) {
+  .hero .hero-photo {
+    --fs: var(--side, 0px);
+    --fe: calc(var(--side, 0px) + 56px);
+  }
+}
+
+/* Botón y controles alineados con el banner (no con las franjas laterales) */
+.hero .hero-banner-cta {
+  left: calc(var(--side) + 3.5%);
+  bottom: 7%;
+}
+
+.hero .slide-controls {
+  right: calc(var(--side) + 2.5%);
+  bottom: 25px;
+}
+
+/* La franja inferior conserva el margen lateral del resto de la página */
+.hero .hero-bottom {
+  margin: 0 3%;
+  padding-top: 14px;
+}
+
+.hero-banner-cta {
+  position: absolute;
+  left: 4.5%;
+  bottom: 7%;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 24px -14px rgba(59, 34, 25, 0.6);
+}
+
+@media (max-width: 768px) {
+  .hero-banner-cta {
+    left: 4%;
+    bottom: 6%;
+    gap: 6px;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .hero-banner-cta svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .hero .hero-stage {
+    border-radius: 0 0 16px 16px;
+  }
+
+  .hero .hero-bottom {
+    margin: 0 16px;
+    padding-top: 10px;
+  }
+
+  .hero .slide-controls {
+    right: 12px;
+    bottom: 10px;
+    gap: 6px;
+  }
+
+  .hero .slide-controls span {
+    display: none;
+  }
+
+  .hero .slide-btn {
+    width: 28px;
+    height: 28px;
   }
 }
