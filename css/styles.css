@@ -3336,3 +3336,18 @@ footer.in-view .footer-bottom {
   }
 }
 
+/* ==========================================================================
+   ZOOM INTERACTIVO EN TARJETAS (Dama y Caballero, solo con mouse)
+   La foto se amplía al pasar el cursor y sigue su posición para ver
+   costuras y textura del denim. En celulares el zoom está en la vista rápida.
+   ========================================================================== */
+@media (hover: hover) and (pointer: fine) {
+  .product-card .product-image-container {
+    cursor: zoom-in;
+  }
+
+  .product-card .product-image-container:hover img {
+    transform: scale(1.8);
+    transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}

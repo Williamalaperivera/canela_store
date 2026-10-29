@@ -9,6 +9,7 @@ const AppState = {
   cart: [],
   currentCategory: 'Dama',   // Carga inicial enfocada en Dama
   currentSilhouette: 'baggy', // Silueta destacada inicial: Baggy Rígido (optimiza peticiones y rendimiento)
+  silhouetteByCategory: { Dama: 'baggy', Caballero: 'skinny' }, // Última silueta elegida en cada pestaña
   activeCardViews: {},       // { [productId]: 'front' | 'both' }
   modalActiveView: 'front',
   currentSort: 'featured',
@@ -229,7 +230,7 @@ function switchProductCardView(event, productId, view) {
       img.src = view === 'both' ? product.images.both : product.images.front;
       const onLoaded = () => {
         img.style.opacity = '1';
-        img.style.transform = 'scale(1)';
+        img.style.transform = '';
       };
       if (img.complete) {
         onLoaded();
@@ -271,19 +272,18 @@ function switchProductModalView(productId, view) {
   }
 }
 
-// Cambiar filtro de silueta para Dama
-function filterBySilhouette(silhouette) {
-  AppState.currentCategory = 'Dama';
+// Cambiar filtro de silueta (Dama o Caballero)
+function filterBySilhouette(silhouette, category) {
+  const targetCategory = category
+    || (SILHOUETTES_BY_CATEGORY[AppState.currentCategory] ? AppState.currentCategory : 'Dama');
+
+  AppState.currentCategory = targetCategory;
   AppState.currentSilhouette = silhouette;
+  AppState.silhouetteByCategory[targetCategory] = silhouette;
 
   // Sincronizar botones de categoría principal
   document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-category') === 'Dama');
-  });
-
-  // Sincronizar pills de silueta
-  document.querySelectorAll('.silhouette-pill').forEach(pill => {
-    pill.classList.toggle('active', pill.getAttribute('data-silhouette') === silhouette);
+    btn.classList.toggle('active', btn.getAttribute('data-category') === targetCategory);
   });
 
   renderProducts();
@@ -321,7 +321,7 @@ function createProductCardHtml(product) {
   ` : '';
 
   return `
-    <article class="product-card ${isDama ? 'card-dama' : ''}" id="card-${product.id}">
+    <article class="product-card ${isDama ? 'card-dama' : 'card-caballero'}" id="card-${product.id}">
       <div class="product-image-container" onclick="openProductModal('${product.id}')">
         <img src="${displayImage}" 
              alt="${product.title}" 
@@ -362,30 +362,61 @@ function createProductCardHtml(product) {
 /* ====================================================================
    RENDERIZADO DE CATÁLOGO & VITRINA ESTRUCTURADA
    ==================================================================== */
+// Cantidad de referencias por silueta dentro de una categoría ('all' = toda la categoría)
+function getSilhouetteCount(category, key) {
+  return PRODUCTS_DATA.filter(p => p.category === category && (key === 'all' || p.silhouette === key)).length;
+}
+
+// Dibuja los botones de silueta de la categoría activa con sus contadores
+function renderSilhouettePills(category) {
+  const list = SILHOUETTES_BY_CATEGORY[category];
+  const pills = document.getElementById('silhouettePills');
+  const label = document.getElementById('silhouetteLabelText');
+  if (!list || !pills) return;
+
+  if (label) label.textContent = `Silueta ${category}:`;
+  const current = AppState.currentSilhouette;
+
+  pills.innerHTML = list.map((sil, i) => `
+    <button type="button" class="silhouette-pill ${current === sil.key ? 'active' : ''}" data-silhouette="${sil.key}">
+      ${i === 0 ? '<span class="pill-dot"></span> ' : ''}<span>${sil.pill || sil.name}</span> <span class="pill-badge">${getSilhouetteCount(category, sil.key)}</span>
+    </button>
+  `).join('') + `
+    <button type="button" class="silhouette-pill ${current === 'all' ? 'active' : ''}" data-silhouette="all">
+      <span>Todas las siluetas</span> <span class="pill-badge">${getSilhouetteCount(category, 'all')}</span>
+    </button>
+  `;
+}
+
 function renderProducts() {
   const grid = document.getElementById('productGrid');
   if (!grid) return;
 
-  const silhouetteToolbar = document.getElementById('damaSilhouetteToolbar');
+  const silhouetteToolbar = document.getElementById('silhouetteToolbar');
+  const category = AppState.currentCategory;
+  const silList = SILHOUETTES_BY_CATEGORY[category];
 
-  // Control de visualización del selector de siluetas de Dama
-  const isDamaActive = AppState.currentCategory === 'Dama';
+  // Dama y Caballero comparten la misma vitrina por siluetas; "Todos" usa la vista estándar
+  const hasSilhouettes = Boolean(silList);
+
+  if (hasSilhouettes) {
+    const valid = AppState.currentSilhouette === 'all' || silList.some(s => s.key === AppState.currentSilhouette);
+    if (!valid) AppState.currentSilhouette = AppState.silhouetteByCategory[category] || silList[0].key;
+    renderSilhouettePills(category);
+  }
+
   if (silhouetteToolbar) {
-    if (isDamaActive) {
-      silhouetteToolbar.classList.add('visible');
-    } else {
-      silhouetteToolbar.classList.remove('visible');
-    }
+    silhouetteToolbar.classList.toggle('visible', hasSilhouettes);
   }
 
   // Filtrado de categoría principal
   let filtered = PRODUCTS_DATA.filter(p => {
-    if (AppState.currentCategory === 'Todos') return true;
-    return p.category.toLowerCase() === AppState.currentCategory.toLowerCase();
+    if (category === 'Todos') return true;
+    return p.category.toLowerCase() === category.toLowerCase();
   });
 
-  // Filtrado por silueta si estamos en Dama y hay sub-filtro seleccionado
-  if (isDamaActive && AppState.currentSilhouette !== 'all') {
+  // Filtrado por silueta si hay sub-filtro seleccionado
+  if (hasSilhouettes && AppState.currentSilhouette !== 'all') {
     filtered = filtered.filter(p => p.silhouette === AppState.currentSilhouette);
   }
 
@@ -405,62 +436,48 @@ function renderProducts() {
     return;
   }
 
-  // VISTA ESTRUCTURADA: TODAS LAS SILUETAS DE DAMA (Agrupadas para evitar scroll caótico)
-  if (isDamaActive && AppState.currentSilhouette === 'all') {
-    const baggyProducts = filtered.filter(p => p.silhouette === 'baggy');
-    const palazzoProducts = filtered.filter(p => p.silhouette === 'palazzo');
-
-    let html = `
-      <!-- Encabezado Silueta Baggy Rígido (Destacados de entrada) -->
-      <div class="silhouette-section-header">
+  // VISTA ESTRUCTURADA: TODAS LAS SILUETAS DE LA CATEGORÍA (Agrupadas para evitar scroll caótico)
+  if (hasSilhouettes && AppState.currentSilhouette === 'all') {
+    let html = '';
+    silList.forEach(sil => {
+      const group = filtered.filter(p => p.silhouette === sil.key);
+      if (group.length === 0) return;
+      html += `
+      <!-- Encabezado Silueta ${sil.name} -->
+      <div class="silhouette-section-header"${html ? ' style="margin-top: 45px;"' : ''}>
         <div class="silhouette-section-info">
-          <span class="silhouette-section-tag">DESTACADOS TENDENCIA</span>
-          <h3>Baggy Rígido <em>(6 colores)</em></h3>
-          <p>Denim 100% rígido con estructura clásica, horma noventera y tiro alto relajado.</p>
+          <span class="silhouette-section-tag">${sil.tag}</span>
+          <h3>${sil.name} <em>(${getSilhouetteCount(category, sil.key)} colores)</em></h3>
+          <p>${sil.desc}</p>
         </div>
-        <button type="button" class="silhouette-filter-link" onclick="filterBySilhouette('baggy')">
-          Ver solo Baggy (${baggyProducts.length}) →
+        <button type="button" class="silhouette-filter-link" onclick="filterBySilhouette('${sil.key}', '${category}')">
+          Ver solo ${sil.short} (${group.length}) →
         </button>
       </div>
       <div class="silhouette-subgrid">
-        ${baggyProducts.map(p => createProductCardHtml(p)).join('')}
-      </div>
-
-      <!-- Encabezado Silueta Palazzo Licrado -->
-      <div class="silhouette-section-header" style="margin-top: 45px;">
-        <div class="silhouette-section-info">
-          <span class="silhouette-section-tag">SILUETA EXCLUSIVA</span>
-          <h3>Palazzo Licrado <em>(7 colores)</em></h3>
-          <p>Tiro alto anatómico, pierna ancha y denim licrado de máxima comodidad.</p>
-        </div>
-        <button type="button" class="silhouette-filter-link" onclick="filterBySilhouette('palazzo')">
-          Ver solo Palazzo (${palazzoProducts.length}) →
-        </button>
-      </div>
-      <div class="silhouette-subgrid">
-        ${palazzoProducts.map(p => createProductCardHtml(p)).join('')}
+        ${group.map(p => createProductCardHtml(p)).join('')}
       </div>
     `;
+    });
 
     grid.innerHTML = html;
     return;
   }
 
   // VISTA POR SILUETA ESPECÍFICA (Carga inicial optimizada y enfocada)
-  if (isDamaActive && AppState.currentSilhouette !== 'all') {
-    const isBaggy = AppState.currentSilhouette === 'baggy';
-    const currentName = isBaggy ? 'Baggy Rígido' : 'Palazzo Licrado';
-    const tagText = isBaggy ? 'DESTACADOS · SILUETA TENDENCIA' : 'SILUETA EXCLUSIVA';
-    const subtitle = isBaggy
-      ? 'Denim 100% rígido estructurado con actitud noventera y tiro alto relajado.'
-      : 'Silueta de pierna amplia en denim licrado con pretina alta y caída fluida.';
+  if (hasSilhouettes && AppState.currentSilhouette !== 'all') {
+    const silIndex = silList.findIndex(s => s.key === AppState.currentSilhouette);
+    const current = silList[silIndex];
+    const currentName = current.name;
+    const tagText = current.bannerTag || current.tag;
+    const subtitle = current.bannerDesc || current.desc;
+    const totalCategory = getSilhouetteCount(category, 'all');
 
-    // Banner de exploración progresiva hacia la otra silueta o todo el catálogo
-    const nextSilhouette = isBaggy ? 'palazzo' : 'baggy';
-    const nextSilhouetteName = isBaggy ? 'Palazzo Licrado (7 colores)' : 'Baggy Rígido (6 colores)';
-    const nextSilhouetteDesc = isBaggy
-      ? 'Descubre también nuestros 7 colores de Palazzo Licrado con tela elástica y pretina anatómica.'
-      : 'Explora nuestros 6 colores de Baggy Rígido en denim estructurado 100% auténtico.';
+    // Banner de exploración progresiva hacia la siguiente silueta o toda la categoría
+    const next = silList[(silIndex + 1) % silList.length];
+    const nextSilhouette = next.key;
+    const nextSilhouetteName = `${next.name} (${getSilhouetteCount(category, next.key)} colores)`;
+    const nextSilhouetteDesc = `Descubre también nuestra colección ${next.name}: ${next.desc}`;
 
     let html = `
       <div class="silhouette-active-banner">
@@ -469,8 +486,8 @@ function renderProducts() {
           <h3>Colección ${currentName} <em>(${filtered.length} colores)</em></h3>
           <p>${subtitle}</p>
         </div>
-        <button type="button" class="silhouette-reset-btn" onclick="filterBySilhouette('all')">
-          Ver todas las siluetas (13)
+        <button type="button" class="silhouette-reset-btn" onclick="filterBySilhouette('all', '${category}')">
+          Ver todas las siluetas (${totalCategory})
         </button>
       </div>
       <div class="silhouette-subgrid">
@@ -481,15 +498,15 @@ function renderProducts() {
       <div class="progressive-catalog-loader">
         <div class="progressive-loader-info">
           <span class="progressive-tag">EXPLORA MÁS DENIM</span>
-          <h4>¿Deseas ver más estilos de dama?</h4>
+          <h4>¿Deseas ver más estilos de ${category.toLowerCase()}?</h4>
           <p>${nextSilhouetteDesc}</p>
         </div>
         <div class="progressive-loader-btns">
-          <button type="button" class="btn-progressive-cta" onclick="filterBySilhouette('${nextSilhouette}')">
+          <button type="button" class="btn-progressive-cta" onclick="filterBySilhouette('${nextSilhouette}', '${category}')">
             Ver ${nextSilhouetteName} →
           </button>
-          <button type="button" class="btn-progressive-secondary" onclick="filterBySilhouette('all')">
-            Ver todas las siluetas (13)
+          <button type="button" class="btn-progressive-secondary" onclick="filterBySilhouette('all', '${category}')">
+            Ver todas las siluetas (${totalCategory})
           </button>
         </div>
       </div>
@@ -499,8 +516,32 @@ function renderProducts() {
     return;
   }
 
-  // Vista estándar para "Todos" o "Caballero" (con Lazy Loading nativo)
+  // Vista estándar para "Todos" (con Lazy Loading nativo)
   grid.innerHTML = filtered.map(p => createProductCardHtml(p)).join('');
+}
+
+// Zoom interactivo en las fotos de las tarjetas: la lupa sigue al cursor (solo escritorio)
+function initCardZoom() {
+  const grid = document.getElementById('productGrid');
+  if (!grid) return;
+
+  grid.addEventListener('mousemove', (e) => {
+    const container = e.target.closest('.product-image-container');
+    if (!container) return;
+    const img = container.querySelector('img');
+    const rect = container.getBoundingClientRect();
+    if (!img || !rect.width || !rect.height) return;
+    const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+    const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
+    img.style.transformOrigin = `${x}% ${y}%`;
+  });
+
+  grid.addEventListener('mouseout', (e) => {
+    const container = e.target.closest('.product-image-container');
+    if (!container || container.contains(e.relatedTarget)) return;
+    const img = container.querySelector('img');
+    if (img) img.style.transformOrigin = 'center center';
+  });
 }
 
 // Agregar al carrito desde la tarjeta
@@ -763,9 +804,7 @@ function openProductModal(productId) {
     </div>
   ` : '';
 
-  const eyebrowLabel = isDama 
-    ? `EDICIÓN DAMA · ${product.refCode ? 'REF. ' + product.refCode : 'ZIROX LUXURY'}${product.silhouetteName ? ' · ' + product.silhouetteName.toUpperCase() : ''}` 
-    : 'EDICIÓN CABALLERO';
+  const eyebrowLabel = `EDICIÓN ${isDama ? 'DAMA' : 'CABALLERO'} · ${product.refCode ? 'REF. ' + product.refCode : (isDama ? 'ZIROX LUXURY' : 'GLASS JEANS')}${product.silhouetteName ? ' · ' + product.silhouetteName.toUpperCase() : ''}`;
 
   content.innerHTML = `
     <button class="modal-close-btn" onclick="closeProductModal()" aria-label="Cerrar">&times;</button>
@@ -987,25 +1026,23 @@ document.addEventListener('DOMContentLoaded', () => {
       e.target.classList.add('active');
       AppState.currentCategory = e.target.getAttribute('data-category');
       
-      // Si entra a Dama y no tenía silueta seleccionada, aseguramos 'baggy'
-      if (AppState.currentCategory === 'Dama') {
-        if (!AppState.currentSilhouette) AppState.currentSilhouette = 'baggy';
-        document.querySelectorAll('.silhouette-pill').forEach(pill => {
-          pill.classList.toggle('active', pill.getAttribute('data-silhouette') === AppState.currentSilhouette);
-        });
+      // Dama y Caballero recuerdan la última silueta elegida en cada pestaña
+      if (SILHOUETTES_BY_CATEGORY[AppState.currentCategory]) {
+        AppState.currentSilhouette = AppState.silhouetteByCategory[AppState.currentCategory];
       }
       renderProducts();
     });
   });
 
-  // Sub-filtros de Silueta de Dama
-  document.querySelectorAll('.silhouette-pill').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const targetBtn = e.currentTarget;
-      const silhouette = targetBtn.getAttribute('data-silhouette');
-      filterBySilhouette(silhouette);
-    });
+  // Sub-filtros de Silueta (Dama y Caballero; los botones se regeneran en cada render)
+  document.getElementById('silhouettePills')?.addEventListener('click', (e) => {
+    const pill = e.target.closest('.silhouette-pill');
+    if (!pill) return;
+    filterBySilhouette(pill.getAttribute('data-silhouette'));
   });
+
+  // Zoom interactivo en las fotos de las tarjetas
+  initCardZoom();
 
   // Eventos Carrito
   document.getElementById('openCartBtn')?.addEventListener('click', openCart);

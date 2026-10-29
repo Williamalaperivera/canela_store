@@ -25,6 +25,86 @@ const STORE_CONFIG = {
   ]
 };
 
+// ------------------------------------------------------------------
+// SILUETAS DE DAMA (orden y textos de las secciones en la pestaña Dama)
+// Para crear una silueta nueva: agrégala aquí y usa el mismo "key"
+// en el campo "silhouette" de sus productos.
+// ------------------------------------------------------------------
+const DAMA_SILHOUETTES = [
+  {
+    key: "baggy",
+    name: "Baggy Rígido",
+    short: "Baggy",
+    tag: "DESTACADOS TENDENCIA",
+    bannerTag: "DESTACADOS · SILUETA TENDENCIA",
+    desc: "Denim 100% rígido con estructura clásica, horma noventera y tiro alto relajado.",
+    bannerDesc: "Denim 100% rígido estructurado con actitud noventera y tiro alto relajado."
+  },
+  {
+    key: "palazzo",
+    name: "Palazzo Licrado",
+    short: "Palazzo",
+    tag: "SILUETA EXCLUSIVA",
+    desc: "Tiro alto anatómico, pierna ancha y denim licrado de máxima comodidad.",
+    bannerDesc: "Silueta de pierna amplia en denim licrado con pretina alta y caída fluida."
+  },
+  {
+    key: "carpintero",
+    name: "Baggy Carpintero Rígido",
+    pill: "Baggy Carpintero",
+    short: "Carpintero",
+    tag: "NUEVA COLECCIÓN",
+    desc: "Baggy en denim rígido con correa de carpintero y tiro alto relajado."
+  },
+  {
+    key: "ochentero",
+    name: "Ochentero Clásico",
+    short: "Ochentero",
+    tag: "NUEVA COLECCIÓN",
+    desc: "Silueta ajustada de tiro alto con estilo ochentero que realza tu figura."
+  },
+  {
+    key: "botones",
+    name: "Clásico 4 Botones",
+    short: "4 Botones",
+    tag: "NUEVA COLECCIÓN",
+    desc: "Tiro alto con pretina de 4 botones y ajuste ceñido que estiliza la cintura."
+  }
+];
+
+// ------------------------------------------------------------------
+// SILUETAS DE CABALLERO (misma estructura que las de Dama)
+// ------------------------------------------------------------------
+const CABALLERO_SILHOUETTES = [
+  {
+    key: "skinny",
+    name: "Skinny Licrado",
+    short: "Skinny",
+    tag: "DESTACADOS TENDENCIA",
+    desc: "Ajuste skinny en denim licrado con máxima libertad de movimiento y horma moderna."
+  },
+  {
+    key: "baggy",
+    name: "Baggy Rígido",
+    short: "Baggy",
+    tag: "ESTILO URBANO",
+    desc: "Denim 100% rígido de pierna amplia con actitud streetwear y caída holgada."
+  },
+  {
+    key: "bermuda",
+    name: "Bermuda Rígida",
+    short: "Bermuda",
+    tag: "TEMPORADA",
+    desc: "Bermudas en tela rígida con lavados y acabados desgastados para clima cálido."
+  }
+];
+
+// Siluetas disponibles por categoría (la pestaña Todos no usa sub-filtros)
+const SILHOUETTES_BY_CATEGORY = {
+  Dama: DAMA_SILHOUETTES,
+  Caballero: CABALLERO_SILHOUETTES
+};
+
 const PRODUCTS_DATA = [
   // ------------------------------------------------------------------
   // COLECCIÓN DAMA (Zirox Jeans Luxury) - SILUETA PALAZZO LICRADO
@@ -268,51 +348,549 @@ const PRODUCTS_DATA = [
     featured: true
   },
 
-  // ----------------------------------------------------
-  // COLECCIÓN CABALLERO (INTACTA)
-  // ----------------------------------------------------
+  // ------------------------------------------------------------------
+  // COLECCIÓN DAMA (Zirox Jeans) - SILUETA BAGGY CARPINTERO RÍGIDO
+  // ------------------------------------------------------------------
   {
-    id: "prod-002",
-    title: "Jean Straight Caballero",
-    category: "Caballero",
+    id: "prod-dama-z14",
+    refCode: "Z14",
+    title: "Jean Baggy Carpintero Rígido - Ref. Z14",
+    category: "Dama",
+    silhouette: "carpintero",
+    silhouetteName: "Baggy Carpintero Rígido",
     price: 70000,
     priceFormatted: "$70.000 COP",
-    description: "Corte recto y denim azul resistente para acompañar tu ritmo diario. Estilo clásico sin complicaciones.",
-    image: "images/jeans_hombre/bermuda_hombre_negro.jpeg",
-    sizes: ["28", "30", "32", "34", "36", "38"],
+    description: "Baggy carpintero en denim rígido tono café con lavado desgastado. Correa lateral tipo carpintero y tiro alto relajado.",
+    image: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z14/ref-Z14.jpeg",
+    images: {
+      front: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z14/ref-Z14.jpeg",
+      both: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z14/ref-Z14-ambas-caras.jpeg"
+    },
+    sizes: ["6", "8", "10", "12"],
     featured: true
   },
   {
-    id: "prod-004",
-    title: "Jean Cargo Caballero",
-    category: "Caballero",
+    id: "prod-dama-z15",
+    refCode: "Z15",
+    title: "Jean Baggy Carpintero Rígido - Ref. Z15",
+    category: "Dama",
+    silhouette: "carpintero",
+    silhouetteName: "Baggy Carpintero Rígido",
     price: 70000,
     priceFormatted: "$70.000 COP",
-    description: "Un toque urbano con amplios bolsillos cargo y silueta relajada. Cómodo, funcional y con mucha personalidad.",
-    image: "images/jeans_hombre/bermuda_hombre_azul.jpeg",
-    sizes: ["28", "30", "32", "34", "36", "38"],
+    description: "Baggy carpintero en denim rígido azul medio desgastado, con correa adicional en el bolsillo trasero y pierna amplia.",
+    image: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z15/ref-Z15.jpeg",
+    images: {
+      front: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z15/ref-Z15.jpeg",
+      both: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z15/ref-Z15-ambas-caras.jpeg"
+    },
+    sizes: ["6", "8", "10", "12"],
     featured: true
   },
   {
-    id: "prod-009",
-    title: "Jean Skinny Caballero - Azul",
-    category: "Caballero",
+    id: "prod-dama-z16",
+    refCode: "Z16",
+    title: "Jean Baggy Carpintero Rígido - Ref. Z16",
+    category: "Dama",
+    silhouette: "carpintero",
+    silhouetteName: "Baggy Carpintero Rígido",
     price: 70000,
     priceFormatted: "$70.000 COP",
-    description: "Silueta skinny moderna con ajuste preciso y denim elástico para máxima libertad de movimiento y comodidad.",
-    image: "images/jeans_hombre/skinny_hombre_azul.jpeg",
-    sizes: ["28", "30", "32", "34", "36", "38"],
+    description: "Baggy carpintero en denim rígido negro con lavado desgastado. Correa lateral, tiro alto y caída holgada.",
+    image: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z16/ref-Z16.jpeg",
+    images: {
+      front: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z16/ref-Z16.jpeg",
+      both: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z16/ref-Z16-ambas-caras.jpeg"
+    },
+    sizes: ["6", "8", "10", "12"],
     featured: true
   },
   {
-    id: "prod-010",
-    title: "Jean Skinny Caballero - Negro",
-    category: "Caballero",
+    id: "prod-dama-z17",
+    refCode: "Z17",
+    title: "Jean Baggy Carpintero Rígido - Ref. Z17",
+    category: "Dama",
+    silhouette: "carpintero",
+    silhouetteName: "Baggy Carpintero Rígido",
     price: 70000,
     priceFormatted: "$70.000 COP",
-    description: "Diseño skinny en tono negro clásico con confección flexible de alta durabilidad. El básico imprescindible de tu armario.",
-    image: "images/jeans_hombre/skinny_hombre_negro.jpeg",
-    sizes: ["28", "30", "32", "34", "36", "38"],
+    description: "Baggy carpintero en denim rígido azul claro intenso. Estilo urbano con correa lateral y pierna amplia.",
+    image: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z17/ref-Z17.jpeg",
+    images: {
+      front: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z17/ref-Z17.jpeg",
+      both: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z17/ref-Z17-ambas-caras.jpeg"
+    },
+    sizes: ["6", "8", "10", "12"],
+    featured: true
+  },
+  {
+    id: "prod-dama-z18",
+    refCode: "Z18",
+    title: "Jean Baggy Carpintero Rígido - Ref. Z18",
+    category: "Dama",
+    silhouette: "carpintero",
+    silhouetteName: "Baggy Carpintero Rígido",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Baggy carpintero en denim rígido azul medio con detalles desgastados. Correa lateral y tiro alto relajado.",
+    image: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z18/ref-Z18.jpeg",
+    images: {
+      front: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z18/ref-Z18.jpeg",
+      both: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z18/ref-Z18-ambas-caras.jpeg"
+    },
+    sizes: ["6", "8", "10", "12"],
+    featured: true
+  },
+  {
+    id: "prod-dama-z19",
+    refCode: "Z19",
+    title: "Jean Baggy Carpintero Rígido - Ref. Z19",
+    category: "Dama",
+    silhouette: "carpintero",
+    silhouetteName: "Baggy Carpintero Rígido",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Baggy carpintero en denim rígido gris claro con detalles desgastados. Correa lateral y caída amplia.",
+    image: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z19/ref-Z19.jpeg",
+    images: {
+      front: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z19/ref-Z19.jpeg",
+      both: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z19/ref-Z19-ambas-caras.jpeg"
+    },
+    sizes: ["6", "8", "10", "12"],
+    featured: true
+  },
+  {
+    id: "prod-dama-z24",
+    refCode: "Z24",
+    title: "Jean Baggy Carpintero Rígido - Ref. Z24",
+    category: "Dama",
+    silhouette: "carpintero",
+    silhouetteName: "Baggy Carpintero Rígido",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Baggy carpintero en denim rígido gris oscuro con lavado degradado. Correa lateral, tiro alto y pierna holgada.",
+    image: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z24/ref-Z24.jpeg",
+    images: {
+      front: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z24/ref-Z24.jpeg",
+      both: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z24/ref-Z24-ambas-caras.jpeg"
+    },
+    sizes: ["6", "8", "10", "12"],
+    featured: true
+  },
+
+  // ------------------------------------------------------------------
+  // COLECCIÓN DAMA (Zirox Jeans) - SILUETA OCHENTERO CLÁSICO
+  // ------------------------------------------------------------------
+  {
+    id: "prod-dama-z20",
+    refCode: "Z20",
+    title: "Jean Ochentero Clásico - Ref. Z20",
+    category: "Dama",
+    silhouette: "ochentero",
+    silhouetteName: "Ochentero Clásico",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Jean ochentero clásico azul oscuro de tiro alto y bota ajustada. Horma que realza tu figura con estilo atemporal.",
+    image: "images/jeans_dama/ochentero_clasico_dama/ref-Z20/ref-Z20.jpeg",
+    images: {
+      front: "images/jeans_dama/ochentero_clasico_dama/ref-Z20/ref-Z20.jpeg",
+      both: "images/jeans_dama/ochentero_clasico_dama/ref-Z20/ref-Z20-ambas-caras.jpeg"
+    },
+    sizes: ["6", "8", "10", "12", "14", "16"],
+    featured: true
+  },
+  {
+    id: "prod-dama-z21",
+    refCode: "Z21",
+    title: "Jean Ochentero Clásico - Ref. Z21",
+    category: "Dama",
+    silhouette: "ochentero",
+    silhouetteName: "Ochentero Clásico",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Jean ochentero clásico azul medio de tiro alto y bota ajustada. Básico versátil para el día a día.",
+    image: "images/jeans_dama/ochentero_clasico_dama/ref-Z21/ref-Z21.jpeg",
+    images: {
+      front: "images/jeans_dama/ochentero_clasico_dama/ref-Z21/ref-Z21.jpeg",
+      both: "images/jeans_dama/ochentero_clasico_dama/ref-Z21/ref-Z21-ambas-caras.jpeg"
+    },
+    sizes: ["6", "8", "10", "12", "14", "16"],
+    featured: true
+  },
+
+  // ------------------------------------------------------------------
+  // COLECCIÓN DAMA (Zirox Jeans) - SILUETA CLÁSICO 4 BOTONES
+  // ------------------------------------------------------------------
+  {
+    id: "prod-dama-z22",
+    refCode: "Z22",
+    title: "Jean Clásico 4 Botones - Ref. Z22",
+    category: "Dama",
+    silhouette: "botones",
+    silhouetteName: "Clásico 4 Botones",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Jean clásico azul oscuro con pretina alta de 4 botones y ajuste ceñido que estiliza la cintura.",
+    image: "images/jeans_dama/clasico_4_botones_dama/ref-Z22/ref-Z22.jpeg",
+    images: {
+      front: "images/jeans_dama/clasico_4_botones_dama/ref-Z22/ref-Z22.jpeg",
+      both: "images/jeans_dama/clasico_4_botones_dama/ref-Z22/ref-Z22-ambas-caras.jpeg"
+    },
+    sizes: ["6", "8", "10", "12", "14", "16"],
+    featured: true
+  },
+  {
+    id: "prod-dama-z23",
+    refCode: "Z23",
+    title: "Jean Clásico 4 Botones - Ref. Z23",
+    category: "Dama",
+    silhouette: "botones",
+    silhouetteName: "Clásico 4 Botones",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Jean clásico color medio claro en tela licrada, con pretina alta de 4 botones y ajuste ceñido.",
+    image: "images/jeans_dama/clasico_4_botones_dama/ref-Z23/ref-Z23.jpeg",
+    images: {
+      front: "images/jeans_dama/clasico_4_botones_dama/ref-Z23/ref-Z23.jpeg",
+      both: "images/jeans_dama/clasico_4_botones_dama/ref-Z23/ref-Z23-ambas-caras.jpeg"
+    },
+    sizes: ["6", "8", "10", "12", "14", "16"],
+    featured: true
+  },
+
+  // ------------------------------------------------------------------
+  // COLECCIÓN CABALLERO (Glass Jeans) - SILUETA SKINNY LICRADO
+  // ------------------------------------------------------------------
+  {
+    id: "prod-caballero-g01",
+    refCode: "G01",
+    title: "Jean Skinny Licrado - Ref. G01",
+    category: "Caballero",
+    silhouette: "skinny",
+    silhouetteName: "Skinny Licrado",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Skinny negro en denim licrado con ajuste moderno y gran elasticidad. El básico infaltable para cualquier ocasión.",
+    image: "images/jeans_hombre/skinny_licrado_hombre/ref-G01/ref-G01.jpeg",
+    images: {
+      front: "images/jeans_hombre/skinny_licrado_hombre/ref-G01/ref-G01.jpeg",
+      both: "images/jeans_hombre/skinny_licrado_hombre/ref-G01/ref-G01-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g02",
+    refCode: "G02",
+    title: "Jean Skinny Licrado - Ref. G02",
+    category: "Caballero",
+    silhouette: "skinny",
+    silhouetteName: "Skinny Licrado",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Skinny negro intenso en denim licrado, horma ceñida y cómoda que acompaña cada movimiento.",
+    image: "images/jeans_hombre/skinny_licrado_hombre/ref-G02/ref-G02.jpeg",
+    images: {
+      front: "images/jeans_hombre/skinny_licrado_hombre/ref-G02/ref-G02.jpeg",
+      both: "images/jeans_hombre/skinny_licrado_hombre/ref-G02/ref-G02-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g03",
+    refCode: "G03",
+    title: "Jean Skinny Licrado - Ref. G03",
+    category: "Caballero",
+    silhouette: "skinny",
+    silhouetteName: "Skinny Licrado",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Skinny azul medio en denim licrado con desgastes sutiles. Estilo casual y ajuste preciso.",
+    image: "images/jeans_hombre/skinny_licrado_hombre/ref-G03/ref-G03.jpeg",
+    images: {
+      front: "images/jeans_hombre/skinny_licrado_hombre/ref-G03/ref-G03.jpeg",
+      both: "images/jeans_hombre/skinny_licrado_hombre/ref-G03/ref-G03-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g04",
+    refCode: "G04",
+    title: "Jean Skinny Licrado - Ref. G04",
+    category: "Caballero",
+    silhouette: "skinny",
+    silhouetteName: "Skinny Licrado",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Skinny gris carbón en denim licrado con lavado suave. Versátil para looks casuales y urbanos.",
+    image: "images/jeans_hombre/skinny_licrado_hombre/ref-G04/ref-G04.jpeg",
+    images: {
+      front: "images/jeans_hombre/skinny_licrado_hombre/ref-G04/ref-G04.jpeg",
+      both: "images/jeans_hombre/skinny_licrado_hombre/ref-G04/ref-G04-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g05",
+    refCode: "G05",
+    title: "Jean Skinny Licrado - Ref. G05",
+    category: "Caballero",
+    silhouette: "skinny",
+    silhouetteName: "Skinny Licrado",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Skinny azul oscuro en denim licrado con lavado clásico. Ajuste cómodo y elegante.",
+    image: "images/jeans_hombre/skinny_licrado_hombre/ref-G05/ref-G05.jpeg",
+    images: {
+      front: "images/jeans_hombre/skinny_licrado_hombre/ref-G05/ref-G05.jpeg",
+      both: "images/jeans_hombre/skinny_licrado_hombre/ref-G05/ref-G05-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g06",
+    refCode: "G06",
+    title: "Jean Skinny Licrado - Ref. G06",
+    category: "Caballero",
+    silhouette: "skinny",
+    silhouetteName: "Skinny Licrado",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Skinny gris medio en denim licrado con lavado degradado y horma moderna.",
+    image: "images/jeans_hombre/skinny_licrado_hombre/ref-G06/ref-G06.jpeg",
+    images: {
+      front: "images/jeans_hombre/skinny_licrado_hombre/ref-G06/ref-G06.jpeg",
+      both: "images/jeans_hombre/skinny_licrado_hombre/ref-G06/ref-G06-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g13",
+    refCode: "G13",
+    title: "Jean Skinny Licrado - Ref. G13",
+    category: "Caballero",
+    silhouette: "skinny",
+    silhouetteName: "Skinny Licrado",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Skinny azul medio en denim licrado con rotos sutiles. Estilo juvenil con ajuste cómodo.",
+    image: "images/jeans_hombre/skinny_licrado_hombre/ref-G13/ref-G13.jpeg",
+    images: {
+      front: "images/jeans_hombre/skinny_licrado_hombre/ref-G13/ref-G13.jpeg",
+      both: "images/jeans_hombre/skinny_licrado_hombre/ref-G13/ref-G13-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g14",
+    refCode: "G14",
+    title: "Jean Skinny Licrado - Ref. G14",
+    category: "Caballero",
+    silhouette: "skinny",
+    silhouetteName: "Skinny Licrado",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Skinny azul medio en denim licrado con rotos y desgastes. Look casual con actitud.",
+    image: "images/jeans_hombre/skinny_licrado_hombre/ref-G14/ref-G14.jpeg",
+    images: {
+      front: "images/jeans_hombre/skinny_licrado_hombre/ref-G14/ref-G14.jpeg",
+      both: "images/jeans_hombre/skinny_licrado_hombre/ref-G14/ref-G14-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
+    featured: true
+  },
+
+  // ------------------------------------------------------------------
+  // COLECCIÓN CABALLERO (Glass Jeans) - SILUETA BAGGY RÍGIDO
+  // ------------------------------------------------------------------
+  {
+    id: "prod-caballero-g07",
+    refCode: "G07",
+    title: "Jean Baggy Rígido - Ref. G07",
+    category: "Caballero",
+    silhouette: "baggy",
+    silhouetteName: "Baggy Rígido",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Baggy negro en denim 100% rígido de pierna amplia. Estilo streetwear con estructura firme.",
+    image: "images/jeans_hombre/baggy_rigido_hombre/ref-G07/ref-G07.jpeg",
+    images: {
+      front: "images/jeans_hombre/baggy_rigido_hombre/ref-G07/ref-G07.jpeg",
+      both: "images/jeans_hombre/baggy_rigido_hombre/ref-G07/ref-G07-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g08",
+    refCode: "G08",
+    title: "Jean Baggy Rígido - Ref. G08",
+    category: "Caballero",
+    silhouette: "baggy",
+    silhouetteName: "Baggy Rígido",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Baggy gris en denim rígido con lavado degradado y caída holgada de estilo urbano.",
+    image: "images/jeans_hombre/baggy_rigido_hombre/ref-G08/ref-G08.jpeg",
+    images: {
+      front: "images/jeans_hombre/baggy_rigido_hombre/ref-G08/ref-G08.jpeg",
+      both: "images/jeans_hombre/baggy_rigido_hombre/ref-G08/ref-G08-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g09",
+    refCode: "G09",
+    title: "Jean Baggy Rígido - Ref. G09",
+    category: "Caballero",
+    silhouette: "baggy",
+    silhouetteName: "Baggy Rígido",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Baggy azul medio en denim rígido con lavado clásico y pierna amplia.",
+    image: "images/jeans_hombre/baggy_rigido_hombre/ref-G09/ref-G09.jpeg",
+    images: {
+      front: "images/jeans_hombre/baggy_rigido_hombre/ref-G09/ref-G09.jpeg",
+      both: "images/jeans_hombre/baggy_rigido_hombre/ref-G09/ref-G09-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g10",
+    refCode: "G10",
+    title: "Jean Baggy Rígido - Ref. G10",
+    category: "Caballero",
+    silhouette: "baggy",
+    silhouetteName: "Baggy Rígido",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Baggy negro desgastado en denim rígido con costuras en contraste y caída holgada.",
+    image: "images/jeans_hombre/baggy_rigido_hombre/ref-G10/ref-G10.jpeg",
+    images: {
+      front: "images/jeans_hombre/baggy_rigido_hombre/ref-G10/ref-G10.jpeg",
+      both: "images/jeans_hombre/baggy_rigido_hombre/ref-G10/ref-G10-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g11",
+    refCode: "G11",
+    title: "Jean Baggy Rígido - Ref. G11",
+    category: "Caballero",
+    silhouette: "baggy",
+    silhouetteName: "Baggy Rígido",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Baggy azul claro en denim rígido con lavado vintage y silueta relajada.",
+    image: "images/jeans_hombre/baggy_rigido_hombre/ref-G11/ref-G11.jpeg",
+    images: {
+      front: "images/jeans_hombre/baggy_rigido_hombre/ref-G11/ref-G11.jpeg",
+      both: "images/jeans_hombre/baggy_rigido_hombre/ref-G11/ref-G11-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g12",
+    refCode: "G12",
+    title: "Jean Baggy Rígido - Ref. G12",
+    category: "Caballero",
+    silhouette: "baggy",
+    silhouetteName: "Baggy Rígido",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Baggy café desgastado en denim rígido de pierna amplia. Toque vintage con mucha actitud.",
+    image: "images/jeans_hombre/baggy_rigido_hombre/ref-G12/ref-G12.jpeg",
+    images: {
+      front: "images/jeans_hombre/baggy_rigido_hombre/ref-G12/ref-G12.jpeg",
+      both: "images/jeans_hombre/baggy_rigido_hombre/ref-G12/ref-G12-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34"],
+    featured: true
+  },
+
+  // ------------------------------------------------------------------
+  // COLECCIÓN CABALLERO (Glass Jeans) - SILUETA BERMUDA RÍGIDA
+  // ------------------------------------------------------------------
+  {
+    id: "prod-caballero-g15",
+    refCode: "G15",
+    title: "Bermuda Rígida - Ref. G15",
+    category: "Caballero",
+    silhouette: "bermuda",
+    silhouetteName: "Bermuda Rígida",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Bermuda en tela rígida azul medio con rotos. Fresca y cómoda para clima cálido.",
+    image: "images/jeans_hombre/bermuda_rigida_hombre/ref-G15/ref-G15.jpeg",
+    images: {
+      front: "images/jeans_hombre/bermuda_rigida_hombre/ref-G15/ref-G15.jpeg",
+      both: "images/jeans_hombre/bermuda_rigida_hombre/ref-G15/ref-G15-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g16",
+    refCode: "G16",
+    title: "Bermuda Rígida - Ref. G16",
+    category: "Caballero",
+    silhouette: "bermuda",
+    silhouetteName: "Bermuda Rígida",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Bermuda en tela rígida azul claro con detalles deshilachados en las piernas.",
+    image: "images/jeans_hombre/bermuda_rigida_hombre/ref-G16/ref-G16.jpeg",
+    images: {
+      front: "images/jeans_hombre/bermuda_rigida_hombre/ref-G16/ref-G16.jpeg",
+      both: "images/jeans_hombre/bermuda_rigida_hombre/ref-G16/ref-G16-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g17",
+    refCode: "G17",
+    title: "Bermuda Rígida - Ref. G17",
+    category: "Caballero",
+    silhouette: "bermuda",
+    silhouetteName: "Bermuda Rígida",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Bermuda en tela rígida gris con parches deshilachados en contraste. Estilo urbano.",
+    image: "images/jeans_hombre/bermuda_rigida_hombre/ref-G17/ref-G17.jpeg",
+    images: {
+      front: "images/jeans_hombre/bermuda_rigida_hombre/ref-G17/ref-G17.jpeg",
+      both: "images/jeans_hombre/bermuda_rigida_hombre/ref-G17/ref-G17-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
+    featured: true
+  },
+  {
+    id: "prod-caballero-g18",
+    refCode: "G18",
+    title: "Bermuda Rígida - Ref. G18",
+    category: "Caballero",
+    silhouette: "bermuda",
+    silhouetteName: "Bermuda Rígida",
+    price: 70000,
+    priceFormatted: "$70.000 COP",
+    description: "Bermuda en tela rígida gris con rotos y parches. Fresca, cómoda y con actitud.",
+    image: "images/jeans_hombre/bermuda_rigida_hombre/ref-G18/ref-G18.jpeg",
+    images: {
+      front: "images/jeans_hombre/bermuda_rigida_hombre/ref-G18/ref-G18.jpeg",
+      both: "images/jeans_hombre/bermuda_rigida_hombre/ref-G18/ref-G18-ambas-caras.jpeg"
+    },
+    sizes: ["28", "30", "32", "34", "36"],
     featured: true
   }
 ];

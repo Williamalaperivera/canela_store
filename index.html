@@ -198,26 +198,16 @@
       </div>
     </div>
 
-    <!-- Sub-barra de Siluetas para Dama (Evita scroll pesado y mantiene vista limpia) -->
-    <div class="silhouette-toolbar visible" id="damaSilhouetteToolbar" aria-label="Filtrar por silueta de dama">
+    <!-- Sub-barra de Siluetas (Dama y Caballero): los botones se generan desde products.js -->
+    <div class="silhouette-toolbar visible" id="silhouetteToolbar" aria-label="Filtrar por silueta">
       <div class="silhouette-toolbar-inner">
         <span class="silhouette-label">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
           </svg>
-          Silueta Dama:
+          <span id="silhouetteLabelText">Silueta Dama:</span>
         </span>
-        <div class="silhouette-pills" id="silhouettePills">
-          <button type="button" class="silhouette-pill active" data-silhouette="baggy">
-            <span class="pill-dot"></span> Baggy Rígido <span class="pill-badge">6</span>
-          </button>
-          <button type="button" class="silhouette-pill" data-silhouette="palazzo">
-            <span>Palazzo Licrado</span> <span class="pill-badge">7</span>
-          </button>
-          <button type="button" class="silhouette-pill" data-silhouette="all">
-            <span>Todas las siluetas</span> <span class="pill-badge">13</span>
-          </button>
-        </div>
+        <div class="silhouette-pills" id="silhouettePills"></div>
       </div>
     </div>
 
