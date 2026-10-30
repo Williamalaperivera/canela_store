@@ -406,108 +406,120 @@
   </section>
 
   <!-- Sección Preguntas Frecuentes (FAQ) en formato Acordeón -->
-  <section class="faq-section" id="faq">
-    <div class="faq-container">
-      <div class="faq-header">
-        <p class="eyebrow">RESOLVEMOS TUS DUDAS</p>
-        <h2>Preguntas Frecuentes</h2>
-        <p class="faq-subtitle">Todo lo que necesitas saber sobre compras, tallas, pagos y envíos en Más Canela Store.
-        </p>
+  <section class="fq" id="faq" aria-labelledby="fq-title">
+    <div class="fq-inner">
+
+      <!-- Imagen que acompaña la pregunta abierta (computador) -->
+      <div class="fq-visual" aria-hidden="true">
+        <figure class="fq-shot is-active" data-faq-shot="mayor">
+          <img src="images/banner/banner-02.jpeg" alt="Pareja luciendo jeans baggy rígidos" style="object-position: 86% center;" loading="lazy" decoding="async">
+          <figcaption>Mezcla y ahorra</figcaption>
+        </figure>
+        <figure class="fq-shot" data-faq-shot="pagos">
+          <img src="images/banner/banner-03.jpeg" alt="Pareja con jeans baggy en una calle de noche" style="object-position: 72% center;" loading="lazy" decoding="async">
+          <figcaption>Paga a tu manera</figcaption>
+        </figure>
+        <figure class="fq-shot" data-faq-shot="tallas">
+          <img src="images/banner/banner-05.jpeg" alt="Modelo con jean ochentero clásico azul oscuro" style="object-position: 80% center;" loading="lazy" decoding="async">
+          <figcaption>Tu horma ideal</figcaption>
+        </figure>
+        <figure class="fq-shot" data-faq-shot="envios">
+          <img src="images/banner/banner-01.jpeg" alt="Pareja luciendo jean skinny y jean clásico de tiro alto" style="object-position: 75% center;" loading="lazy" decoding="async">
+          <figcaption>Directo a tu puerta</figcaption>
+        </figure>
       </div>
 
-      <div class="faq-accordion">
-        <!-- Pregunta 1: Descuento al por mayor -->
-        <details class="faq-item" open name="faq-group">
-          <summary class="faq-question">
-            <span>¿Cómo funciona el descuento al por mayor?</span>
-            <span class="faq-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </span>
-          </summary>
-          <div class="faq-answer">
-            <p>¡Es automático! Al llevar 6 prendas o más, el sistema reduce el precio de cada jean a $60.000 COP. Puedes
-              combinar libremente referencias, tallas y estilos (dama y caballero).</p>
-          </div>
-        </details>
+      <div class="fq-main">
+        <header class="fq-header">
+          <p class="fq-kicker">Resolvemos tus dudas</p>
+          <h2 class="fq-title" id="fq-title">Preguntas frecuentes</h2>
+          <p class="fq-subtitle">Todo lo que necesitas saber sobre compras, tallas, pagos y envíos en Más Canela Store.</p>
+        </header>
 
-        <!-- Pregunta 2: Métodos y zonas de pago -->
-        <details class="faq-item" name="faq-group">
-          <summary class="faq-question">
-            <span>¿Cuáles son los métodos y zonas de pago?</span>
-            <span class="faq-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </span>
-          </summary>
-          <div class="faq-answer">
-            <p>Ofrecemos pago contra entrega exclusivamente en Bogotá (pagas al recibir tu pedido). Para el resto de
-              ciudades de Colombia, coordinamos el pago y el envío de forma segura a través de nuestro botón de asesoría
-              por WhatsApp.</p>
-          </div>
-        </details>
+        <!-- Temas: acceso directo a cada respuesta -->
+        <nav class="fq-chips" aria-label="Temas de preguntas frecuentes">
+          <button type="button" class="fq-chip is-active" data-faq-target="mayor" aria-controls="fq-mayor">
+            <img src="images/banner/banner-02.jpeg" alt="" style="object-position: 86% 18%;" loading="lazy" decoding="async">
+            <span>Por mayor</span>
+          </button>
+          <button type="button" class="fq-chip" data-faq-target="pagos" aria-controls="fq-pagos">
+            <img src="images/banner/banner-03.jpeg" alt="" style="object-position: 72% 18%;" loading="lazy" decoding="async">
+            <span>Pagos</span>
+          </button>
+          <button type="button" class="fq-chip" data-faq-target="tallas" aria-controls="fq-tallas">
+            <img src="images/banner/banner-05.jpeg" alt="" style="object-position: 80% 18%;" loading="lazy" decoding="async">
+            <span>Tallas</span>
+          </button>
+          <button type="button" class="fq-chip" data-faq-target="envios" aria-controls="fq-envios">
+            <img src="images/banner/banner-01.jpeg" alt="" style="object-position: 75% 18%;" loading="lazy" decoding="async">
+            <span>Envíos</span>
+          </button>
+        </nav>
 
-        <!-- Pregunta 3: Talla perfecta -->
-        <details class="faq-item" name="faq-group">
-          <summary class="faq-question">
-            <span>¿Cómo elijo la talla perfecta?</span>
-            <span class="faq-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </span>
-          </summary>
-          <div class="faq-answer">
-            <p>Nuestros jeans tienen horma y ajuste impecable. Si tienes dudas entre dos tallas, te recomendamos elegir
-              tu talla habitual o escribirnos por WhatsApp para guiarte de manera personalizada.</p>
-          </div>
-        </details>
+        <div class="fq-list">
+          <details class="fq-item" id="fq-mayor" data-faq="mayor" open>
+            <summary class="fq-question">
+              <span class="fq-q-text">¿Cómo funciona el descuento al por mayor?</span>
+              <span class="fq-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="fq-answer">
+              <img class="fq-answer-media" src="images/banner/banner-02.jpeg" alt="" style="object-position: 86% 20%;" loading="lazy" decoding="async">
+              <p>¡Es automático! Al llevar 6 prendas o más, el sistema reduce el precio de cada jean a $60.000 COP. Puedes combinar libremente referencias, tallas y estilos (dama y caballero).</p>
+            </div>
+          </details>
+          <details class="fq-item" id="fq-pagos" data-faq="pagos">
+            <summary class="fq-question">
+              <span class="fq-q-text">¿Cuáles son los métodos y zonas de pago?</span>
+              <span class="fq-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="fq-answer">
+              <img class="fq-answer-media" src="images/banner/banner-03.jpeg" alt="" style="object-position: 72% 20%;" loading="lazy" decoding="async">
+              <p>Ofrecemos pago contra entrega exclusivamente en Bogotá (pagas al recibir tu pedido). Para el resto de ciudades de Colombia, coordinamos el pago y el envío de forma segura a través de nuestro botón de asesoría por WhatsApp.</p>
+            </div>
+          </details>
+          <details class="fq-item" id="fq-tallas" data-faq="tallas">
+            <summary class="fq-question">
+              <span class="fq-q-text">¿Cómo elijo la talla perfecta?</span>
+              <span class="fq-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="fq-answer">
+              <img class="fq-answer-media" src="images/banner/banner-05.jpeg" alt="" style="object-position: 80% 20%;" loading="lazy" decoding="async">
+              <p>Nuestros jeans tienen horma y ajuste impecable. Si tienes dudas entre dos tallas, te recomendamos elegir tu talla habitual o escribirnos por WhatsApp para guiarte de manera personalizada.</p>
+            </div>
+          </details>
+          <details class="fq-item" id="fq-envios" data-faq="envios">
+            <summary class="fq-question">
+              <span class="fq-q-text">¿Cuánto tarda el envío a mi ciudad?</span>
+              <span class="fq-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="fq-answer">
+              <img class="fq-answer-media" src="images/banner/banner-01.jpeg" alt="" style="object-position: 75% 20%;" loading="lazy" decoding="async">
+              <p>En Bogotá solemos coordinar entregas rápidas, y para el resto de Colombia trabajamos con transportadoras aliadas. Al realizar tu pedido te confirmamos el tiempo estimado exacto.</p>
+            </div>
+          </details>
+        </div>
 
-        <!-- Pregunta 4: Tiempo de envío -->
-        <details class="faq-item" name="faq-group">
-          <summary class="faq-question">
-            <span>¿Cuánto tarda el envío a mi ciudad?</span>
-            <span class="faq-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </span>
-          </summary>
-          <div class="faq-answer">
-            <p>En Bogotá solemos coordinar entregas rápidas, y para el resto de Colombia trabajamos con transportadoras
-              aliadas. Al realizar tu pedido te confirmamos el tiempo estimado exacto.</p>
-          </div>
-        </details>
-      </div>
+        <div class="fq-cta">
+          <p>¿Tienes otra duda o consulta especial sobre tu pedido?</p>
+          <a class="button fq-cta-btn" href="https://wa.me/573026027989" target="_blank" rel="noopener noreferrer">
+            Escríbenos por WhatsApp
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </a>
+        </div>
 
-      <div class="faq-cta">
-        <p>¿Tienes otra duda o consulta especial sobre tu pedido?</p>
-        <a class="button button-faq" href="https://wa.me/573026027989" target="_blank" rel="noopener noreferrer">
-          Escríbenos por WhatsApp
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="7" y1="17" x2="17" y2="7"></line>
-            <polyline points="7 7 17 7 17 17"></polyline>
-          </svg>
-        </a>
-      </div>
-
-      <!-- Enlace estático para volver al catálogo -->
-      <div class="back-to-catalog-wrap">
-        <a href="#catalogo" class="back-to-catalog-link" id="backToCatalogBtn" aria-label="Volver arriba al Catálogo">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"
-            stroke-linecap="round" stroke-linejoin="round">
+        <!-- Enlace estático para volver al catálogo -->
+        <a href="#catalogo" class="fq-back" id="backToCatalogBtn" aria-label="Volver arriba al Catálogo">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="19" x2="12" y2="5"></line>
             <polyline points="5 12 12 5 19 12"></polyline>
           </svg>
-          <span>Volver al Catálogo</span>
+          <span>Volver al catálogo</span>
         </a>
       </div>
+
     </div>
   </section>
 

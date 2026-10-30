@@ -1047,7 +1047,7 @@ function initScrollSectionsAnimation() {
     { selector: '.value-band-editorial', threshold: 0.35 },
     { selector: '.essence', threshold: 0.2 },
     { selector: '.delivery', threshold: 0.2 },
-    { selector: '.faq-section', threshold: 0.1 },
+    { selector: '.fq', threshold: 0.12 },
     { selector: 'footer', threshold: 0.08 }
   ];
 
@@ -1072,6 +1072,56 @@ function initScrollSectionsAnimation() {
 
     observer.observe(el);
   });
+}
+
+/* ====================================================================
+   PREGUNTAS FRECUENTES (acordeón + temas + imagen que acompaña)
+   ==================================================================== */
+function initFaq() {
+  const items = Array.from(document.querySelectorAll('.fq-list details'));
+  if (!items.length) return;
+  const chips = Array.from(document.querySelectorAll('.fq-chip'));
+  const shots = Array.from(document.querySelectorAll('.fq-shot'));
+
+  function setActive(key) {
+    chips.forEach(c => {
+      const on = c.dataset.faqTarget === key;
+      c.classList.toggle('is-active', on);
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    shots.forEach(s => s.classList.toggle('is-active', s.dataset.faqShot === key));
+  }
+
+  items.forEach(item => {
+    item.addEventListener('toggle', () => {
+      if (item.open) {
+        items.forEach(other => { if (other !== item && other.open) other.open = false; });
+        setActive(item.dataset.faq);
+      }
+    });
+  });
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const target = document.getElementById('fq-' + chip.dataset.faqTarget);
+      if (!target) return;
+      target.open = true;
+      // en celular, lleva la respuesta a la vista sin saltos bruscos
+      if (window.matchMedia('(max-width: 900px)').matches) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  });
+
+  // En celular las preguntas empiezan cerradas para que la sección sea compacta
+  if (window.matchMedia('(max-width: 900px)').matches) {
+    items.forEach(i => { i.open = false; });
+    chips.forEach(c => { c.classList.remove('is-active'); c.setAttribute('aria-pressed', 'false'); });
+    return;
+  }
+
+  const first = items.find(i => i.open) || items[0];
+  if (first) setActive(first.dataset.faq);
 }
 
 /* ====================================================================
@@ -1158,18 +1208,8 @@ document.addEventListener('DOMContentLoaded', () => {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  // Acordeón interactivo exclusivo para FAQ
-  document.querySelectorAll('.faq-accordion details').forEach((item) => {
-    item.addEventListener('toggle', () => {
-      if (item.open) {
-        document.querySelectorAll('.faq-accordion details').forEach((other) => {
-          if (other !== item && other.open) {
-            other.open = false;
-          }
-        });
-      }
-    });
-  });
+  // Preguntas frecuentes: una respuesta abierta a la vez, temas e imagen sincronizados
+  initFaq();
 
   // Enlace para volver al catálogo con desplazamiento suave
   const backToCatalogBtn = document.getElementById('backToCatalogBtn');
