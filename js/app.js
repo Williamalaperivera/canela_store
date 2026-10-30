@@ -363,6 +363,51 @@ function scrollAfterSelection(circle, wasActive) {
   };
 }
 
+/**
+ * Botón flotante "Volver al catálogo": aparece cuando el cliente ya bajó bastante
+ * (pasó buena parte de los productos o va por las secciones inferiores) y lo lleva
+ * con desplazamiento suave al inicio del Catálogo Exclusivo Premium.
+ */
+function initBackToCatalogFloat() {
+  const btn = document.getElementById('backToCatalogFloat');
+  const catalog = document.getElementById('catalogo');
+  if (!btn || !catalog) return;
+
+  const header = document.querySelector('.header');
+  let ticking = false;
+
+  const setVisible = visible => {
+    if (btn.classList.contains('is-visible') === visible) return;
+    btn.classList.toggle('is-visible', visible);
+    btn.setAttribute('aria-hidden', visible ? 'false' : 'true');
+    btn.tabIndex = visible ? 0 : -1;
+  };
+
+  const update = () => {
+    ticking = false;
+    const catalogTop = catalog.getBoundingClientRect().top + window.scrollY;
+    // Se muestra cuando el inicio del catálogo quedó al menos una pantalla atrás
+    setVisible(window.scrollY > catalogTop + window.innerHeight * 0.9);
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+
+  btn.addEventListener('click', () => {
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    const top = catalog.getBoundingClientRect().top + window.scrollY - headerHeight;
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? 'instant' : 'smooth' });
+    btn.blur();
+  });
+}
+
 function filterBySilhouette(silhouette, category) {
   const targetCategory = category
     || (SILHOUETTES_BY_CATEGORY[AppState.currentCategory] ? AppState.currentCategory : 'Dama');
@@ -1411,6 +1456,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Preguntas frecuentes: una respuesta abierta a la vez, temas e imagen sincronizados
   initFaq();
+
+  // Botón flotante para volver al catálogo
+  initBackToCatalogFloat();
 
   // Enlace para volver al catálogo con desplazamiento suave
   const backToCatalogBtn = document.getElementById('backToCatalogBtn');
