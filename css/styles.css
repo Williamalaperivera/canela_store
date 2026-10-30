@@ -6448,3 +6448,14 @@ footer.in-view .footer-bottom {
     transition: none !important;
   }
 }
+
+/* Carrito: sin nota explicativa al pie, el botón de WhatsApp va justo después del total/ahorro */
+.cart-drawer .btn-whatsapp-checkout {
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .cart-drawer .btn-whatsapp-checkout {
+    margin-top: 8px;
+  }
+}
