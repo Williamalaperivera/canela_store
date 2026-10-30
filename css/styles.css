@@ -4205,7 +4205,7 @@ footer.in-view .footer-bottom {
    ========================================================================== */
 .essence {
   background: var(--cream);
-  padding: clamp(56px, 7vw, 104px) 0;
+  padding: clamp(40px, 4vw, 56px) 0;
   overflow: hidden;
 }
 
@@ -4483,7 +4483,7 @@ footer.in-view .footer-bottom {
 /* ---------- Celular ---------- */
 @media (max-width: 600px) {
   .essence {
-    padding: 44px 0 48px;
+    padding: 34px 0 36px;
   }
 
   .essence-inner {
@@ -4566,5 +4566,315 @@ footer.in-view .footer-bottom {
   .essence-pillar[open] p {
     transition: none;
     animation: none;
+  }
+}
+
+/* ==========================================================================
+   ENVÍOS Y PAGOS: "DE BOGOTÁ A TU CLÓSET" (versión compacta)
+   Recorrido cosido: el pespunte va de Bogotá a tu clóset y los beneficios
+   son las paradas. Horizontal en computador, vertical y ceñido en celular.
+   ========================================================================== */
+.delivery {
+  background: var(--bg-subtle);
+  padding: clamp(36px, 3.4vw, 48px) 0;
+}
+
+.delivery-inner {
+  width: min(88%, calc(1500px - 12vw));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "intro cta"
+    "route route";
+  align-items: end;
+  row-gap: clamp(28px, 3vw, 40px);
+}
+
+.delivery-intro { grid-area: intro; }
+.delivery-route { grid-area: route; }
+.delivery-cta { grid-area: cta; }
+
+.delivery-kicker {
+  margin: 0;
+  font-family: 'Pinyon Script', 'Libre Caslon Display', Georgia, serif;
+  font-size: clamp(24px, 2vw, 30px);
+  line-height: 1.1;
+  color: var(--caramel);
+}
+
+.delivery-title {
+  margin: 0;
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(32px, 3.2vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--chocolate);
+}
+
+/* en computador el título va en una sola línea */
+.delivery-title br {
+  display: none;
+}
+
+/* ---------- Recorrido horizontal ---------- */
+.delivery-route {
+  --node: 40px;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto repeat(3, minmax(0, 1fr)) auto;
+  column-gap: clamp(18px, 2.4vw, 36px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* el hilo, a la altura del centro de los nodos */
+.delivery-route::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--node) / 2);
+  left: 20px;
+  right: 20px;
+  border-top: 1.6px dashed var(--caramel);
+  transform-origin: left;
+}
+
+.delivery-route > li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.delivery-end {
+  align-items: center !important;
+  min-width: 64px;
+}
+
+.delivery-node,
+.delivery-dot {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.delivery-node {
+  display: grid;
+  place-items: center;
+  width: var(--node);
+  height: var(--node);
+  border-radius: 50%;
+  background: var(--cream);
+  border: 1px solid var(--border-medium);
+  color: var(--chocolate);
+  box-shadow: 0 0 0 5px var(--bg-subtle);
+}
+
+.delivery-node svg {
+  width: 18px;
+  height: 18px;
+}
+
+.delivery-node--closet {
+  background: var(--chocolate);
+  border-color: var(--chocolate);
+  color: var(--cream);
+}
+
+.delivery-dot {
+  width: 14px;
+  height: 14px;
+  margin: calc((var(--node) - 14px) / 2) 0;
+  border-radius: 50%;
+  background: var(--caramel);
+  box-shadow: 0 0 0 5px var(--bg-subtle), 0 0 0 6px rgba(198, 139, 89, 0.45);
+}
+
+.delivery-place {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--caramel);
+  white-space: nowrap;
+}
+
+.delivery-end--finish .delivery-place {
+  font-family: 'Pinyon Script', 'Libre Caslon Display', Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.9;
+  color: var(--chocolate);
+}
+
+.delivery-text h3 {
+  margin: 0 0 6px;
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(18px, 1.45vw, 21px);
+  line-height: 1.2;
+  color: var(--chocolate);
+}
+
+.delivery-text p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(59, 34, 25, 0.72);
+}
+
+.delivery-cta .button {
+  padding: 14px 24px;
+}
+
+.delivery-cta .button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ---------- Entrada: el hilo se dibuja y las paradas aparecen en orden ---------- */
+.delivery .delivery-route::before {
+  transform: scaleX(0);
+  transition: transform 1.3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.delivery .delivery-intro,
+.delivery .delivery-cta,
+.delivery .delivery-route > li {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.delivery.in-view .delivery-route::before { transform: none; }
+.delivery.in-view .delivery-intro,
+.delivery.in-view .delivery-cta,
+.delivery.in-view .delivery-route > li { opacity: 1; transform: none; }
+
+.delivery.in-view .delivery-cta { transition-delay: 0.15s; }
+.delivery.in-view .delivery-route > li:nth-child(1) { transition-delay: 0.1s; }
+.delivery.in-view .delivery-route > li:nth-child(2) { transition-delay: 0.32s; }
+.delivery.in-view .delivery-route > li:nth-child(3) { transition-delay: 0.54s; }
+.delivery.in-view .delivery-route > li:nth-child(4) { transition-delay: 0.76s; }
+.delivery.in-view .delivery-route > li:nth-child(5) { transition-delay: 0.98s; }
+
+/* ---------- Tablet y celular: recorrido vertical compacto ---------- */
+@media (max-width: 900px) {
+  .delivery {
+    padding: 32px 0 34px;
+  }
+
+  .delivery-inner {
+    width: calc(100% - 32px);
+    max-width: 620px;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "intro"
+      "route"
+      "cta";
+    row-gap: 20px;
+  }
+
+  .delivery-kicker {
+    font-size: 24px;
+  }
+
+  .delivery-title {
+    font-size: 30px;
+  }
+
+  .delivery-route {
+    --node: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .delivery-route::before {
+    top: 8px;
+    bottom: calc(var(--node) / 2);
+    left: calc(var(--node) / 2 - 1px);
+    right: auto;
+    border-top: 0;
+    border-left: 1.5px dashed var(--caramel);
+    transform-origin: top;
+  }
+
+  .delivery .delivery-route::before {
+    transform: scaleY(0);
+  }
+
+  .delivery.in-view .delivery-route::before {
+    transform: none;
+  }
+
+  .delivery-route > li {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .delivery-end {
+    align-items: center !important;
+    min-width: 0;
+  }
+
+  .delivery-dot {
+    width: 12px;
+    height: 12px;
+    margin: 0 calc((var(--node) - 12px) / 2);
+  }
+
+  .delivery-node svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .delivery-text {
+    padding-top: 6px;
+  }
+
+  .delivery-text h3 {
+    margin-bottom: 3px;
+    font-size: 17px;
+  }
+
+  .delivery-text p {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .delivery-end--finish .delivery-place {
+    font-size: 23px;
+  }
+
+  .delivery-cta .button {
+    width: 100%;
+    padding: 13px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .delivery .delivery-route::before,
+  .delivery .delivery-intro,
+  .delivery .delivery-cta,
+  .delivery .delivery-route > li {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   RITMO VERTICAL ENTRE SECCIONES (Esencia → Envíos → Preguntas)
+   Espaciado compacto y uniforme: 48–56px en computador, 32–36px en celular.
+   ========================================================================== */
+@media (min-width: 769px) {
+  #faq.faq-section {
+    padding-top: 48px;
+    padding-bottom: 56px;
   }
 }

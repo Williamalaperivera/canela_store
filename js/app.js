@@ -1046,7 +1046,7 @@ function initScrollSectionsAnimation() {
     { selector: '.catalog-heading', threshold: 0.4 },
     { selector: '.value-band-editorial', threshold: 0.35 },
     { selector: '.essence', threshold: 0.2 },
-    { selector: '.logistics', threshold: 0.15 },
+    { selector: '.delivery', threshold: 0.2 },
     { selector: '.faq-section', threshold: 0.1 },
     { selector: 'footer', threshold: 0.08 }
   ];
