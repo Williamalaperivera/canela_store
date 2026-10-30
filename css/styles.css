@@ -5414,3 +5414,174 @@ footer.in-view .footer-bottom {
     animation: none;
   }
 }
+
+/* ==========================================================================
+   FOOTER: estilos que antes estaban en línea + versión compacta en celular
+   ========================================================================== */
+.footer-slogan {
+  margin-top: 15px;
+}
+
+.footer-place {
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  footer {
+    padding: 26px 16px 72px; /* abajo: espacio libre para el botón flotante de WhatsApp */
+  }
+
+  footer .footer-main {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-areas:
+      "brand   brand"
+      "links   contact";
+    gap: 20px 16px;
+    padding-bottom: 18px;
+  }
+
+  /* Fila superior: logo + eslogan a la izquierda, redes a la derecha */
+  footer .footer-brand-col {
+    grid-area: brand;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "logo   social"
+      "slogan social";
+    align-items: center;
+    column-gap: 12px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  footer .footer-brand-col .brand {
+    grid-area: logo;
+    justify-self: start;
+    font-size: 24px;
+  }
+
+  footer .footer-slogan {
+    grid-area: slogan;
+    margin-top: 6px;
+    font-family: 'Pinyon Script', 'Libre Caslon Display', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.1;
+    color: var(--caramel);
+  }
+
+  footer .footer-social-links {
+    grid-area: social;
+    margin-top: 0;
+    gap: 6px;
+  }
+
+  footer .footer-social-links a {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid var(--border-medium);
+    border-radius: 50%;
+  }
+
+  footer .footer-social-links a svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Fila central: dos columnas ordenadas */
+  footer .footer-links {
+    grid-area: links;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  footer .footer-contact {
+    grid-area: contact;
+    min-width: 0;
+  }
+
+  footer .footer-main h3 {
+    width: auto;
+    margin: 0 0 8px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--caramel);
+  }
+
+  footer .footer-links a,
+  footer .footer-contact p,
+  footer .footer-contact a {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.85;
+  }
+
+  footer .footer-contact a {
+    overflow-wrap: anywhere;
+  }
+
+  footer .footer-place {
+    margin-top: 2px;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Fila inferior: dos líneas cortas y centradas */
+  footer .footer-bottom {
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding-top: 12px;
+    font-size: 10px;
+    line-height: 1.5;
+    text-align: center;
+  }
+}
+
+/* Celulares angostos: todo cabe sin partir líneas */
+@media (max-width: 360px) {
+  footer .footer-social-links {
+    gap: 4px;
+  }
+
+  footer .footer-social-links a {
+    width: 30px;
+    height: 30px;
+  }
+
+  footer .footer-social-links a svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  footer .footer-slogan {
+    font-size: 16px;
+  }
+
+  footer .footer-main {
+    column-gap: 12px;
+  }
+
+  footer .footer-links a,
+  footer .footer-contact p,
+  footer .footer-contact a {
+    font-size: 11.5px;
+  }
+}
+
+@media (max-width: 340px) {
+  /* el eslogan pasa a su propia línea bajo el logo y las redes */
+  footer .footer-brand-col {
+    grid-template-areas:
+      "logo   social"
+      "slogan slogan";
+  }
+
+  footer .footer-slogan {
+    font-size: 16px;
+  }
+}
