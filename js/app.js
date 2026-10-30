@@ -1196,6 +1196,29 @@ function closeSizeGuide() {
 }
 
 /* ====================================================================
+   BLOQUEO DEL SCROLL DE FONDO
+   Mientras el carrito, la vista rápida o la guía de tallas estén abiertos,
+   la página no se desplaza. Observa las clases "open" de cada panel, así
+   que no modifica las funciones que los abren o cierran.
+   ==================================================================== */
+function initScrollLock() {
+  const panels = ['cartDrawerOverlay', 'productModalOverlay', 'sizeGuideOverlay']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+  if (!panels.length) return;
+
+  const root = document.documentElement;
+  const sync = () => {
+    const anyOpen = panels.some(p => p.classList.contains('open'));
+    root.classList.toggle('scroll-locked', anyOpen);
+  };
+
+  const observer = new MutationObserver(sync);
+  panels.forEach(p => observer.observe(p, { attributes: true, attributeFilter: ['class'] }));
+  sync();
+}
+
+/* ====================================================================
    INICIALIZACIÓN DE LA PÁGINA
    ==================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
@@ -1250,6 +1273,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('customAlertOverlay')?.addEventListener('click', (e) => {
     if (e.target.id === 'customAlertOverlay') closeCustomAlert();
   });
+
+  // Bloqueo del scroll de fondo con paneles abiertos
+  initScrollLock();
 
   // Guía de tallas: cerrar con el botón o tocando fuera de la imagen
   document.getElementById('sizeGuideOverlay')?.addEventListener('click', (e) => {

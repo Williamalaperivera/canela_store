@@ -6459,3 +6459,67 @@ footer.in-view .footer-bottom {
     margin-top: 8px;
   }
 }
+
+/* ==========================================================================
+   SCROLL DEL CARRITO Y PANELES
+   1) Fondo bloqueado mientras un panel está abierto (clase puesta por
+      initScrollLock; :has() como respaldo sin JavaScript).
+   2) Lista del carrito con scroll propio que no arrastra la página.
+   ========================================================================== */
+html {
+  scrollbar-gutter: stable; /* evita que el contenido salte al ocultar la barra */
+}
+
+html.scroll-locked,
+html.scroll-locked body,
+html:has(.cart-drawer-overlay.open),
+html:has(.cart-drawer-overlay.open) body,
+html:has(.modal-overlay.open),
+html:has(.modal-overlay.open) body,
+html:has(.size-guide-overlay.open),
+html:has(.size-guide-overlay.open) body {
+  overflow: hidden !important;
+}
+
+/* los fondos oscuros tampoco transmiten el gesto a la página */
+.cart-drawer-overlay,
+.modal-overlay,
+.size-guide-overlay {
+  overscroll-behavior: contain;
+}
+
+/* el panel ocupa el alto real visible (también con la barra del navegador móvil) */
+.cart-drawer-overlay .cart-drawer {
+  height: 100vh;
+  height: 100dvh;
+}
+
+.cart-drawer .cart-header,
+.cart-drawer .cart-footer {
+  flex-shrink: 0;
+}
+
+/* la lista: único elemento que se desplaza */
+.cart-drawer .cart-items {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  touch-action: pan-y;
+}
+
+/* contenido interno de la vista rápida y de la guía: mismo comportamiento */
+#productModalContent,
+.size-guide-body {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-drawer .cart-items {
+    scroll-behavior: auto;
+  }
+}
