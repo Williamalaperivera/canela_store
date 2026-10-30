@@ -6206,3 +6206,245 @@ footer.in-view .footer-bottom {
     transition: none !important;
   }
 }
+
+/* ==========================================================================
+   GUÍA DE TALLAS: enlace en la vista rápida, botón en el catálogo y visor
+   ========================================================================== */
+.size-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.size-guide-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--chocolate);
+  text-decoration: underline;
+  text-decoration-color: var(--caramel);
+  text-underline-offset: 4px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.size-guide-link svg {
+  color: var(--caramel);
+  flex-shrink: 0;
+}
+
+.size-guide-link:hover {
+  color: var(--caramel);
+}
+
+.size-guide-link:focus-visible,
+.silhouette-guide-btn:focus-visible,
+.size-guide-close:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* acciones del banner de silueta: guía + ver referencias */
+.silhouette-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.silhouette-guide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border: 1px dashed var(--caramel);
+  border-radius: 999px;
+  background: rgba(198, 139, 89, 0.08);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--chocolate);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.silhouette-guide-btn svg {
+  color: var(--caramel);
+}
+
+.silhouette-guide-btn:hover {
+  background: var(--chocolate);
+  border-color: var(--chocolate);
+  color: var(--cream);
+}
+
+.silhouette-guide-btn:hover svg {
+  color: var(--cream);
+}
+
+/* ---------- Visor ---------- */
+.size-guide-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 240;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(43, 24, 17, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.size-guide-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0s;
+}
+
+.size-guide-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(560px, 100%);
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+  border-radius: 20px;
+  background: var(--cream);
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  transform: translateY(14px) scale(0.98);
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.size-guide-overlay.open .size-guide-dialog {
+  transform: none;
+}
+
+.size-guide-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px 12px 22px;
+}
+
+.size-guide-head::after {
+  content: "";
+  position: absolute;
+  left: 22px;
+  right: 14px;
+  bottom: 0;
+  border-bottom: 1.4px dashed rgba(198, 139, 89, 0.7);
+}
+
+.size-guide-head h3 {
+  margin: 0;
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--chocolate);
+}
+
+.size-guide-close {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border-medium);
+  border-radius: 50%;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--chocolate);
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.35s ease;
+}
+
+.size-guide-close:hover {
+  background: var(--chocolate);
+  color: var(--cream);
+  transform: rotate(90deg);
+}
+
+.size-guide-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px;
+  background: #fff;
+  overscroll-behavior: contain;
+}
+
+.size-guide-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  background: #111;
+}
+
+.size-guide-note {
+  margin: 0;
+  padding: 10px 22px 14px;
+  font-size: 11.5px;
+  color: rgba(59, 34, 25, 0.65);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .size-guide-overlay {
+    padding: 12px;
+  }
+
+  .size-guide-dialog {
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    border-radius: 16px;
+  }
+
+  .size-guide-head {
+    padding: 10px 10px 10px 16px;
+  }
+
+  .size-guide-head::after {
+    left: 16px;
+    right: 10px;
+  }
+
+  .size-guide-head h3 {
+    font-size: 17px;
+  }
+
+  .size-guide-body {
+    padding: 10px;
+  }
+
+  .silhouette-banner-actions {
+    width: 100%;
+  }
+
+  .silhouette-guide-btn {
+    padding: 8px 14px;
+    font-size: 11.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .size-guide-overlay,
+  .size-guide-dialog,
+  .size-guide-close {
+    transition: none !important;
+  }
+}

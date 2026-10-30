@@ -515,9 +515,12 @@ function renderProducts() {
           <h3>${sil.name} <em>(${getSilhouetteCount(category, sil.key)} colores)</em></h3>
           <p>${sil.desc}</p>
         </div>
-        <button type="button" class="silhouette-filter-link" onclick="filterBySilhouette('${sil.key}', '${category}')">
-          Ver solo ${sil.short} (${group.length}) →
-        </button>
+        <div class="silhouette-banner-actions">
+          ${sil.sizeGuide ? `<button type="button" class="silhouette-guide-btn" onclick="openSizeGuide('${category}', '${sil.key}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="10" rx="1.5"></rect><line x1="6" y1="7" x2="6" y2="11"></line><line x1="10" y1="7" x2="10" y2="12"></line><line x1="14" y1="7" x2="14" y2="11"></line><line x1="18" y1="7" x2="18" y2="12"></line></svg><span>Guía de tallas</span></button>` : ''}
+          <button type="button" class="silhouette-filter-link" onclick="filterBySilhouette('${sil.key}', '${category}')">
+            Ver solo ${sil.short} (${group.length}) →
+          </button>
+        </div>
       </div>
       <div class="silhouette-subgrid">
         ${group.map(p => createProductCardHtml(p)).join('')}
@@ -551,9 +554,12 @@ function renderProducts() {
           <h3>Colección ${currentName} <em>(${filtered.length} colores)</em></h3>
           <p>${subtitle}</p>
         </div>
-        <button type="button" class="silhouette-reset-btn" onclick="filterBySilhouette('all', '${category}')">
-          Ver todas las referencias (${totalCategory})
-        </button>
+        <div class="silhouette-banner-actions">
+          ${current.sizeGuide ? `<button type="button" class="silhouette-guide-btn" onclick="openSizeGuide('${category}', '${current.key}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="10" rx="1.5"></rect><line x1="6" y1="7" x2="6" y2="11"></line><line x1="10" y1="7" x2="10" y2="12"></line><line x1="14" y1="7" x2="14" y2="11"></line><line x1="18" y1="7" x2="18" y2="12"></line></svg><span>Guía de tallas</span></button>` : ''}
+          <button type="button" class="silhouette-reset-btn" onclick="filterBySilhouette('all', '${category}')">
+            Ver todas las referencias (${totalCategory})
+          </button>
+        </div>
       </div>
       <div class="silhouette-subgrid">
         ${filtered.map(p => createProductCardHtml(p)).join('')}
@@ -919,7 +925,10 @@ function openProductModal(productId) {
       <p class="modal-description">${product.description}</p>
       
       <div class="size-select-group" style="margin-bottom: 16px;">
-        <label for="modal-size">Elige tu talla:</label>
+        <div class="size-label-row">
+          <label for="modal-size">Elige tu talla:</label>
+          ${getSizeGuide(product.category, product.silhouette) ? `<button type="button" class="size-guide-link" onclick="openSizeGuide('${product.category}', '${product.silhouette}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="10" rx="1.5"></rect><line x1="6" y1="7" x2="6" y2="11"></line><line x1="10" y1="7" x2="10" y2="12"></line><line x1="14" y1="7" x2="14" y2="11"></line><line x1="18" y1="7" x2="18" y2="12"></line></svg><span>Ver guía de tallas</span></button>` : ''}
+        </div>
         <select id="modal-size" style="padding: 10px;">
           <option value="">Selecciona tu talla</option>
           ${sizeOptionsHtml}
@@ -1149,6 +1158,44 @@ function initFaq() {
 }
 
 /* ====================================================================
+   GUÍA DE TALLAS (imagen por silueta, definida en products.js)
+   ==================================================================== */
+function getSizeGuide(category, silhouetteKey) {
+  const list = (typeof SILHOUETTES_BY_CATEGORY !== 'undefined') ? SILHOUETTES_BY_CATEGORY[category] : null;
+  const sil = list ? list.find(s => s.key === silhouetteKey) : null;
+  return sil && sil.sizeGuide ? { src: sil.sizeGuide, name: sil.name } : null;
+}
+
+let sizeGuideReturnFocus = null;
+
+function openSizeGuide(category, silhouetteKey) {
+  const guide = getSizeGuide(category, silhouetteKey);
+  const overlay = document.getElementById('sizeGuideOverlay');
+  const img = document.getElementById('sizeGuideImg');
+  const title = document.getElementById('sizeGuideTitle');
+  if (!guide || !overlay || !img) return;
+
+  sizeGuideReturnFocus = document.activeElement;
+  img.src = guide.src;
+  img.alt = `Guía de tallas ${guide.name} ${category === 'Caballero' ? 'hombre' : 'dama'}: medidas en centímetros por talla`;
+  if (title) title.textContent = `Guía de tallas · ${guide.name}`;
+  overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
+  const body = overlay.querySelector('.size-guide-body');
+  if (body) body.scrollTop = 0;
+  overlay.querySelector('.size-guide-close')?.focus();
+}
+
+function closeSizeGuide() {
+  const overlay = document.getElementById('sizeGuideOverlay');
+  if (!overlay || !overlay.classList.contains('open')) return false;
+  overlay.classList.remove('open');
+  overlay.setAttribute('aria-hidden', 'true');
+  if (sizeGuideReturnFocus && typeof sizeGuideReturnFocus.focus === 'function') sizeGuideReturnFocus.focus();
+  return true;
+}
+
+/* ====================================================================
    INICIALIZACIÓN DE LA PÁGINA
    ==================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
@@ -1204,9 +1251,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target.id === 'customAlertOverlay') closeCustomAlert();
   });
 
+  // Guía de tallas: cerrar con el botón o tocando fuera de la imagen
+  document.getElementById('sizeGuideOverlay')?.addEventListener('click', (e) => {
+    if (e.target.id === 'sizeGuideOverlay' || e.target.closest('.size-guide-close')) closeSizeGuide();
+  });
+
   // Cerrar modales con tecla Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      if (closeSizeGuide()) return;
       closeCustomAlert();
       closeProductModal();
       closeCart();

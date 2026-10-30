@@ -78,6 +78,7 @@ const DAMA_SILHOUETTES = [
 
 // ------------------------------------------------------------------
 // SILUETAS DE CABALLERO (misma estructura que las de Dama)
+// sizeGuide: imagen de la guía de tallas de cada silueta (opcional; también sirve para Dama)
 // ------------------------------------------------------------------
 const CABALLERO_SILHOUETTES = [
   {
@@ -85,21 +86,24 @@ const CABALLERO_SILHOUETTES = [
     name: "Skinny Licrado",
     short: "Skinny",
     tag: "DESTACADOS TENDENCIA",
-    desc: "Ajuste skinny en denim licrado con máxima libertad de movimiento y horma moderna."
+    desc: "Ajuste skinny en denim licrado con máxima libertad de movimiento y horma moderna.",
+    sizeGuide: "images/guia_tallas/guia-tallas-skinny-hombre.jpeg"
   },
   {
     key: "baggy",
     name: "Baggy Rígido",
     short: "Baggy",
     tag: "ESTILO URBANO",
-    desc: "Denim 100% rígido de pierna amplia con actitud streetwear y caída holgada."
+    desc: "Denim 100% rígido de pierna amplia con actitud streetwear y caída holgada.",
+    sizeGuide: "images/guia_tallas/guia-tallas-baggy-rigido-hombre.jpeg"
   },
   {
     key: "bermuda",
     name: "Bermuda Rígida",
     short: "Bermuda",
     tag: "TEMPORADA",
-    desc: "Bermudas en tela rígida con lavados y acabados desgastados para clima cálido."
+    desc: "Bermudas en tela rígida con lavados y acabados desgastados para clima cálido.",
+    sizeGuide: "images/guia_tallas/guia-tallas-bermuda-rigida-hombre.jpeg"
   }
 ];
 
