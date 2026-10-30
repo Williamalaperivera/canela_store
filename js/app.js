@@ -1335,13 +1335,50 @@ function closeSizeGuide() {
 }
 
 /* ====================================================================
+   POLÍTICAS DE PRIVACIDAD (ventana emergente desde el footer)
+   ==================================================================== */
+let privacyReturnFocus = null;
+
+function openPrivacyPolicy() {
+  const overlay = document.getElementById('privacyOverlay');
+  if (!overlay) return;
+  privacyReturnFocus = document.activeElement;
+  const body = overlay.querySelector('.privacy-body');
+  if (body) body.scrollTop = 0;
+  overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
+  overlay.querySelector('.privacy-close')?.focus();
+}
+
+function closePrivacyPolicy() {
+  const overlay = document.getElementById('privacyOverlay');
+  if (!overlay || !overlay.classList.contains('open')) return false;
+  overlay.classList.remove('open');
+  overlay.setAttribute('aria-hidden', 'true');
+  if (privacyReturnFocus && typeof privacyReturnFocus.focus === 'function') privacyReturnFocus.focus();
+  return true;
+}
+
+function initPrivacyPolicy() {
+  const overlay = document.getElementById('privacyOverlay');
+  if (!overlay) return;
+  document.getElementById('openPrivacyBtn')?.addEventListener('click', openPrivacyPolicy);
+  overlay.querySelector('.privacy-close')?.addEventListener('click', closePrivacyPolicy);
+  overlay.querySelector('.privacy-accept')?.addEventListener('click', closePrivacyPolicy);
+  // Tocar fuera de la ventana también la cierra
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closePrivacyPolicy();
+  });
+}
+
+/* ====================================================================
    BLOQUEO DEL SCROLL DE FONDO
    Mientras el carrito, la vista rápida o la guía de tallas estén abiertos,
    la página no se desplaza. Observa las clases "open" de cada panel, así
    que no modifica las funciones que los abren o cierran.
    ==================================================================== */
 function initScrollLock() {
-  const panels = ['cartDrawerOverlay', 'productModalOverlay', 'sizeGuideOverlay']
+  const panels = ['cartDrawerOverlay', 'productModalOverlay', 'sizeGuideOverlay', 'privacyOverlay']
     .map(id => document.getElementById(id))
     .filter(Boolean);
   if (!panels.length) return;
@@ -1429,6 +1466,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       if (closeSizeGuide()) return;
+      if (closePrivacyPolicy()) return;
       closeCustomAlert();
       closeProductModal();
       closeCart();
@@ -1459,6 +1497,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Botón flotante para volver al catálogo
   initBackToCatalogFloat();
+
+  // Políticas de privacidad desde el footer
+  initPrivacyPolicy();
 
   // Enlace para volver al catálogo con desplazamiento suave
   const backToCatalogBtn = document.getElementById('backToCatalogBtn');
