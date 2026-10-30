@@ -762,9 +762,21 @@ function updateCartUI() {
         </div>
       `;
 
+    // La foto abre el detalle de la referencia (si sigue en el catálogo)
+    const canOpenDetail = PRODUCTS_DATA.some(p => p.id === item.id);
+    const imgHtml = canOpenDetail
+      ? `<button type="button" class="cart-item-media" onclick="openProductFromCart('${item.id}', '${item.size}')"
+                 aria-label="Ver detalles de ${item.title}" title="Ver detalles de la referencia">
+           <img src="${item.image}" alt="${item.title}" class="cart-item-img">
+           <span class="cart-item-zoom" aria-hidden="true">
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+           </span>
+         </button>`
+      : `<img src="${item.image}" alt="${item.title}" class="cart-item-img">`;
+
     return `
       <div class="cart-item">
-        <img src="${item.image}" alt="${item.title}" class="cart-item-img">
+        ${imgHtml}
         <div class="cart-item-info">
           <h4>${item.title}</h4>
           <p>Talla: <strong>${item.size}</strong></p>
@@ -781,6 +793,18 @@ function updateCartUI() {
   }).join('');
 
   itemsContainer.innerHTML = wholesaleBannerHtml + itemsHtml;
+}
+
+// Abre el detalle del producto desde la foto del carrito, con la talla elegida ya seleccionada.
+// El modal se muestra encima del carrito: al cerrarlo, la persona vuelve a su carrito.
+function openProductFromCart(productId, size) {
+  const product = PRODUCTS_DATA.find(p => p.id === productId);
+  if (!product) return;
+  openProductModal(productId);
+  const sizeSelect = document.getElementById('modal-size');
+  if (sizeSelect && size && [...sizeSelect.options].some(o => o.value === size)) {
+    sizeSelect.value = size;
+  }
 }
 
 function openCart() {

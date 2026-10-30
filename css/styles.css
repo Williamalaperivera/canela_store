@@ -5585,3 +5585,584 @@ footer.in-view .footer-bottom {
     font-size: 16px;
   }
 }
+
+/* ==========================================================================
+   CARRITO: la foto de cada producto abre su detalle
+   ========================================================================== */
+.cart-item-media {
+  position: relative;
+  flex-shrink: 0;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.cart-item-media .cart-item-img {
+  display: block;
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), filter 0.35s ease;
+}
+
+.cart-item-zoom {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(253, 251, 247, 0.92);
+  color: var(--chocolate);
+  box-shadow: 0 2px 6px rgba(59, 34, 25, 0.2);
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.cart-item-media:hover .cart-item-img {
+  transform: scale(1.05);
+  filter: brightness(0.94);
+}
+
+.cart-item-media:hover .cart-item-zoom,
+.cart-item-media:focus-visible .cart-item-zoom {
+  opacity: 1;
+  transform: none;
+}
+
+.cart-item-media:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* en pantallas táctiles la lupa se ve siempre como pista */
+@media (hover: none) {
+  .cart-item-zoom {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   CARRITO DE COMPRAS: REDISEÑO "BOLSA DE BOUTIQUE" (solo estilos)
+   No altera la lógica: los textos, cálculos y botones los sigue generando
+   app.js; aquí solo se viste lo que ya existe.
+   ========================================================================== */
+
+/* ---------- Fondo y panel ---------- */
+.cart-drawer-overlay {
+  background: rgba(43, 24, 17, 0.42);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.cart-drawer-overlay .cart-drawer {
+  max-width: 460px;
+  background: var(--cream);
+  border-radius: 24px 0 0 24px;
+  box-shadow: -30px 0 60px -30px rgba(43, 24, 17, 0.55);
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Encabezado con pespunte ---------- */
+.cart-drawer .cart-header {
+  position: relative;
+  padding: 26px 24px 22px 28px;
+  border-bottom: 0;
+}
+
+.cart-drawer .cart-header::after {
+  content: "";
+  position: absolute;
+  left: 28px;
+  right: 24px;
+  bottom: 0;
+  border-bottom: 1.4px dashed rgba(198, 139, 89, 0.7);
+}
+
+.cart-drawer .cart-header h3 {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--chocolate);
+}
+
+.cart-drawer #closeCartBtn {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0 !important;
+  border: 1px solid var(--border-medium);
+  border-radius: 50%;
+  font-size: 22px !important;
+  line-height: 1;
+  color: var(--chocolate);
+  background: transparent;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.35s ease;
+}
+
+.cart-drawer #closeCartBtn:hover {
+  background: var(--chocolate);
+  border-color: var(--chocolate);
+  color: var(--cream);
+  transform: rotate(90deg);
+}
+
+.cart-drawer #closeCartBtn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Lista ---------- */
+.cart-drawer .cart-items {
+  padding: 20px 24px 8px 28px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(198, 139, 89, 0.5) transparent;
+}
+
+/* ---------- Aviso de precio por mayor ---------- */
+.cart-drawer .cart-wholesale-banner {
+  position: relative;
+  gap: 14px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  border-radius: 18px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.cart-drawer .cart-wholesale-banner strong {
+  font-weight: 700;
+}
+
+.cart-drawer .cart-wholesale-banner > div > strong:first-child {
+  display: block;
+  margin-bottom: 2px;
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.cart-drawer .cart-wholesale-banner p {
+  margin: 0;
+}
+
+/* insignia circular en lugar del emoji */
+.cart-drawer .cart-wholesale-banner .badge-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Antes de alcanzar 6 prendas: tarjeta crema con el hilo que se va cosiendo */
+.cart-drawer .cart-wholesale-banner.locked {
+  background: #fff;
+  border: 1px solid rgba(198, 139, 89, 0.45);
+  color: var(--chocolate);
+  box-shadow: 0 14px 30px -26px rgba(59, 34, 25, 0.6);
+}
+
+.cart-drawer .cart-wholesale-banner.locked .badge-icon {
+  background: rgba(198, 139, 89, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(198, 139, 89, 0.4);
+}
+
+.cart-drawer .wholesale-bar {
+  position: relative;
+  height: 8px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: transparent;
+  overflow: hidden;
+}
+
+/* pespunte de fondo: lo que falta por coser */
+.cart-drawer .wholesale-bar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1.6px dashed rgba(59, 34, 25, 0.28);
+  transform: translateY(-50%);
+}
+
+/* hilo caramelo: lo ya cosido */
+.cart-drawer .wholesale-fill {
+  position: relative;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--caramel), var(--gold));
+  box-shadow: 0 0 0 3px #fff;
+  transition: width 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Precio por mayor activado: tarjeta café con detalles dorados */
+.cart-drawer .cart-wholesale-banner.unlocked {
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(255, 220, 190, 0.12) 0%, rgba(255, 220, 190, 0) 60%),
+    var(--chocolate);
+  border: 0;
+  color: rgba(253, 251, 247, 0.85);
+  box-shadow: 0 18px 34px -24px rgba(43, 24, 17, 0.8);
+}
+
+.cart-drawer .cart-wholesale-banner.unlocked::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1.2px dashed rgba(198, 139, 89, 0.6);
+  border-radius: 13px;
+  pointer-events: none;
+}
+
+.cart-drawer .cart-wholesale-banner.unlocked > div > strong:first-child {
+  color: var(--cream);
+}
+
+.cart-drawer .cart-wholesale-banner.unlocked p strong {
+  color: #e2b48a;
+}
+
+.cart-drawer .cart-wholesale-banner.unlocked .badge-icon {
+  background: rgba(253, 251, 247, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(226, 180, 138, 0.5);
+}
+
+/* ---------- Producto ---------- */
+.cart-drawer .cart-item {
+  align-items: flex-start; /* el marco de la foto no se estira con la fila */
+  gap: 16px;
+  padding: 0 0 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.cart-drawer .cart-item:last-child {
+  border-bottom: 0;
+  margin-bottom: 4px;
+}
+
+/* foto completa (sin recortes): proporción 2:3 de las fotos del catálogo */
+.cart-drawer .cart-item-img {
+  width: 84px;
+  height: 126px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 14px;
+  background: #efe7dc;
+}
+
+.cart-drawer .cart-item-media {
+  border-radius: 14px;
+  box-shadow: 0 12px 22px -18px rgba(59, 34, 25, 0.7);
+}
+
+.cart-drawer .cart-item-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cart-drawer .cart-item-info h4 {
+  margin: 2px 0 6px;
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.2;
+  color: var(--chocolate);
+}
+
+/* talla como etiqueta */
+.cart-drawer .cart-item-info > p {
+  align-self: flex-start;
+  margin: 0 0 10px;
+  padding: 3px 10px;
+  border: 1px solid var(--border-medium);
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  opacity: 1;
+  color: rgba(59, 34, 25, 0.75);
+}
+
+.cart-drawer .cart-item-info > p strong {
+  color: var(--chocolate);
+}
+
+/* precio */
+.cart-drawer .cart-item-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--chocolate);
+}
+
+.cart-drawer .cart-item-price span {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  margin-right: 0 !important;
+}
+
+.cart-drawer .cart-item-price span[style*="line-through"] {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  opacity: 0.45 !important;
+}
+
+.cart-drawer .cart-item-price small {
+  flex-basis: 100%;
+  margin-top: 2px;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em;
+}
+
+/* cantidad en píldora + eliminar discreto */
+.cart-drawer .cart-qty-row {
+  gap: 0;
+  margin-top: 12px;
+}
+
+.cart-drawer .qty-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-medium);
+  border-radius: 0;
+  background: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--chocolate);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.cart-drawer .qty-btn:first-child {
+  border-radius: 999px 0 0 999px;
+  border-right: 0;
+}
+
+.cart-drawer .cart-qty-row > span {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  height: 32px;
+  border-top: 1px solid var(--border-medium);
+  border-bottom: 1px solid var(--border-medium);
+  background: #fff;
+  font-size: 13px !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-drawer .cart-qty-row > span + .qty-btn {
+  border-left: 0;
+  border-radius: 0 999px 999px 0;
+}
+
+.cart-drawer .qty-btn:hover {
+  background: var(--chocolate);
+  color: var(--cream);
+}
+
+.cart-drawer .qty-btn:focus-visible,
+.cart-drawer .remove-item-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.cart-drawer .remove-item-btn {
+  margin-left: auto;
+  padding: 6px 2px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(59, 34, 25, 0.55);
+  text-decoration: underline;
+  text-decoration-color: rgba(59, 34, 25, 0.25);
+  text-underline-offset: 4px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.cart-drawer .remove-item-btn:hover {
+  color: #a32d22;
+  text-decoration-color: #a32d22;
+}
+
+/* ---------- Carrito vacío ---------- */
+.cart-drawer .empty-cart-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 20px;
+}
+
+.cart-drawer .empty-cart-message::before {
+  content: "";
+  width: 86px;
+  height: 86px;
+  margin-bottom: 18px;
+  border: 1.4px dashed rgba(198, 139, 89, 0.7);
+  border-radius: 50%;
+  background: rgba(198, 139, 89, 0.08) center / 34px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233B2219' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 7h12l1 13H5L6 7z'/%3E%3Cpath d='M9 7V6a3 3 0 0 1 6 0v1'/%3E%3C/svg%3E");
+}
+
+.cart-drawer .empty-cart-message p {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-size: 20px !important;
+  opacity: 1 !important;
+  color: var(--chocolate);
+}
+
+.cart-drawer .empty-cart-message .button {
+  border-radius: 999px;
+  padding: 13px 26px !important;
+}
+
+/* ---------- Resumen tipo recibo ---------- */
+.cart-drawer .cart-footer {
+  position: relative;
+  padding: 20px 24px 24px 28px;
+  background: #fff;
+  border-top: 0;
+  box-shadow: 0 -18px 30px -26px rgba(59, 34, 25, 0.45);
+}
+
+.cart-drawer .cart-footer::before {
+  content: "";
+  position: absolute;
+  left: 28px;
+  right: 24px;
+  top: 0;
+  border-top: 1.4px dashed rgba(198, 139, 89, 0.7);
+}
+
+.cart-drawer .cart-subtotal {
+  align-items: baseline;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(59, 34, 25, 0.75);
+}
+
+.cart-drawer #cartSubtotal {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  font-size: 28px;
+  letter-spacing: -0.01em;
+  color: var(--chocolate);
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-drawer .cart-savings-row {
+  margin-bottom: 12px;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(47, 125, 79, 0.08);
+  font-size: 12px;
+  color: rgba(59, 34, 25, 0.8);
+}
+
+.cart-drawer .cart-savings-row strong {
+  color: #2f7d4f !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-drawer .cart-footer > p {
+  margin-bottom: 16px;
+  font-size: 11px;
+  line-height: 1.55;
+  opacity: 1;
+  color: rgba(59, 34, 25, 0.62);
+}
+
+.cart-drawer .btn-whatsapp-checkout {
+  min-height: 54px;
+  padding: 15px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  box-shadow: 0 16px 28px -16px rgba(37, 211, 102, 0.85);
+  transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cart-drawer .btn-whatsapp-checkout:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 20px 32px -16px rgba(37, 211, 102, 0.95);
+}
+
+.cart-drawer .btn-whatsapp-checkout:focus-visible {
+  outline: 2px solid var(--chocolate);
+  outline-offset: 3px;
+}
+
+/* ---------- Celular: panel a pantalla completa ---------- */
+@media (max-width: 768px) {
+  .cart-drawer-overlay .cart-drawer {
+    max-width: 100%;
+    border-radius: 0;
+  }
+
+  .cart-drawer .cart-header {
+    padding: 20px 16px 16px 20px;
+  }
+
+  .cart-drawer .cart-header::after {
+    left: 20px;
+    right: 16px;
+  }
+
+  .cart-drawer .cart-header h3 {
+    font-size: 26px;
+  }
+
+  .cart-drawer .cart-items {
+    padding: 16px 16px 4px 20px;
+  }
+
+  .cart-drawer .cart-item-img {
+    width: 76px;
+    height: 114px;
+  }
+
+  .cart-drawer .cart-item-info h4 {
+    font-size: 15.5px;
+  }
+
+  .cart-drawer .cart-footer {
+    padding: 16px 16px calc(18px + env(safe-area-inset-bottom)) 20px;
+  }
+
+  .cart-drawer .cart-footer::before {
+    left: 20px;
+    right: 16px;
+  }
+
+  .cart-drawer #cartSubtotal {
+    font-size: 25px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-drawer-overlay .cart-drawer,
+  .cart-drawer .wholesale-fill,
+  .cart-drawer #closeCartBtn,
+  .cart-drawer .btn-whatsapp-checkout {
+    transition: none !important;
+  }
+}
