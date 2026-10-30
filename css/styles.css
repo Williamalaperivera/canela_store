@@ -6820,3 +6820,60 @@ html:has(.size-guide-overlay.open) body {
     transition: none;
   }
 }
+
+/* ==========================================================================
+   BOTÓN DEL CARRITO: ícono de carrito con insignia flotante
+   La insignia (#cartCounter) se monta sobre la esquina superior derecha
+   del carrito; el número lo sigue actualizando updateCartUI().
+   ========================================================================== */
+.cart-button {
+  gap: 0;
+  padding: 9px 11px;
+  color: var(--chocolate);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.cart-button .cart-icon {
+  display: block;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cart-button:hover .cart-icon {
+  transform: translateX(1px) rotate(-4deg);
+}
+
+.cart-button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.cart-counter {
+  position: absolute;
+  top: -6px;
+  right: -7px;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 5px;
+  font-size: 10.5px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 2px var(--cream);
+  pointer-events: none;
+}
+
+@media (max-width: 480px) {
+  .cart-button {
+    padding: 8px 10px;
+  }
+
+  .cart-button .cart-icon {
+    width: 21px;
+    height: 21px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-button .cart-icon {
+    transition: none;
+  }
+}
