@@ -273,6 +273,96 @@ function switchProductModalView(productId, view) {
 }
 
 // Cambiar filtro de silueta (Dama o Caballero)
+/**
+ * Desplazamiento suave hacia la vitrina de la colección elegida (Dama o Caballero).
+ * Deja las siluetas justo debajo del encabezado fijo, en computador y en celular.
+ */
+function scrollToCategoryProducts() {
+  const target = document.getElementById('silhouetteToolbar') || document.getElementById('productGrid');
+  if (!target) return;
+
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Se espera a que la vitrina termine de pintarse para medir su posición real
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const header = document.querySelector('.header');
+      const headerHeight = header ? header.getBoundingClientRect().height : 0;
+      const breathing = window.innerWidth <= 768 ? 12 : 20;
+      const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - breathing;
+      if (Math.abs(top - window.scrollY) < 4) return;
+      window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? 'instant' : 'smooth' });
+    });
+  });
+}
+
+/**
+ * Espera a que termine la animación de selección del círculo (el pespunte dorado
+ * que se dibuja alrededor de la foto) y solo entonces baja a la vitrina.
+ * Usa transitionend y, como respaldo, un temporizador con la duración real del CSS.
+ */
+let pendingCategoryScroll = null;
+
+function scrollAfterSelection(circle, wasActive) {
+  // Un clic nuevo cancela el desplazamiento que estuviera pendiente
+  if (pendingCategoryScroll) pendingCategoryScroll.cancel();
+
+  const reveal = circle ? circle.querySelector('.stitch-reveal') : null;
+  if (!reveal) {
+    scrollToCategoryProducts();
+    return;
+  }
+
+  // Si el círculo ya estaba elegido, se vuelve a dibujar el pespunte para que la secuencia sea siempre la misma
+  if (wasActive) {
+    reveal.style.transition = 'none';
+    reveal.style.strokeDashoffset = '100';
+    void reveal.getBoundingClientRect();
+    reveal.style.transition = '';
+    reveal.style.strokeDashoffset = '';
+  }
+
+  const toMs = value => {
+    const first = String(value || '0s').split(',')[0].trim();
+    return first.endsWith('ms') ? parseFloat(first) : parseFloat(first) * 1000;
+  };
+  const style = getComputedStyle(reveal);
+  const waitMs = (toMs(style.transitionDuration) || 0) + (toMs(style.transitionDelay) || 0);
+
+  // Sin animación (p. ej. "reducir movimiento" activado): se baja de inmediato
+  if (waitMs <= 0) {
+    scrollToCategoryProducts();
+    return;
+  }
+
+  let done = false;
+  let timer = null;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    cleanup();
+    pendingCategoryScroll = null;
+    scrollToCategoryProducts();
+  };
+  const onEnd = evt => {
+    if (evt.target === reveal && evt.propertyName === 'stroke-dashoffset') finish();
+  };
+  const cleanup = () => {
+    reveal.removeEventListener('transitionend', onEnd);
+    clearTimeout(timer);
+  };
+
+  reveal.addEventListener('transitionend', onEnd);
+  timer = setTimeout(finish, waitMs + 60);
+  pendingCategoryScroll = {
+    cancel() {
+      done = true;
+      cleanup();
+      pendingCategoryScroll = null;
+    }
+  };
+}
+
 function filterBySilhouette(silhouette, category) {
   const targetCategory = category
     || (SILHOUETTES_BY_CATEGORY[AppState.currentCategory] ? AppState.currentCategory : 'Dama');
@@ -1234,6 +1324,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.category-option').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const category = e.currentTarget.getAttribute('data-category');
+      const wasActive = e.currentTarget.classList.contains('active');
       AppState.currentCategory = category;
       syncCategoryOptions(category);
 
@@ -1242,6 +1333,9 @@ document.addEventListener('DOMContentLoaded', () => {
         AppState.currentSilhouette = AppState.silhouetteByCategory[category];
       }
       renderProducts();
+
+      // Clic -> animación de selección completa -> desplazamiento suave a sus jeans
+      scrollAfterSelection(e.currentTarget, wasActive);
     });
   });
 
