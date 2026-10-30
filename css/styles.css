@@ -7290,3 +7290,72 @@ html:has(.privacy-overlay.open) body {
     scroll-behavior: auto;
   }
 }
+
+/* ==========================================================================
+   TARJETAS DE PRODUCTO: superficie, sombra suave y relieve al pasar el cursor
+   La tarjeta gana una superficie apenas más clara que el fondo crema, una
+   sombra café muy difuminada y, con mouse, se eleva levemente (0.3 s).
+   ========================================================================== */
+.product-card {
+  --card-shadow: 0 1px 2px rgba(59, 34, 25, 0.04), 0 10px 26px -16px rgba(59, 34, 25, 0.2);
+  --card-shadow-hover: 0 2px 4px rgba(59, 34, 25, 0.05), 0 22px 40px -20px rgba(59, 34, 25, 0.34);
+  padding: 10px 10px 14px;
+  border: 1px solid rgba(59, 34, 25, 0.05);
+  border-radius: 14px;
+  background: #fffefc;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.product-card .product-image-container {
+  border-radius: 9px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(198, 139, 89, 0.18);
+    box-shadow: var(--card-shadow-hover);
+  }
+}
+
+/* Al navegar con teclado, la tarjeta enfocada también se destaca */
+.product-card:focus-within {
+  border-color: rgba(198, 139, 89, 0.22);
+  box-shadow: var(--card-shadow-hover);
+}
+
+@media (max-width: 768px) {
+  .product-card {
+    --card-shadow: 0 1px 2px rgba(59, 34, 25, 0.04), 0 8px 18px -12px rgba(59, 34, 25, 0.2);
+    padding: 7px 7px 10px;
+    border-radius: 12px;
+  }
+
+  .product-card .product-image-container {
+    border-radius: 8px;
+  }
+
+  /* En pantallas táctiles, un leve hundimiento al tocar confirma el gesto */
+  .product-card:active {
+    transform: scale(0.992);
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid,
+  .silhouette-subgrid {
+    row-gap: 14px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .product-card:hover,
+  .product-card:active {
+    transform: none;
+  }
+}
