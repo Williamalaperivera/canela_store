@@ -60,7 +60,7 @@ Las secciones aparecen con una animación suave al llegar a ellas con el scroll.
    - La foto del círculo se activa y un pespunte dorado se dibuja a su alrededor; el otro círculo se atenúa.
    - Debajo se despliegan las **píldoras de silueta** (por ejemplo *Baggy Rígido*, *Palazzo Licrado*, *Skinny Licrado*), con el número de referencias de cada una. La primera siempre es **Ver todas las referencias**.
    - **Cuando termina la animación del pespunte**, la página baja sola, con desplazamiento suave, hasta las siluetas y los productos. Si el dispositivo tiene activado "reducir movimiento", el salto es directo.
-2. **Filtrar por silueta.** Cada píldora muestra un banner de la silueta y sus productos. En caballero, el banner incluye el botón **Guía de tallas**.
+2. **Filtrar por silueta.** Cada píldora muestra un banner de la silueta y sus productos. El banner incluye el botón **Guía de tallas**.
 3. **Tarjetas de producto.** Cada tarjeta tiene:
    - Botones **Frontal / Ambos lados** debajo de la foto para cambiar de vista.
    - Zoom al pasar el cursor (computador).
@@ -78,7 +78,7 @@ Muestra cada dato una sola vez, en este orden: colección, nombre de la prenda, 
 
 ### Guía de tallas
 
-Se abre en un visor propio desde el banner de la silueta o desde el modal del producto. Se cierra con la **×**, tocando fuera o con `Esc`. Hoy existen guías para las tres siluetas de caballero.
+Se abre en un visor propio desde el banner de la silueta o desde el modal del producto. Se cierra con la **×**, tocando fuera o con `Esc`. Hay guía para todas las siluetas: las cinco de dama (Palazzo Licrado, Baggy Rígido, Baggy Carpintero, Ochentero y 4 Botones) y las tres de caballero (Skinny Licrado, Baggy Rígido y Bermuda Rígida). Los archivos están en `images/guia_tallas/` con el formato `guia-tallas-<silueta>-<dama|hombre>.jpeg`.
 
 ---
 
@@ -177,7 +177,7 @@ Las siluetas están en `DAMA_SILHOUETTES` y `CABALLERO_SILHOUETTES` (en `js/prod
 }
 ```
 
-El orden del arreglo es el orden de las píldoras. Si una silueta tiene `sizeGuide`, aparece el botón **Guía de tallas** en su banner y en el modal de sus productos. Para agregar guías de dama, guarda la imagen en `images/guia_tallas/` y añade `sizeGuide` a la silueta correspondiente.
+El orden del arreglo es el orden de las píldoras. Si una silueta tiene `sizeGuide`, aparece el botón **Guía de tallas** en su banner y en el modal de sus productos.
 
 ---
 

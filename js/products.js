@@ -42,7 +42,8 @@ const DAMA_SILHOUETTES = [
     tag: "DESTACADOS TENDENCIA",
     bannerTag: "DESTACADOS · SILUETA TENDENCIA",
     desc: "Denim 100% rígido con estructura clásica, horma noventera y tiro alto relajado.",
-    bannerDesc: "Denim 100% rígido estructurado con actitud noventera y tiro alto relajado."
+    bannerDesc: "Denim 100% rígido estructurado con actitud noventera y tiro alto relajado.",
+    sizeGuide: "images/guia_tallas/guia-tallas-baggy-rigido-dama.jpeg"
   },
   {
     key: "palazzo",
@@ -50,7 +51,8 @@ const DAMA_SILHOUETTES = [
     short: "Palazzo",
     tag: "SILUETA EXCLUSIVA",
     desc: "Tiro alto anatómico, pierna ancha y denim licrado de máxima comodidad.",
-    bannerDesc: "Silueta de pierna amplia en denim licrado con pretina alta y caída fluida."
+    bannerDesc: "Silueta de pierna amplia en denim licrado con pretina alta y caída fluida.",
+    sizeGuide: "images/guia_tallas/guia-tallas-palazzo-licrado-dama.jpeg"
   },
   {
     key: "carpintero",
@@ -58,21 +60,24 @@ const DAMA_SILHOUETTES = [
     pill: "Baggy Carpintero",
     short: "Carpintero",
     tag: "NUEVA COLECCIÓN",
-    desc: "Baggy en denim rígido con correa de carpintero y tiro alto relajado."
+    desc: "Baggy en denim rígido con correa de carpintero y tiro alto relajado.",
+    sizeGuide: "images/guia_tallas/guia-tallas-baggy-carpintero-dama.jpeg"
   },
   {
     key: "ochentero",
     name: "Ochentero Clásico",
     short: "Ochentero",
     tag: "NUEVA COLECCIÓN",
-    desc: "Silueta ajustada de tiro alto con estilo ochentero que realza tu figura."
+    desc: "Silueta ajustada de tiro alto con estilo ochentero que realza tu figura.",
+    sizeGuide: "images/guia_tallas/guia-tallas-ochentero-dama.jpeg"
   },
   {
     key: "botones",
     name: "Clásico 4 Botones",
     short: "4 Botones",
     tag: "NUEVA COLECCIÓN",
-    desc: "Tiro alto con pretina de 4 botones y ajuste ceñido que estiliza la cintura."
+    desc: "Tiro alto con pretina de 4 botones y ajuste ceñido que estiliza la cintura.",
+    sizeGuide: "images/guia_tallas/guia-tallas-4-botones-dama.jpeg"
   }
 ];
 
