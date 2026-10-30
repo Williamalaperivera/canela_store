@@ -6523,3 +6523,245 @@ html:has(.size-guide-overlay.open) body {
     scroll-behavior: auto;
   }
 }
+
+/* ==========================================================================
+   MODAL DE PRODUCTO: UNA SOLA FICHA, SIN DATOS REPETIDOS
+   Colección > nombre > precio con referencia > nota por mayor > descripción
+   > talla > cantidad y botón > garantías. En celular, la foto se acota y
+   los rellenos se compactan para ver la ficha completa casi sin scroll.
+   ========================================================================== */
+.modal-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.modal-details .modal-collection {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.modal-details .modal-title {
+  margin: 0 40px 12px 0;
+  font-size: clamp(28px, 3vw, 34px);
+  line-height: 1.08;
+}
+
+.modal-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.modal-details .modal-price {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--chocolate);
+}
+
+.modal-ref {
+  flex-shrink: 0;
+  padding: 4px 11px;
+  border: 1px solid rgba(170, 124, 17, 0.35);
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.modal-wholesale {
+  margin: 0 0 16px;
+  padding: 8px 12px;
+  border-left: 2px solid var(--caramel);
+  background: rgba(198, 139, 89, 0.09);
+  border-radius: 0 6px 6px 0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #7a5a1c;
+}
+
+.modal-details .modal-description {
+  margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.modal-size-group {
+  margin-bottom: 12px;
+}
+
+.modal-size-group .size-label-row {
+  margin-bottom: 6px;
+}
+
+.modal-size-group label {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.modal-size-group select {
+  height: 46px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.modal-buy-row {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.modal-buy-row .quantity-input {
+  width: 60px;
+  height: 46px;
+  flex-shrink: 0;
+}
+
+.modal-buy-row .button {
+  flex: 1;
+}
+
+.modal-assurances {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11.5px;
+  color: rgba(59, 34, 25, 0.68);
+}
+
+.modal-assurances li {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modal-assurances li::before {
+  content: "";
+  width: 9px;
+  height: 5px;
+  border-left: 1.5px solid var(--caramel);
+  border-bottom: 1.5px solid var(--caramel);
+  transform: rotate(-45deg) translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 10px;
+  }
+
+  .modal-content {
+    gap: 14px;
+    padding: 14px 14px 16px;
+    max-height: calc(100dvh - 20px);
+    overscroll-behavior: contain;
+  }
+
+  .modal-close-btn {
+    top: 10px;
+    right: 10px;
+    background: rgba(253, 251, 247, 0.92);
+    box-shadow: 0 2px 8px rgba(59, 34, 25, 0.14);
+  }
+
+  .modal-media-col {
+    gap: 10px;
+  }
+
+  /* La foto completa, pero acotada para dejar ver la ficha */
+  .modal-img-container {
+    aspect-ratio: auto;
+    height: min(40dvh, 360px);
+  }
+
+  .modal-img {
+    aspect-ratio: auto;
+  }
+
+  .modal-view-btn {
+    padding: 7px 14px;
+    font-size: 11.5px;
+  }
+
+  .modal-details .modal-collection {
+    margin-bottom: 4px;
+    font-size: 10.5px;
+  }
+
+  .modal-details .modal-title {
+    margin: 0 0 8px;
+    font-size: 25px;
+  }
+
+  .modal-price-row {
+    margin-bottom: 8px;
+  }
+
+  .modal-details .modal-price {
+    font-size: 19px;
+  }
+
+  .modal-wholesale {
+    margin-bottom: 10px;
+    padding: 7px 10px;
+    font-size: 11.5px;
+  }
+
+  .modal-details .modal-description {
+    margin-bottom: 12px;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  .modal-size-group {
+    margin-bottom: 10px;
+  }
+
+  .modal-size-group select,
+  .modal-buy-row .quantity-input {
+    height: 44px;
+  }
+
+  .modal-buy-row .button {
+    min-height: 44px;
+    padding-block: 0;
+  }
+
+  .modal-assurances {
+    gap: 3px 12px;
+    margin-top: 12px;
+    font-size: 11px;
+  }
+}
+
+/* Celulares de pantalla corta: la foto cede un poco más de alto */
+@media (max-width: 768px) and (max-height: 760px) {
+  .modal-img-container {
+    height: 33dvh;
+  }
+
+  .modal-details .modal-title {
+    font-size: 23px;
+  }
+
+  .modal-details .modal-description {
+    margin-bottom: 10px;
+  }
+
+  .modal-assurances {
+    margin-top: 10px;
+  }
+}

@@ -989,7 +989,10 @@ function openProductModal(productId) {
     </div>
   ` : '';
 
-  const eyebrowLabel = `EDICIÓN ${isDama ? 'DAMA' : 'CABALLERO'} · ${product.refCode ? 'REF. ' + product.refCode : (isDama ? 'ZIROX LUXURY' : 'GLASS JEANS')}${product.silhouetteName ? ' · ' + product.silhouetteName.toUpperCase() : ''}`;
+  // Cada dato aparece una sola vez: colección arriba, nombre de la prenda, referencia junto al precio
+  const collectionLabel = `Colección ${isDama ? 'Dama' : 'Caballero'}`;
+  const refCode = product.refCode || ((product.title.match(/Ref\.?\s*([A-Za-z0-9]+)/i) || [])[1] || '');
+  const displayTitle = product.title.replace(/\s*[-–—]\s*Ref\.?\s*[A-Za-z0-9]+\s*$/i, '');
 
   content.innerHTML = `
     <button class="modal-close-btn" onclick="closeProductModal()" aria-label="Cerrar">&times;</button>
@@ -1004,39 +1007,40 @@ function openProductModal(productId) {
       ${modalSwitcherHtml}
     </div>
     <div class="modal-details">
-      <p class="eyebrow" style="color: var(--gold); margin-bottom: 8px;">${eyebrowLabel}</p>
-      <h2>${product.title}</h2>
-      <span class="modal-price">
-        ${product.priceFormatted}
-        <small style="display: block; font-size: 12px; color: var(--gold); font-weight: 700; margin-top: 5px;">
-          🏷️ Lleva 6 o más prendas a solo $60.000 COP c/u (puedes mezclar hombre y mujer)
-        </small>
-      </span>
+      <p class="modal-collection">${collectionLabel}</p>
+      <h2 class="modal-title">${displayTitle}</h2>
+
+      <div class="modal-price-row">
+        <span class="modal-price">${product.priceFormatted}</span>
+        ${refCode ? `<span class="modal-ref">Ref. ${refCode}</span>` : ''}
+      </div>
+      <p class="modal-wholesale">Lleva 6 o más prendas a $60.000 COP c/u, combinando dama y caballero.</p>
+
       <p class="modal-description">${product.description}</p>
-      
-      <div class="size-select-group" style="margin-bottom: 16px;">
+
+      <div class="size-select-group modal-size-group">
         <div class="size-label-row">
-          <label for="modal-size">Elige tu talla:</label>
+          <label for="modal-size">Elige tu talla</label>
           ${getSizeGuide(product.category, product.silhouette) ? `<button type="button" class="size-guide-link" onclick="openSizeGuide('${product.category}', '${product.silhouette}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="10" rx="1.5"></rect><line x1="6" y1="7" x2="6" y2="11"></line><line x1="10" y1="7" x2="10" y2="12"></line><line x1="14" y1="7" x2="14" y2="11"></line><line x1="18" y1="7" x2="18" y2="12"></line></svg><span>Ver guía de tallas</span></button>` : ''}
         </div>
-        <select id="modal-size" style="padding: 10px;">
+        <select id="modal-size">
           <option value="">Selecciona tu talla</option>
           ${sizeOptionsHtml}
         </select>
       </div>
 
-      <div class="buy-row" style="margin-top: 15px;">
-        <input type="number" id="modal-qty" class="quantity-input" min="1" max="99" value="1" style="width: 60px; height: 46px;">
-        <button class="button" style="flex: 1;" onclick="handleAddFromModal('${product.id}')">
+      <div class="buy-row modal-buy-row">
+        <input type="number" id="modal-qty" class="quantity-input" min="1" max="99" value="1" aria-label="Cantidad">
+        <button class="button" onclick="handleAddFromModal('${product.id}')">
           Añadir al carrito
         </button>
       </div>
 
-      <p style="font-size: 11px; margin-top: 20px; opacity: 0.7;">
-        ✓ Envíos a toda Colombia<br>
-        ✓ Pago contra entrega exclusivo para Bogotá<br>
-        ✓ Asesoría personalizada por WhatsApp
-      </p>
+      <ul class="modal-assurances">
+        <li>Envíos a toda Colombia</li>
+        <li>Pago contra entrega en Bogotá</li>
+        <li>Asesoría por WhatsApp</li>
+      </ul>
     </div>
   `;
 
