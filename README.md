@@ -210,6 +210,7 @@ Todo el diseño es responsive (computador, tablet y celular), respeta la opción
 
 ## Notas de mantenimiento
 
-- Las fotos sueltas en la raíz de `images/` (`hero1.jpg`, `4_botones.jpeg`, `palazo_licra_*`, `bagui_*`) y las de la raíz de `images/jeans_hombre/` ya no se usan; se pueden borrar cuando quieras.
+- Las fotos de producto van siempre dentro de su carpeta de silueta y referencia; no dejes fotos sueltas en la raíz de `images/` ni de `images/jeans_dama/` o `images/jeans_hombre/`.
+- `images/logo canela store.jpeg` no se usa en la página; se conserva como archivo de marca.
 - `heroImages` en `STORE_CONFIG` es solo una referencia; los banners que se muestran son los de `index.html`.
 - Si editas `index.html` o `styles.css` con el archivo abierto desde antes, recárgalo en el editor antes de guardar para no sobrescribir cambios recientes.
