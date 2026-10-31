@@ -1334,6 +1334,36 @@ function closeSizeGuide() {
   return true;
 }
 
+/**
+ * Lleva al cliente al inicio del Catálogo Exclusivo Premium (#catalogo),
+ * dejando el título justo debajo del encabezado fijo, en computador y celular.
+ */
+function scrollToCatalogSection() {
+  const catalog = document.getElementById('catalogo');
+  if (!catalog) return;
+  const header = document.querySelector('.header');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const top = catalog.getBoundingClientRect().top + window.scrollY - headerHeight;
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? 'instant' : 'smooth' });
+}
+
+/**
+ * "Explorar colección" del carrito vacío: el botón ya cierra el panel
+ * (closeCart); aquí solo se agrega el desplazamiento al catálogo, sin tocar
+ * la función que dibuja el carrito.
+ */
+function initCartExploreLink() {
+  const items = document.getElementById('cartItems');
+  if (!items) return;
+  items.addEventListener('click', (e) => {
+    if (!e.target.closest('.empty-cart-message .button')) return;
+    closeCart();
+    // Se espera a que se libere el bloqueo de scroll de la página antes de desplazar
+    requestAnimationFrame(() => requestAnimationFrame(scrollToCatalogSection));
+  });
+}
+
 /* ====================================================================
    POLÍTICAS DE PRIVACIDAD (ventana emergente desde el footer)
    ==================================================================== */
@@ -1500,6 +1530,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Políticas de privacidad desde el footer
   initPrivacyPolicy();
+
+  // "Explorar colección" del carrito vacío: cierra el panel y baja al catálogo
+  initCartExploreLink();
 
   // Enlace para volver al catálogo con desplazamiento suave
   const backToCatalogBtn = document.getElementById('backToCatalogBtn');
