@@ -208,6 +208,18 @@ Todo el diseño es responsive (computador, tablet y celular), respeta la opción
 
 ---
 
+## SEO y vista previa al compartir
+
+La tienda está preparada para **https://mascanelastore.com.co/**.
+
+- **`index.html` → `<head>`:** título, descripción, palabras clave, `robots` (index, follow), URL canónica, etiquetas Open Graph y de X (Twitter), y datos estructurados de la tienda (`ClothingStore`).
+- **Miniatura al compartir:** `images/og/mas-canela-store-og.jpg` (1200 × 630 px). Es la foto que aparece al pegar el enlace en WhatsApp, Facebook o Instagram.
+- **Productos para Google:** `js/app.js` (`injectProductStructuredData`) genera automáticamente los datos estructurados de los 42 productos (nombre, referencia, fotos, tallas, precio al detal y por mayor) a partir de `products.js`. Los productos nuevos se incluyen solos.
+- **Texto alternativo de las fotos:** se arma solo con `getProductImageAlt`, por ejemplo "Jean Palazzo Licrado para dama, Ref. Z04 - Más Canela Store".
+- **`robots.txt` y `sitemap.xml`** en la raíz. El sitemap incluye las fotos de todos los productos para Google Imágenes. Si agregas productos, actualiza el sitemap y su fecha `lastmod`.
+
+Si cambia el dominio, reemplaza `https://mascanelastore.com.co/` en `index.html`, `robots.txt`, `sitemap.xml` y en `injectProductStructuredData` (`js/app.js`).
+
 ## Notas de mantenimiento
 
 - Las fotos de producto van siempre dentro de su carpeta de silueta y referencia; no dejes fotos sueltas en la raíz de `images/` ni de `images/jeans_dama/` o `images/jeans_hombre/`.

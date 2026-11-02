@@ -1,0 +1,5 @@
+# Más Canela Store - permite que todos los buscadores lean la tienda
+User-agent: *
+Allow: /
+
+Sitemap: https://mascanelastore.com.co/sitemap.xml

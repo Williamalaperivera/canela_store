@@ -479,7 +479,7 @@ function createProductCardHtml(product) {
     <article class="product-card ${isDama ? 'card-dama' : 'card-caballero'}" id="card-${product.id}">
       <div class="product-image-container" onclick="openProductModal('${product.id}')">
         <img src="${displayImage}" 
-             alt="${product.title}" 
+             alt="${getProductImageAlt(product, activeView)}" 
              loading="lazy" 
              decoding="async">
         <button class="quick-view-btn" title="Vista Rápida" aria-label="Ver detalles de ${product.title}">
@@ -1043,7 +1043,7 @@ function openProductModal(productId) {
     <button class="modal-close-btn" onclick="closeProductModal()" aria-label="Cerrar">&times;</button>
     <div class="modal-media-col">
       <div class="modal-img-container" id="modalImgContainer" title="Pasa el cursor para ver detalles del denim">
-        <img src="${displayImage}" alt="${product.title}" id="modalProductImg" class="modal-img" loading="lazy" decoding="async">
+        <img src="${displayImage}" alt="${getProductImageAlt(product, activeView)}" id="modalProductImg" class="modal-img" loading="lazy" decoding="async">
         <span class="modal-zoom-hint" aria-hidden="true">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
           Zoom
@@ -1364,6 +1364,71 @@ function initCartExploreLink() {
   });
 }
 
+/**
+ * Texto alternativo descriptivo para las fotos de producto (accesibilidad y Google Imágenes).
+ * Ej.: "Jean Palazzo Licrado para dama, Ref. Z04 - Más Canela Store"
+ */
+function getProductImageAlt(product, view) {
+  const name = product.title.replace(/\s*[-–—]\s*Ref\.?\s*[A-Za-z0-9]+\s*$/i, '');
+  const who = product.category === 'Dama' ? 'para dama' : 'para hombre';
+  const ref = product.refCode ? `, Ref. ${product.refCode}` : '';
+  const side = view === 'both' ? ' (vista frontal y trasera)' : '';
+  return `${name} ${who}${ref}${side} - Más Canela Store`;
+}
+
+/**
+ * Datos estructurados de los productos (schema.org) para que Google entienda el
+ * catálogo aunque las tarjetas se muestren solo al elegir Dama o Caballero.
+ */
+function injectProductStructuredData() {
+  if (typeof PRODUCTS_DATA === 'undefined' || !Array.isArray(PRODUCTS_DATA)) return;
+  const base = 'https://mascanelastore.com.co/';
+  const currency = (typeof STORE_CONFIG !== 'undefined' && STORE_CONFIG.currency) || 'COP';
+  const wholesale = (typeof STORE_CONFIG !== 'undefined' && STORE_CONFIG.wholesalePrice) || 60000;
+  const minUnits = (typeof STORE_CONFIG !== 'undefined' && STORE_CONFIG.wholesaleMinUnits) || 6;
+
+  const items = PRODUCTS_DATA.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Product',
+      name: p.title,
+      sku: p.refCode || p.id,
+      description: p.description,
+      image: [p.image, p.images && p.images.both].filter(Boolean).map(src => base + src),
+      brand: { '@type': 'Brand', name: p.category === 'Dama' ? 'Zirox Jeans' : 'Glass Jeans' },
+      category: `Ropa > Jeans > ${p.category === 'Dama' ? 'Dama' : 'Hombre'}`,
+      size: p.sizes,
+      offers: {
+        '@type': 'Offer',
+        url: base + '#catalogo',
+        priceCurrency: currency,
+        price: p.price,
+        availability: 'https://schema.org/InStock',
+        itemCondition: 'https://schema.org/NewCondition',
+        seller: { '@id': base + '#tienda' },
+        priceSpecification: [
+          { '@type': 'UnitPriceSpecification', price: p.price, priceCurrency: currency },
+          { '@type': 'UnitPriceSpecification', price: wholesale, priceCurrency: currency,
+            eligibleQuantity: { '@type': 'QuantitativeValue', minValue: minUnits } }
+        ]
+      }
+    }
+  }));
+
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.id = 'productStructuredData';
+  script.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Catálogo de jeans Más Canela Store',
+    numberOfItems: items.length,
+    itemListElement: items
+  });
+  document.head.appendChild(script);
+}
+
 /* ====================================================================
    POLÍTICAS DE PRIVACIDAD (ventana emergente desde el footer)
    ==================================================================== */
@@ -1533,6 +1598,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // "Explorar colección" del carrito vacío: cierra el panel y baja al catálogo
   initCartExploreLink();
+
+  // SEO: datos estructurados del catálogo para Google
+  injectProductStructuredData();
 
   // Enlace para volver al catálogo con desplazamiento suave
   const backToCatalogBtn = document.getElementById('backToCatalogBtn');
