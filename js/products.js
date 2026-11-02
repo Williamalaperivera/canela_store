@@ -14,7 +14,7 @@ const STORE_CONFIG = {
   name: "Más Canela Store",
   slogan: "Moda para cada versión de ti",
   whatsappNumber: "573026027989", // Número sin '+' ni espacios
-  email: "Mascanelacol@gmail.com",
+  email: "contacto@mascanelastore.com.co",
   currency: "COP",
   retailPrice: 70000,          // Precio regular por unidad
   wholesalePrice: 60000,       // Precio por mayor por unidad
