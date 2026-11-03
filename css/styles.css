@@ -7372,3 +7372,64 @@ html:has(.privacy-overlay.open) body {
   white-space: nowrap !important;
   border: 0 !important;
 }
+
+/* Políticas de la tienda: accesos rápidos y separadores de grupo */
+.footer-legal {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+}
+
+.privacy-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.privacy-tab {
+  padding: 6px 14px;
+  border: 1px solid var(--border-medium);
+  border-radius: 999px;
+  background: transparent;
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--chocolate);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.privacy-tab:hover {
+  background: var(--chocolate);
+  border-color: var(--chocolate);
+  color: var(--cream);
+}
+
+.privacy-tab:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.privacy-body .privacy-group {
+  margin: 8px 0 10px;
+  padding-top: 6px;
+  font-family: 'Libre Caslon Display', Georgia, serif;
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: 0;
+  color: var(--chocolate);
+}
+
+.privacy-body section + .privacy-group {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1.4px dashed rgba(198, 139, 89, 0.7);
+}
+
+@media (max-width: 768px) {
+  .privacy-body .privacy-group {
+    font-size: 18px;
+  }
+}

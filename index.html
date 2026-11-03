@@ -693,8 +693,10 @@
 
     <div class="footer-bottom">
       <div>© <span id="currentYear"></span> Más Canela Store. Todos los derechos reservados.</div>
-      <button type="button" class="footer-legal-link" id="openPrivacyBtn" aria-haspopup="dialog">Políticas de
-        Privacidad</button>
+      <span class="footer-legal">
+        <button type="button" class="footer-legal-link" id="openPrivacyBtn" aria-haspopup="dialog">Políticas de Privacidad</button>
+        <button type="button" class="footer-legal-link" id="openReturnsBtn" aria-haspopup="dialog">Envíos y devoluciones</button>
+      </span>
       <span>Hecho para ser tú.</span>
     </div>
   </footer>
@@ -783,12 +785,18 @@
       <div class="privacy-head">
         <div>
           <p class="privacy-kicker">Más Canela Store</p>
-          <h3 id="privacyTitle">Políticas de Privacidad</h3>
+          <h3 id="privacyTitle">Políticas de la tienda</h3>
         </div>
-        <button type="button" class="privacy-close" aria-label="Cerrar políticas de privacidad">&times;</button>
+        <button type="button" class="privacy-close" aria-label="Cerrar políticas de la tienda">&times;</button>
       </div>
 
       <div class="privacy-body" tabindex="0">
+        <nav class="privacy-tabs" aria-label="Secciones de las políticas">
+          <button type="button" class="privacy-tab" data-target="politica-privacidad">Privacidad</button>
+          <button type="button" class="privacy-tab" data-target="politica-devoluciones">Envíos y devoluciones</button>
+        </nav>
+
+        <h4 class="privacy-group" id="politica-privacidad">Privacidad y datos personales</h4>
         <p class="privacy-intro">En Más Canela Store respetamos tu privacidad. Esta política explica qué datos
           personales recibimos cuando haces un pedido, para qué los usamos y cómo puedes ejercer tus derechos, de
           acuerdo con la Ley 1581 de 2012 y el Decreto 1377 de 2013 (compilado en el Decreto 1074 de 2015).</p>
@@ -863,10 +871,42 @@
           <h4>9. Cambios a esta política</h4>
           <p>Cualquier cambio se publicará en esta misma sección.</p>
         </section>
+        <h4 class="privacy-group" id="politica-devoluciones">Envíos, cambios y devoluciones</h4>
+
+        <section>
+          <h4>10. Envíos</h4>
+          <ul>
+            <li>Enviamos a toda Colombia con transportadoras aliadas.</li>
+            <li>El costo del envío es en promedio de <strong>$30.000 COP</strong> y varía según la ciudad y la cantidad de prendas. Te lo confirmamos por WhatsApp antes de cerrar tu pedido.</li>
+            <li>Tiempo de entrega, contado desde la confirmación del pedido: <strong>Bogotá, de 1 a 3 días</strong>; <strong>resto del país, de 4 a 7 días</strong>.</li>
+            <li>El pago contra entrega está disponible solo en Bogotá.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>11. Cambios y devoluciones</h4>
+          <p>Tienes <strong>5 días desde que recibes tu pedido</strong> para solicitar el cambio o la devolución de una prenda, de acuerdo con el derecho de retracto de la Ley 1480 de 2011 (Estatuto del Consumidor).</p>
+          <ul>
+            <li>La prenda debe estar en el mismo estado en que la recibiste: sin usar, sin lavar y con sus etiquetas.</li>
+            <li>Escríbenos por WhatsApp o por correo dentro del plazo y te indicamos cómo enviarla.</li>
+            <li>La devolución se hace por envío, y el costo del envío de regreso lo asume el cliente.</li>
+            <li>Los cambios de talla o de referencia están sujetos a disponibilidad.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>12. Reembolsos</h4>
+          <p>Si eliges la devolución, te reintegramos el valor pagado por la prenda en un plazo máximo de 30 días calendario desde que la recibimos, como establece la ley.</p>
+        </section>
+
+        <section>
+          <h4>13. Garantía</h4>
+          <p>Si una prenda presenta un defecto de fabricación, aplica la garantía legal. Escríbenos con fotos del defecto y te indicamos el proceso.</p>
+        </section>
       </div>
 
       <div class="privacy-foot">
-        <p>Vigente desde el 30 de octubre de 2026.</p>
+        <p>Última actualización: 3 de noviembre de 2026.</p>
         <button type="button" class="button privacy-accept">Entendido</button>
       </div>
     </div>

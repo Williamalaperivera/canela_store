@@ -1387,6 +1387,30 @@ function injectProductStructuredData() {
   const wholesale = (typeof STORE_CONFIG !== 'undefined' && STORE_CONFIG.wholesalePrice) || 60000;
   const minUnits = (typeof STORE_CONFIG !== 'undefined' && STORE_CONFIG.wholesaleMinUnits) || 6;
 
+  // Política de devoluciones (fichas de comerciantes de Google):
+  // 5 días desde la entrega, devolución por envío y el cliente asume el envío de regreso
+  const returnPolicy = {
+    '@type': 'MerchantReturnPolicy',
+    applicableCountry: 'CO',
+    returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+    merchantReturnDays: 5,
+    returnMethod: 'https://schema.org/ReturnByMail',
+    returnFees: 'https://schema.org/ReturnFeesCustomerResponsibility'
+  };
+
+  // Envíos a toda Colombia: costo promedio de $30.000 COP (varía según ciudad y cantidad);
+  // entrega total de 1 a 7 días (Bogotá 1-3, resto del país 4-7)
+  const shippingDetails = {
+    '@type': 'OfferShippingDetails',
+    shippingRate: { '@type': 'MonetaryAmount', value: 30000, currency: currency },
+    shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'CO' },
+    deliveryTime: {
+      '@type': 'ShippingDeliveryTime',
+      handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
+      transitTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 6, unitCode: 'DAY' }
+    }
+  };
+
   const items = PRODUCTS_DATA.map((p, i) => ({
     '@type': 'ListItem',
     position: i + 1,
@@ -1407,6 +1431,8 @@ function injectProductStructuredData() {
         availability: 'https://schema.org/InStock',
         itemCondition: 'https://schema.org/NewCondition',
         seller: { '@id': base + '#tienda' },
+        hasMerchantReturnPolicy: returnPolicy,
+        shippingDetails: shippingDetails,
         priceSpecification: [
           { '@type': 'UnitPriceSpecification', price: p.price, priceCurrency: currency },
           { '@type': 'UnitPriceSpecification', price: wholesale, priceCurrency: currency,
@@ -1434,12 +1460,20 @@ function injectProductStructuredData() {
    ==================================================================== */
 let privacyReturnFocus = null;
 
-function openPrivacyPolicy() {
+// Desplaza el texto de las políticas hasta una sección (Privacidad o Envíos y devoluciones)
+function scrollPrivacyTo(sectionId, smooth) {
+  const body = document.querySelector('#privacyOverlay .privacy-body');
+  const target = sectionId ? document.getElementById(sectionId) : null;
+  if (!body) return;
+  const top = target ? Math.max(0, target.offsetTop - body.offsetTop - 8) : 0;
+  body.scrollTo({ top, behavior: smooth ? 'smooth' : 'instant' });
+}
+
+function openPrivacyPolicy(sectionId) {
   const overlay = document.getElementById('privacyOverlay');
   if (!overlay) return;
   privacyReturnFocus = document.activeElement;
-  const body = overlay.querySelector('.privacy-body');
-  if (body) body.scrollTop = 0;
+  scrollPrivacyTo(typeof sectionId === 'string' ? sectionId : null, false);
   overlay.classList.add('open');
   overlay.setAttribute('aria-hidden', 'false');
   overlay.querySelector('.privacy-close')?.focus();
@@ -1457,7 +1491,11 @@ function closePrivacyPolicy() {
 function initPrivacyPolicy() {
   const overlay = document.getElementById('privacyOverlay');
   if (!overlay) return;
-  document.getElementById('openPrivacyBtn')?.addEventListener('click', openPrivacyPolicy);
+  document.getElementById('openPrivacyBtn')?.addEventListener('click', () => openPrivacyPolicy('politica-privacidad'));
+  document.getElementById('openReturnsBtn')?.addEventListener('click', () => openPrivacyPolicy('politica-devoluciones'));
+  overlay.querySelectorAll('.privacy-tab').forEach(tab => {
+    tab.addEventListener('click', () => scrollPrivacyTo(tab.dataset.target, true));
+  });
   overlay.querySelector('.privacy-close')?.addEventListener('click', closePrivacyPolicy);
   overlay.querySelector('.privacy-accept')?.addEventListener('click', closePrivacyPolicy);
   // Tocar fuera de la ventana también la cierra
