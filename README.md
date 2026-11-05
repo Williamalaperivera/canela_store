@@ -125,7 +125,8 @@ images/jeans_dama/baggy_rigido_dama/ref-Z08/ref-Z08.jpeg              ← foto f
 images/jeans_dama/baggy_rigido_dama/ref-Z08/ref-Z08-ambas-caras.jpeg  ← vista "ambos lados"
 ```
 
-- **Dama** usa la letra **Z** (Z01 – Z24) y **Caballero** la letra **G** (G01 – G18).
+- **Dama** usa la letra **Z** (Z01 – Z23) y **Caballero** la letra **G** (G01 – G18).
+- Si una referencia tiene dos colores, se diferencian con el color después del código, por ejemplo **Z19 Claro** y **Z19 Oscuro** (fotos `ref-Z19.jpeg` y `ref-Z19-oscuro.jpeg` en la misma carpeta). Así aparece también en el pedido por WhatsApp.
 - Carpetas de silueta actuales:
   - Dama: `palazo_licrado_dama` (en esta, las carpetas se llaman `referencia-ZNN`), `baggy_rigido_dama`, `baggy_carpintero_rigido_dama`, `ochentero_clasico_dama`, `clasico_4_botones_dama`.
   - Caballero: `skinny_licrado_hombre`, `baggy_rigido_hombre`, `bermuda_rigida_hombre`.

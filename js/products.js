@@ -456,8 +456,8 @@ const PRODUCTS_DATA = [
   },
   {
     id: "prod-dama-z19",
-    refCode: "Z19",
-    title: "Jean Baggy Carpintero Rígido - Ref. Z19",
+    refCode: "Z19 Claro",
+    title: "Jean Baggy Carpintero Rígido - Ref. Z19 Claro",
     category: "Dama",
     silhouette: "carpintero",
     silhouetteName: "Baggy Carpintero Rígido",
@@ -473,19 +473,21 @@ const PRODUCTS_DATA = [
     featured: true
   },
   {
+    // Z19 en color oscuro (antes publicada como Z24). El id interno se conserva
+    // para que los carritos ya guardados en el navegador se actualicen solos.
     id: "prod-dama-z24",
-    refCode: "Z24",
-    title: "Jean Baggy Carpintero Rígido - Ref. Z24",
+    refCode: "Z19 Oscuro",
+    title: "Jean Baggy Carpintero Rígido - Ref. Z19 Oscuro",
     category: "Dama",
     silhouette: "carpintero",
     silhouetteName: "Baggy Carpintero Rígido",
     price: 70000,
     priceFormatted: "$70.000 COP",
     description: "Baggy carpintero en denim rígido gris oscuro con lavado degradado. Correa lateral, tiro alto y pierna holgada.",
-    image: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z24/ref-Z24.jpeg",
+    image: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z19/ref-Z19-oscuro.jpeg",
     images: {
-      front: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z24/ref-Z24.jpeg",
-      both: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z24/ref-Z24-ambas-caras.jpeg"
+      front: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z19/ref-Z19-oscuro.jpeg",
+      both: "images/jeans_dama/baggy_carpintero_rigido_dama/ref-Z19/ref-Z19-oscuro-ambas-caras.jpeg"
     },
     sizes: ["6", "8", "10", "12"],
     featured: true

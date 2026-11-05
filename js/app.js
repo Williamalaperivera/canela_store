@@ -1037,7 +1037,7 @@ function openProductModal(productId) {
   // Cada dato aparece una sola vez: colección arriba, nombre de la prenda, referencia junto al precio
   const collectionLabel = `Colección ${isDama ? 'Dama' : 'Caballero'}`;
   const refCode = product.refCode || ((product.title.match(/Ref\.?\s*([A-Za-z0-9]+)/i) || [])[1] || '');
-  const displayTitle = product.title.replace(/\s*[-–—]\s*Ref\.?\s*[A-Za-z0-9]+\s*$/i, '');
+  const displayTitle = product.title.replace(/\s*[-–—]\s*Ref\.?\s*[A-Za-z0-9]+(?:\s+[A-Za-zÁÉÍÓÚáéíóúÑñ]+)?\s*$/i, '');
 
   content.innerHTML = `
     <button class="modal-close-btn" onclick="closeProductModal()" aria-label="Cerrar">&times;</button>
@@ -1369,7 +1369,7 @@ function initCartExploreLink() {
  * Ej.: "Jean Palazzo Licrado para dama, Ref. Z04 - Más Canela Store"
  */
 function getProductImageAlt(product, view) {
-  const name = product.title.replace(/\s*[-–—]\s*Ref\.?\s*[A-Za-z0-9]+\s*$/i, '');
+  const name = product.title.replace(/\s*[-–—]\s*Ref\.?\s*[A-Za-z0-9]+(?:\s+[A-Za-zÁÉÍÓÚáéíóúÑñ]+)?\s*$/i, '');
   const who = product.category === 'Dama' ? 'para dama' : 'para hombre';
   const ref = product.refCode ? `, Ref. ${product.refCode}` : '';
   const side = view === 'both' ? ' (vista frontal y trasera)' : '';
