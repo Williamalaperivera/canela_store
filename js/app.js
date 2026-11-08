@@ -991,7 +991,7 @@ function checkoutWhatsApp() {
   msg += `*Método de pago preferido:* (Contra entrega Bogotá / Transferencia)\n\n`;
   msg += `Por favor confirmen disponibilidad, costo de envío y pasos para completar mi compra. ¡Muchas gracias!`;
 
-  const waNumber = (typeof STORE_CONFIG !== 'undefined' && STORE_CONFIG.whatsappNumber) ? STORE_CONFIG.whatsappNumber : "573026027989";
+  const waNumber = (typeof STORE_CONFIG !== 'undefined' && STORE_CONFIG.whatsappNumber) ? STORE_CONFIG.whatsappNumber : "573117166610";
   const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
   window.open(waUrl, '_blank');
 }

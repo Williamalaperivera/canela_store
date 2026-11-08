@@ -102,7 +102,7 @@ Los valores se configuran en `js/products.js`:
 const STORE_CONFIG = {
   name: "Más Canela Store",
   slogan: "Moda para cada versión de ti",
-  whatsappNumber: "573026027989", // 57 + número, sin '+' ni espacios
+  whatsappNumber: "573117166610", // 57 + número, sin '+' ni espacios
   email: "contacto@mascanelastore.com.co",
   currency: "COP",
   retailPrice: 70000,      // precio al detal

@@ -13,7 +13,7 @@
 const STORE_CONFIG = {
   name: "Más Canela Store",
   slogan: "Moda para cada versión de ti",
-  whatsappNumber: "573026027989", // Número sin '+' ni espacios
+  whatsappNumber: "573117166610", // Número sin '+' ni espacios
   email: "contacto@mascanelastore.com.co",
   currency: "COP",
   retailPrice: 70000,          // Precio regular por unidad
