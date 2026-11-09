@@ -483,6 +483,7 @@ function createProductCardHtml(product) {
       <div class="product-image-container" onclick="openProductModal('${product.id}')">
         <img src="${displayImage}" 
              alt="${getProductImageAlt(product, activeView)}" 
+             width="1024" height="1536" 
              loading="lazy" 
              decoding="async">
         <button class="quick-view-btn" title="Vista Rápida" aria-label="Ver detalles de ${product.title}">
@@ -1046,7 +1047,7 @@ function openProductModal(productId) {
     <button class="modal-close-btn" onclick="closeProductModal()" aria-label="Cerrar">&times;</button>
     <div class="modal-media-col">
       <div class="modal-img-container" id="modalImgContainer" title="Pasa el cursor para ver detalles del denim">
-        <img src="${displayImage}" alt="${getProductImageAlt(product, activeView)}" id="modalProductImg" class="modal-img" loading="lazy" decoding="async">
+        <img src="${displayImage}" alt="${getProductImageAlt(product, activeView)}" id="modalProductImg" class="modal-img" width="1024" height="1536" loading="lazy" decoding="async">
         <span class="modal-zoom-hint" aria-hidden="true">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
           Zoom

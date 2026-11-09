@@ -186,6 +186,7 @@ El orden del arreglo es el orden de las píldoras. Si una silueta tiene `sizeGui
 ## Cambiar banners, círculos y fotos de secciones
 
 - **Banners del carrusel:** reemplaza `images/banner/banner-01.jpeg` … `banner-06.jpeg` manteniendo los nombres. Para agregar o quitar banners, edita los bloques `<div class="hero-slide">` en `index.html` (cada uno define también los colores de borde `--edge-l` y `--edge-r`).
+  Cada banner tiene además versiones livianas para celular: `banner-0N-480.webp`, `banner-0N-860.webp`, `banner-0N-1280.webp` y `banner-0N.webp` (1600 px). El navegador elige la adecuada (`srcset`). Si reemplazas un banner, vuelve a generar sus cuatro versiones WebP con el mismo nombre; si no, se seguirá viendo la anterior en esos tamaños.
 - **Círculos de colección:** `images/categorias/categoria-dama.jpeg` y `categoria-caballero.jpeg` (foto cuadrada, de la cabeza a las rodillas).
 - **Nuestra esencia:** `images/esencia/esencia-dama.jpeg`, `esencia-pareja.jpeg`, `esencia-caballero.jpeg`.
 
