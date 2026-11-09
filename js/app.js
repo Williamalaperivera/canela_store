@@ -386,33 +386,40 @@ function initBackToCatalogFloat() {
     btn.tabIndex = visible ? 0 : -1;
   };
 
-  // La posición del catálogo se mide solo al cargar y al cambiar el tamaño de la ventana
-  // (no en cada scroll), para no forzar al navegador a recalcular el diseño constantemente
-  let catalogTop = 0;
-  const measure = () => {
-    catalogTop = catalog.getBoundingClientRect().top + window.scrollY;
-  };
-
-  const update = () => {
-    ticking = false;
-    // Se muestra cuando el inicio del catálogo quedó al menos una pantalla atrás
-    setVisible(window.scrollY > catalogTop + window.innerHeight * 0.9);
-  };
-  const remeasure = () => {
-    measure();
-    update();
-  };
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  }, { passive: true });
-  window.addEventListener('resize', remeasure);
-  window.addEventListener('load', remeasure);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
-  requestAnimationFrame(remeasure);
+  // El botón se muestra cuando el inicio del catálogo quedó al menos una pantalla atrás (90 % del alto).
+  // En vez de medir posiciones con getBoundingClientRect (que obliga al navegador a recalcular el diseño),
+  // se pone una marca invisible 90vh por debajo del inicio del catálogo y un IntersectionObserver avisa,
+  // sin bloquear el hilo principal, cuando esa marca sale por la parte superior de la pantalla.
+  if ('IntersectionObserver' in window) {
+    const marker = document.createElement('span');
+    marker.className = 'catalog-scroll-marker';
+    marker.setAttribute('aria-hidden', 'true');
+    // Posición absoluta sin top/left: queda donde empieza el catálogo y no mueve nada del diseño
+    Object.assign(marker.style, {
+      position: 'absolute', width: '1px', height: '1px', marginTop: '90vh',
+      pointerEvents: 'none', visibility: 'hidden'
+    });
+    catalog.insertBefore(marker, catalog.firstChild);
+    new IntersectionObserver(entries => {
+      const entry = entries[entries.length - 1];
+      setVisible(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+    }).observe(marker);
+  } else {
+    // Navegadores muy antiguos: cálculo clásico, agrupado en un solo cuadro de animación
+    const update = () => {
+      ticking = false;
+      const catalogTop = catalog.getBoundingClientRect().top + window.scrollY;
+      setVisible(window.scrollY > catalogTop + window.innerHeight * 0.9);
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    requestAnimationFrame(update);
+  }
 
   btn.addEventListener('click', () => {
     const headerHeight = header ? header.getBoundingClientRect().height : 0;
