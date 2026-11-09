@@ -150,7 +150,31 @@ function initHeroSlider() {
 
   if (!slides.length) return;
 
+  // Carga diferida: los banners 2 a 6 llegan con data-src/data-srcset y solo se descargan
+  // cuando van a mostrarse (el banner actual y sus vecinos), no todos al abrir la página
+  const loadSlideImages = slide => {
+    if (!slide) return;
+    slide.querySelectorAll('img[data-src]').forEach(img => {
+      if (img.dataset.srcset) {
+        img.srcset = img.dataset.srcset;
+        img.removeAttribute('data-srcset');
+      }
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    });
+  };
+  // Cuando la página terminó de cargar, se preparan el banner 2 (siguiente) y el último (flecha "anterior")
+  const preloadNeighbors = () => {
+    loadSlideImages(slides[1]);
+    loadSlideImages(slides[slides.length - 1]);
+  };
+  if (document.readyState === 'complete') preloadNeighbors();
+  else window.addEventListener('load', preloadNeighbors, { once: true });
+
   function goToSlide(index) {
+    loadSlideImages(slides[index]);
+    loadSlideImages(slides[(index + 1) % slides.length]);
+    loadSlideImages(slides[(index - 1 + slides.length) % slides.length]);
     slides.forEach((s, i) => {
       s.classList.toggle('active', i === index);
     });

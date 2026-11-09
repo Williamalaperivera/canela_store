@@ -11,7 +11,7 @@ Está hecha solo con **HTML, CSS y JavaScript**: no necesita Node.js, librerías
 - **Doble clic:** abre `index.html` desde la carpeta `canela_store`.
 - **Live Server (recomendado en VS Code):** clic derecho sobre `index.html` → **Open with Live Server**. Así los cambios se ven al guardar.
 
-> Si no ves un cambio de diseño, recarga con `Ctrl + F5`. El `index.html` ya carga `styles.css` con un parámetro de versión para evitar la caché, pero el navegador puede guardar imágenes o el JavaScript.
+> **Versión de archivos (`?v=`), automática:** `index.html` carga `css/styles.css`, `js/products.js` y `js/app.js` con un `?v=` fijo y no hay que cambiarlo a mano. **En Hostinger**, la sección 2 del `.htaccess` (`Cache-Control: no-cache, must-revalidate` para `.css` y `.js`) hace que el navegador pregunte en cada visita si el archivo cambió: si cambió, descarga el nuevo; si no, usa su copia sin volver a descargarla (antes, el número cambiaba con la hora y obligaba a descargar todo en cada visita). **En GitHub Pages**, que ignora el `.htaccess`, el flujo `.github/workflows/publicar.yml` reemplaza el `?v=` en cada publicación por una huella del contenido de cada archivo (requiere, una vez, elegir **GitHub Actions** en Settings → Pages → Source); sin ese flujo, GitHub entrega la versión nueva en máximo 10 minutos. Si no ves un cambio en tu equipo, recarga con `Ctrl + F5`.
 
 ---
 
