@@ -386,11 +386,21 @@ function initBackToCatalogFloat() {
     btn.tabIndex = visible ? 0 : -1;
   };
 
+  // La posición del catálogo se mide solo al cargar y al cambiar el tamaño de la ventana
+  // (no en cada scroll), para no forzar al navegador a recalcular el diseño constantemente
+  let catalogTop = 0;
+  const measure = () => {
+    catalogTop = catalog.getBoundingClientRect().top + window.scrollY;
+  };
+
   const update = () => {
     ticking = false;
-    const catalogTop = catalog.getBoundingClientRect().top + window.scrollY;
     // Se muestra cuando el inicio del catálogo quedó al menos una pantalla atrás
     setVisible(window.scrollY > catalogTop + window.innerHeight * 0.9);
+  };
+  const remeasure = () => {
+    measure();
+    update();
   };
 
   window.addEventListener('scroll', () => {
@@ -399,8 +409,10 @@ function initBackToCatalogFloat() {
       requestAnimationFrame(update);
     }
   }, { passive: true });
-  window.addEventListener('resize', update);
-  update();
+  window.addEventListener('resize', remeasure);
+  window.addEventListener('load', remeasure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+  requestAnimationFrame(remeasure);
 
   btn.addEventListener('click', () => {
     const headerHeight = header ? header.getBoundingClientRect().height : 0;
@@ -551,11 +563,14 @@ function renderSilhouettePills(category) {
   if (isNewContext) {
     pills.scrollLeft = 0;
   } else {
-    const active = pills.querySelector('.silhouette-pill.active');
-    if (active && pills.scrollWidth > pills.clientWidth) {
-      const target = active.offsetLeft - (pills.clientWidth - active.offsetWidth) / 2;
-      pills.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
-    }
+    // Se mide en el siguiente fotograma, cuando las píldoras nuevas ya están pintadas
+    requestAnimationFrame(() => {
+      const active = pills.querySelector('.silhouette-pill.active');
+      if (active && pills.scrollWidth > pills.clientWidth) {
+        const target = active.offsetLeft - (pills.clientWidth - active.offsetWidth) / 2;
+        pills.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+      }
+    });
   }
 }
 
@@ -735,15 +750,24 @@ function initCardZoom() {
   const grid = document.getElementById('productGrid');
   if (!grid) return;
 
+  // Un solo cálculo por fotograma, aunque el mouse dispare muchos eventos
+  let zoomFrame = 0;
+  let lastMove = null;
   grid.addEventListener('mousemove', (e) => {
-    const container = e.target.closest('.product-image-container');
-    if (!container) return;
-    const img = container.querySelector('img');
-    const rect = container.getBoundingClientRect();
-    if (!img || !rect.width || !rect.height) return;
-    const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
-    const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
-    img.style.transformOrigin = `${x}% ${y}%`;
+    lastMove = e;
+    if (zoomFrame) return;
+    zoomFrame = requestAnimationFrame(() => {
+      zoomFrame = 0;
+      const ev = lastMove;
+      const container = ev.target.closest('.product-image-container');
+      if (!container) return;
+      const img = container.querySelector('img');
+      const rect = container.getBoundingClientRect();
+      if (!img || !rect.width || !rect.height) return;
+      const x = Math.max(0, Math.min(100, ((ev.clientX - rect.left) / rect.width) * 100));
+      const y = Math.max(0, Math.min(100, ((ev.clientY - rect.top) / rect.height) * 100));
+      img.style.transformOrigin = `${x}% ${y}%`;
+    });
   });
 
   grid.addEventListener('mouseout', (e) => {
@@ -1104,12 +1128,19 @@ function initModalZoom() {
   if (!container || !img) return;
 
   // Seguimiento interactivo del cursor en escritorio
+  let zoomFrame = 0;
+  let lastMove = null;
   container.onmousemove = (e) => {
-    const rect = container.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
-    const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
-    img.style.transformOrigin = `${x}% ${y}%`;
+    lastMove = e;
+    if (zoomFrame) return;
+    zoomFrame = requestAnimationFrame(() => {
+      zoomFrame = 0;
+      const rect = container.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const x = Math.max(0, Math.min(100, ((lastMove.clientX - rect.left) / rect.width) * 100));
+      const y = Math.max(0, Math.min(100, ((lastMove.clientY - rect.top) / rect.height) * 100));
+      img.style.transformOrigin = `${x}% ${y}%`;
+    });
   };
 
   container.onmouseleave = () => {
@@ -1651,7 +1682,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCartExploreLink();
 
   // SEO: datos estructurados del catálogo para Google
-  injectProductStructuredData();
+  (window.requestIdleCallback || (cb => setTimeout(cb, 200)))(injectProductStructuredData, { timeout: 2000 });
 
   // Enlace para volver al catálogo con desplazamiento suave
   const backToCatalogBtn = document.getElementById('backToCatalogBtn');
