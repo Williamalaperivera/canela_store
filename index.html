@@ -113,16 +113,22 @@
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="apple-touch-icon" href="images/favicon.png">
 
-  <!-- Tipografías Google Fonts -->
+  <!-- Tipografías Google Fonts, sin bloquear el primer dibujo de la página: se descargan en paralelo
+       (preload) y se aplican al llegar (media="print" -> "all"). Mientras tanto se ve la letra de respaldo
+       (display=swap), igual que antes. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Pinyon+Script&family=Manrope:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Pinyon+Script&family=Manrope:wght@300;400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Pinyon+Script&family=Manrope:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Pinyon+Script&family=Manrope:wght@300;400;500;600;700;800&display=swap">
+  </noscript>
 
-  <!-- Estilos CSS. El número ?v= es la versión: cámbialo (por ejemplo a la fecha del día) cada vez que
-       subas cambios de styles.css o de los .js, para que los clientes descarguen la versión nueva.
-       Mientras no cambie, el navegador reutiliza los archivos guardados y la página abre más rápido. -->
+  <!-- Estilos CSS con ?v= fijo (no hace falta cambiarlo a mano):
+       - Hostinger: el .htaccess (sección 2) hace que el navegador pregunte siempre si styles.css/app.js cambiaron;
+         si cambiaron descarga la versión nueva, y si no, usa la copia guardada sin volver a descargarla.
+       - GitHub Pages: .github/workflows/publicar.yml cambia el ?v= solo en cada publicación (si no está activo,
+         GitHub entrega la versión nueva en máximo 10 minutos). -->
   <link rel="stylesheet" href="css/styles.css?v=20261109">
 </head>
 
@@ -221,7 +227,7 @@
            en que se ven (miniaturas de 64px y fotos verticales de unos 1140px de ancho útil). -->
       <!-- Banner 1 -->
       <div class="hero-slide active" style="--edge-l: #eee5dc; --edge-r: #ece0d7;">
-        <img class="hero-backdrop" src="images/banner/banner-01.webp" alt="" aria-hidden="true" decoding="async" loading="lazy" width="1600" height="900" srcset="images/banner/banner-01-480.webp 480w, images/banner/banner-01-740.webp 740w, images/banner/banner-01-860.webp 860w, images/banner/banner-01-1280.webp 1280w, images/banner/banner-01.webp 1600w" sizes="(max-width: 600px) 40vw, 100vw">
+        <img class="hero-backdrop" src="images/banner/banner-01.webp" alt="" aria-hidden="true" decoding="async" fetchpriority="high" width="1600" height="900" srcset="images/banner/banner-01-480.webp 480w, images/banner/banner-01-740.webp 740w, images/banner/banner-01-860.webp 860w, images/banner/banner-01-1280.webp 1280w, images/banner/banner-01.webp 1600w" sizes="(max-width: 600px) 40vw, 100vw">
         <img class="hero-photo" src="images/banner/banner-01.webp"
           alt="Pareja luciendo jean skinny y jean clásico de tiro alto" width="1600" height="900" decoding="async"
           fetchpriority="high" srcset="images/banner/banner-01-480.webp 480w, images/banner/banner-01-740.webp 740w, images/banner/banner-01-860.webp 860w, images/banner/banner-01-1280.webp 1280w, images/banner/banner-01.webp 1600w" sizes="(max-width: 600px) 40vw, 100vw">
@@ -970,7 +976,9 @@
   <!-- Notificación Toast -->
   <div class="toast" id="toastNotification"></div>
 
-  <!-- Scripts (misma versión ?v= que styles.css; cámbiala al subir cambios) -->
+  <!-- Scripts al final del <body>: no bloquean el dibujo de la página, porque el navegador ya pintó el banner y el
+       contenido antes de llegar aquí (los descubre y descarga desde el inicio). Se probó "defer" en el <head> y en
+       celular retrasaba la aparición del banner (LCP) unos 130 ms, por eso se dejan aquí. -->
   <script src="js/products.js?v=20261109"></script>
   <script src="js/app.js?v=20261109"></script>
 </body>
