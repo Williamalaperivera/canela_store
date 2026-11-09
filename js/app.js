@@ -5,6 +5,9 @@
  */
 
 // Estado global de la aplicación
+// Versión .webp de una foto (definida en index.html); si no existe la función, se usa la ruta original
+const webpSrc = src => (typeof window !== 'undefined' && typeof window.toWebp === 'function') ? window.toWebp(src) : src;
+
 const AppState = {
   cart: [],
   currentCategory: null,     // Carga inicial limpia: solo los círculos; los productos aparecen al elegir Dama o Caballero
@@ -227,7 +230,7 @@ function switchProductCardView(event, productId, view) {
     setTimeout(() => {
       img.loading = 'lazy';
       img.decoding = 'async';
-      img.src = view === 'both' ? product.images.both : product.images.front;
+      img.src = webpSrc(view === 'both' ? product.images.both : product.images.front);
       const onLoaded = () => {
         img.style.opacity = '1';
         img.style.transform = '';
@@ -258,7 +261,7 @@ function switchProductModalView(productId, view) {
     modalImg.style.opacity = '0.35';
     modalImg.style.transform = 'scale(0.98)';
     setTimeout(() => {
-      modalImg.src = view === 'both' ? product.images.both : product.images.front;
+      modalImg.src = webpSrc(view === 'both' ? product.images.both : product.images.front);
       const onLoaded = () => {
         modalImg.style.opacity = '1';
         modalImg.style.transform = '';
@@ -449,7 +452,7 @@ function createProductCardHtml(product) {
   const isDama = product.category === 'Dama';
   const hasMultipleViews = Boolean(product.images && product.images.both);
   const activeView = AppState.activeCardViews[product.id] || 'front';
-  const displayImage = (hasMultipleViews && activeView === 'both') ? product.images.both : product.image;
+  const displayImage = webpSrc((hasMultipleViews && activeView === 'both') ? product.images.both : product.image);
 
   const sizeOptionsHtml = product.sizes.map(size => 
     `<option value="${size}">${size}</option>`
@@ -1010,7 +1013,7 @@ function openProductModal(productId) {
   const isDama = product.category === 'Dama';
   const hasMultipleViews = Boolean(product.images && product.images.both);
   const activeView = AppState.activeCardViews[productId] || 'front';
-  const displayImage = (hasMultipleViews && activeView === 'both') ? product.images.both : product.image;
+  const displayImage = webpSrc((hasMultipleViews && activeView === 'both') ? product.images.both : product.image);
 
   const sizeOptionsHtml = product.sizes.map(size => 
     `<option value="${size}">${size}</option>`
@@ -1315,7 +1318,7 @@ function openSizeGuide(category, silhouetteKey) {
   if (!guide || !overlay || !img) return;
 
   sizeGuideReturnFocus = document.activeElement;
-  img.src = guide.src;
+  img.src = webpSrc(guide.src);
   img.alt = `Guía de tallas ${guide.name} ${category === 'Caballero' ? 'hombre' : 'dama'}: medidas en centímetros por talla`;
   if (title) title.textContent = `Guía de tallas · ${guide.name}`;
   overlay.classList.add('open');

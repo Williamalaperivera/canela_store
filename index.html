@@ -3,6 +3,21 @@
 
 <head>
   <meta charset="UTF-8">
+  <!-- Imágenes WebP: cada foto .jpeg tiene al lado una versión .webp más liviana (misma carpeta y nombre).
+       toWebp() pide la .webp; si no carga (navegador antiguo o archivo faltante), se usa el JPEG original. -->
+  <script>
+    window.toWebp = function (src) {
+      return typeof src === 'string' ? src.replace(/^(images\/(?!og\/).+)\.jpe?g$/i, '$1.webp') : src;
+    };
+    document.addEventListener('error', function (e) {
+      var img = e.target;
+      if (!img || img.tagName !== 'IMG') return;
+      var src = img.getAttribute('src') || '';
+      if (!/\.webp$/i.test(src) || img.dataset.webpFallback === src) return;
+      img.dataset.webpFallback = src;
+      img.src = src.replace(/\.webp$/i, '.jpeg');
+    }, true);
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- ================= SEO ================= -->
@@ -190,50 +205,50 @@
       <!-- Banners del hero (images/banner/): el logo y el eslogan ya vienen en cada imagen -->
       <!-- Banner 1 -->
       <div class="hero-slide active" style="--edge-l: #eee5dc; --edge-r: #ece0d7;">
-        <img class="hero-backdrop" src="images/banner/banner-01.jpeg" alt="" aria-hidden="true" decoding="async">
-        <img class="hero-photo" src="images/banner/banner-01.jpeg"
+        <img class="hero-backdrop" src="images/banner/banner-01.webp" alt="" aria-hidden="true" decoding="async">
+        <img class="hero-photo" src="images/banner/banner-01.webp"
           alt="Pareja luciendo jean skinny y jean clásico de tiro alto" width="1600" height="900" decoding="async"
           fetchpriority="high">
       </div>
 
       <!-- Banner 2 -->
       <div class="hero-slide" style="--edge-l: #eee6e0; --edge-r: #d1baa4;">
-        <img class="hero-backdrop" src="images/banner/banner-02.jpeg" alt="" aria-hidden="true" loading="lazy"
+        <img class="hero-backdrop" src="images/banner/banner-02.webp" alt="" aria-hidden="true" loading="lazy"
           decoding="async">
-        <img class="hero-photo" src="images/banner/banner-02.jpeg" alt="Pareja luciendo jeans baggy rígidos"
+        <img class="hero-photo" src="images/banner/banner-02.webp" alt="Pareja luciendo jeans baggy rígidos"
           width="1600" height="900" loading="lazy" decoding="async">
       </div>
 
       <!-- Banner 3 -->
       <div class="hero-slide" style="--edge-l: #0a0603; --edge-r: #6a4225;">
-        <img class="hero-backdrop" src="images/banner/banner-03.jpeg" alt="" aria-hidden="true" loading="lazy"
+        <img class="hero-backdrop" src="images/banner/banner-03.webp" alt="" aria-hidden="true" loading="lazy"
           decoding="async">
-        <img class="hero-photo" src="images/banner/banner-03.jpeg" alt="Pareja con jeans baggy en una calle de noche"
+        <img class="hero-photo" src="images/banner/banner-03.webp" alt="Pareja con jeans baggy en una calle de noche"
           width="1600" height="900" loading="lazy" decoding="async">
       </div>
 
       <!-- Banner 4 -->
       <div class="hero-slide" style="--edge-l: #e1d5cc; --edge-r: #e4d6c9;">
-        <img class="hero-backdrop" src="images/banner/banner-04.jpeg" alt="" aria-hidden="true" loading="lazy"
+        <img class="hero-backdrop" src="images/banner/banner-04.webp" alt="" aria-hidden="true" loading="lazy"
           decoding="async">
-        <img class="hero-photo" src="images/banner/banner-04.jpeg"
+        <img class="hero-photo" src="images/banner/banner-04.webp"
           alt="Modelos con jean skinny y jean clásico 4 botones" width="1600" height="900" loading="lazy"
           decoding="async">
       </div>
 
       <!-- Banner 5 -->
       <div class="hero-slide" style="--edge-l: #ebddd1; --edge-r: #d9c2ae;">
-        <img class="hero-backdrop" src="images/banner/banner-05.jpeg" alt="" aria-hidden="true" loading="lazy"
+        <img class="hero-backdrop" src="images/banner/banner-05.webp" alt="" aria-hidden="true" loading="lazy"
           decoding="async">
-        <img class="hero-photo" src="images/banner/banner-05.jpeg" alt="Modelo con jean ochentero clásico azul oscuro"
+        <img class="hero-photo" src="images/banner/banner-05.webp" alt="Modelo con jean ochentero clásico azul oscuro"
           width="1600" height="900" loading="lazy" decoding="async">
       </div>
 
       <!-- Banner 6 -->
       <div class="hero-slide" style="--edge-l: #e9ded2; --edge-r: #e9dfd4;">
-        <img class="hero-backdrop" src="images/banner/banner-06.jpeg" alt="" aria-hidden="true" loading="lazy"
+        <img class="hero-backdrop" src="images/banner/banner-06.webp" alt="" aria-hidden="true" loading="lazy"
           decoding="async">
-        <img class="hero-photo" src="images/banner/banner-06.jpeg" alt="Modelo con bermuda rígida gris" width="1600"
+        <img class="hero-photo" src="images/banner/banner-06.webp" alt="Modelo con bermuda rígida gris" width="1600"
           height="900" loading="lazy" decoding="async">
       </div>
 
@@ -282,7 +297,7 @@
       <div class="category-circles" role="group" aria-label="Elige la colección">
         <button type="button" class="category-option category-circle" data-category="Dama" aria-pressed="false">
           <span class="category-portrait">
-            <img src="images/categorias/categoria-dama.jpeg" alt="Colección de jeans para dama Más Canela Store"
+            <img src="images/categorias/categoria-dama.webp" alt="Colección de jeans para dama Más Canela Store"
               width="280" height="280" decoding="async">
             <svg class="category-stitch" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
               <defs>
@@ -298,7 +313,7 @@
         </button>
         <button type="button" class="category-option category-circle" data-category="Caballero" aria-pressed="false">
           <span class="category-portrait">
-            <img src="images/categorias/categoria-caballero.jpeg" alt="Colección de jeans para hombre Más Canela Store"
+            <img src="images/categorias/categoria-caballero.webp" alt="Colección de jeans para hombre Más Canela Store"
               width="280" height="280" decoding="async">
             <svg class="category-stitch" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
               <defs>
@@ -368,15 +383,15 @@
 
       <figure class="essence-gallery">
         <div class="essence-arch essence-arch--side">
-          <img src="images/esencia/esencia-dama.jpeg" alt="Modelo con jean ochentero clásico azul oscuro" width="432"
+          <img src="images/esencia/esencia-dama.webp" alt="Modelo con jean ochentero clásico azul oscuro" width="432"
             height="900" loading="lazy" decoding="async">
         </div>
         <div class="essence-arch essence-arch--center">
-          <img src="images/esencia/esencia-pareja.jpeg" alt="Pareja luciendo jeans baggy rígidos" width="688"
+          <img src="images/esencia/esencia-pareja.webp" alt="Pareja luciendo jeans baggy rígidos" width="688"
             height="900" loading="lazy" decoding="async">
         </div>
         <div class="essence-arch essence-arch--side">
-          <img src="images/esencia/esencia-caballero.jpeg" alt="Modelo con jean skinny azul" width="432" height="900"
+          <img src="images/esencia/esencia-caballero.webp" alt="Modelo con jean skinny azul" width="432" height="900"
             loading="lazy" decoding="async">
         </div>
         <figcaption class="essence-signature">Muy tú. Muy Canela.</figcaption>
@@ -505,22 +520,22 @@
       <!-- Imagen que acompaña la pregunta abierta (computador) -->
       <div class="fq-visual" aria-hidden="true">
         <figure class="fq-shot is-active" data-faq-shot="mayor">
-          <img src="images/banner/banner-02.jpeg" alt="Pareja luciendo jeans baggy rígidos"
+          <img src="images/banner/banner-02.webp" alt="Pareja luciendo jeans baggy rígidos"
             style="object-position: 86% center;" loading="lazy" decoding="async">
           <figcaption>Mezcla y ahorra</figcaption>
         </figure>
         <figure class="fq-shot" data-faq-shot="pagos">
-          <img src="images/banner/banner-03.jpeg" alt="Pareja con jeans baggy en una calle de noche"
+          <img src="images/banner/banner-03.webp" alt="Pareja con jeans baggy en una calle de noche"
             style="object-position: 72% center;" loading="lazy" decoding="async">
           <figcaption>Paga a tu manera</figcaption>
         </figure>
         <figure class="fq-shot" data-faq-shot="tallas">
-          <img src="images/banner/banner-05.jpeg" alt="Modelo con jean ochentero clásico azul oscuro"
+          <img src="images/banner/banner-05.webp" alt="Modelo con jean ochentero clásico azul oscuro"
             style="object-position: 80% center;" loading="lazy" decoding="async">
           <figcaption>Tu horma ideal</figcaption>
         </figure>
         <figure class="fq-shot" data-faq-shot="envios">
-          <img src="images/banner/banner-01.jpeg" alt="Pareja luciendo jean skinny y jean clásico de tiro alto"
+          <img src="images/banner/banner-01.webp" alt="Pareja luciendo jean skinny y jean clásico de tiro alto"
             style="object-position: 75% center;" loading="lazy" decoding="async">
           <figcaption>Directo a tu puerta</figcaption>
         </figure>
@@ -537,22 +552,22 @@
         <!-- Temas: acceso directo a cada respuesta -->
         <nav class="fq-chips" aria-label="Temas de preguntas frecuentes">
           <button type="button" class="fq-chip is-active" data-faq-target="mayor" aria-controls="fq-mayor">
-            <img src="images/banner/banner-02.jpeg" alt="" style="object-position: 86% 18%;" loading="lazy"
+            <img src="images/banner/banner-02.webp" alt="" style="object-position: 86% 18%;" loading="lazy"
               decoding="async">
             <span>Por mayor</span>
           </button>
           <button type="button" class="fq-chip" data-faq-target="pagos" aria-controls="fq-pagos">
-            <img src="images/banner/banner-03.jpeg" alt="" style="object-position: 72% 18%;" loading="lazy"
+            <img src="images/banner/banner-03.webp" alt="" style="object-position: 72% 18%;" loading="lazy"
               decoding="async">
             <span>Pagos</span>
           </button>
           <button type="button" class="fq-chip" data-faq-target="tallas" aria-controls="fq-tallas">
-            <img src="images/banner/banner-05.jpeg" alt="" style="object-position: 80% 18%;" loading="lazy"
+            <img src="images/banner/banner-05.webp" alt="" style="object-position: 80% 18%;" loading="lazy"
               decoding="async">
             <span>Tallas</span>
           </button>
           <button type="button" class="fq-chip" data-faq-target="envios" aria-controls="fq-envios">
-            <img src="images/banner/banner-01.jpeg" alt="" style="object-position: 75% 18%;" loading="lazy"
+            <img src="images/banner/banner-01.webp" alt="" style="object-position: 75% 18%;" loading="lazy"
               decoding="async">
             <span>Envíos</span>
           </button>
@@ -565,7 +580,7 @@
               <span class="fq-toggle" aria-hidden="true"></span>
             </summary>
             <div class="fq-answer">
-              <img class="fq-answer-media" src="images/banner/banner-02.jpeg" alt="" style="object-position: 86% 20%;"
+              <img class="fq-answer-media" src="images/banner/banner-02.webp" alt="" style="object-position: 86% 20%;"
                 loading="lazy" decoding="async">
               <p>¡Es automático! Al llevar 6 prendas o más, el sistema reduce el precio de cada jean a $60.000 COP.
                 Puedes combinar libremente referencias, tallas y estilos (dama y caballero).</p>
@@ -577,7 +592,7 @@
               <span class="fq-toggle" aria-hidden="true"></span>
             </summary>
             <div class="fq-answer">
-              <img class="fq-answer-media" src="images/banner/banner-03.jpeg" alt="" style="object-position: 72% 20%;"
+              <img class="fq-answer-media" src="images/banner/banner-03.webp" alt="" style="object-position: 72% 20%;"
                 loading="lazy" decoding="async">
               <p>Ofrecemos pago contra entrega exclusivamente en Bogotá (pagas al recibir tu pedido). Para el resto de
                 ciudades de Colombia, coordinamos el pago y el envío de forma segura a través de nuestro botón de
@@ -590,7 +605,7 @@
               <span class="fq-toggle" aria-hidden="true"></span>
             </summary>
             <div class="fq-answer">
-              <img class="fq-answer-media" src="images/banner/banner-05.jpeg" alt="" style="object-position: 80% 20%;"
+              <img class="fq-answer-media" src="images/banner/banner-05.webp" alt="" style="object-position: 80% 20%;"
                 loading="lazy" decoding="async">
               <p>Nuestros jeans tienen horma y ajuste impecable. Si tienes dudas entre dos tallas, te recomendamos
                 elegir tu talla habitual o escribirnos por WhatsApp para guiarte de manera personalizada.</p>
@@ -602,7 +617,7 @@
               <span class="fq-toggle" aria-hidden="true"></span>
             </summary>
             <div class="fq-answer">
-              <img class="fq-answer-media" src="images/banner/banner-01.jpeg" alt="" style="object-position: 75% 20%;"
+              <img class="fq-answer-media" src="images/banner/banner-01.webp" alt="" style="object-position: 75% 20%;"
                 loading="lazy" decoding="async">
               <p>En Bogotá solemos coordinar entregas rápidas, y para el resto de Colombia trabajamos con
                 transportadoras aliadas. Al realizar tu pedido te confirmamos el tiempo estimado exacto.</p>

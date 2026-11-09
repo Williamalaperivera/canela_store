@@ -131,6 +131,7 @@ images/jeans_dama/baggy_rigido_dama/ref-Z08/ref-Z08-ambas-caras.jpeg  ← vista 
   - Dama: `palazo_licrado_dama` (en esta, las carpetas se llaman `referencia-ZNN`), `baggy_rigido_dama`, `baggy_carpintero_rigido_dama`, `ochentero_clasico_dama`, `clasico_4_botones_dama`.
   - Caballero: `skinny_licrado_hombre`, `baggy_rigido_hombre`, `bermuda_rigida_hombre`.
 - Formato recomendado: `.jpeg` vertical (proporción 2:3), para que las fotos se vean completas en tarjetas y modal.
+- **Versión WebP obligatoria para fotos nuevas:** cada `.jpeg` tiene al lado una copia `.webp` con el mismo nombre (ej. `ref-Z04.webp`), que pesa cerca de 40% menos. La página pide siempre la `.webp` y, si no existe, usa el `.jpeg`. Para crearla: `python -c "from PIL import Image; Image.open('ref-Z25.jpeg').convert('RGB').save('ref-Z25.webp','WEBP',quality=80,method=6)"` o cualquier conversor a WebP con calidad 80. En `products.js` se sigue escribiendo la ruta `.jpeg`.
 
 ---
 
