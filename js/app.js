@@ -1411,13 +1411,22 @@ function injectProductStructuredData() {
     }
   };
 
+  // SKU para Google: el código de la prenda sin tildes, espacios ni caracteres especiales
+  // (ej. "Z19 Claro" -> "Z19-CLARO"). La referencia visible y la de WhatsApp no cambian.
+  const toSku = p => String(p.refCode || p.id)
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .trim().toUpperCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^A-Z0-9-]/g, '')
+    .replace(/-+/g, '-');
+
   const items = PRODUCTS_DATA.map((p, i) => ({
     '@type': 'ListItem',
     position: i + 1,
     item: {
       '@type': 'Product',
       name: p.title,
-      sku: p.refCode || p.id,
+      sku: toSku(p),
       description: p.description,
       image: [p.image, p.images && p.images.both].filter(Boolean).map(src => base + src),
       brand: { '@type': 'Brand', name: p.category === 'Dama' ? 'Zirox Jeans' : 'Glass Jeans' },
