@@ -44,3 +44,25 @@
 <IfModule mod_headers.c>
     Header set X-Content-Type-Options "nosniff"
 </IfModule>
+
+# 6. Imágenes WebP automáticas (sin cambiar rutas en el código)
+# Si el navegador acepta WebP y existe la versión .webp junto a la foto
+# (ej. ref-Z04.webp al lado de ref-Z04.jpeg), el servidor entrega la WebP,
+# que pesa en promedio un 38% menos. Si no, entrega el JPEG original.
+<IfModule mod_mime.c>
+    AddType image/webp .webp
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP_ACCEPT} image/webp
+    RewriteCond %{REQUEST_FILENAME} ^(.+)\.(jpe?g|png)$
+    RewriteCond %1.webp -f
+    RewriteRule ^(.+)\.(jpe?g|png)$ $1.webp [T=image/webp,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(jpe?g|png)$">
+        Header append Vary Accept
+    </FilesMatch>
+</IfModule>
