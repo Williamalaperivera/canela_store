@@ -223,6 +223,21 @@ La tienda está preparada para **https://mascanelastore.com.co/**.
 
 Si cambia el dominio, reemplaza `https://mascanelastore.com.co/` en `index.html`, `robots.txt`, `sitemap.xml` y en `injectProductStructuredData` (`js/app.js`).
 
+## Seguridad
+
+La web se publica en **GitHub Pages**, que no permite configurar cabeceras HTTP propias (ignora `.htaccess`). Por eso la seguridad se cubre así:
+
+| Medida | Dónde | Estado |
+|---|---|---|
+| CSP: solo scripts del propio sitio, `object-src 'none'`, `base-uri 'self'`, fuentes solo de Google Fonts | `<meta http-equiv="Content-Security-Policy">` en `index.html` | Activa |
+| Política de referencia (`strict-origin-when-cross-origin`) | `<meta name="referrer">` en `index.html` | Activa |
+| Anti-clickjacking: si otra página carga la tienda en un marco, la tienda no se muestra | Script al inicio de `index.html` | Activa |
+| HTTPS obligatorio | GitHub → Settings → Pages → marcar **Enforce HTTPS** | Verificar que esté marcado |
+| HSTS, `X-Frame-Options` / `frame-ancestors`, `Permissions-Policy` como cabeceras | Solo posible con un servidor propio o un proxy | Preparado en `.htaccess` (sección 7) para Hostinger |
+
+- La CSP usa `'unsafe-inline'` en `script-src` porque los botones de la tienda usan `onclick`. Si se agrega un script externo (analítica, chat, píxel de Facebook), hay que añadir su dominio a la CSP o el navegador lo bloqueará.
+- Para tener HSTS y las cabeceras completas sin cambiar de alojamiento, se puede poner Cloudflare (plan gratuito) delante del dominio y activar allí HSTS y las cabeceras de seguridad. Otra opción es publicar la web en Hostinger, donde el `.htaccess` ya las incluye.
+
 ## Notas de mantenimiento
 
 - Las fotos de producto van siempre dentro de su carpeta de silueta y referencia; no dejes fotos sueltas en la raíz de `images/` ni de `images/jeans_dama/` o `images/jeans_hombre/`.

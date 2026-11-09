@@ -3,6 +3,19 @@
 
 <head>
   <meta charset="UTF-8">
+  <!-- Seguridad (GitHub Pages no permite cabeceras HTTP propias; estas etiquetas cubren lo posible desde el HTML).
+       CSP: solo se ejecutan scripts del propio sitio, se bloquean plugins (object-src 'none') y recursos externos
+       distintos de Google Fonts. 'unsafe-inline' es necesario porque la tienda usa onclick en sus botones. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <!-- Anti-clickjacking: si otra página carga la tienda dentro de un marco, la tienda no se muestra
+       (así nadie puede superponerla para engañar clics) e intenta abrirse en la ventana completa -->
+  <script>
+    if (window.top !== window.self) {
+      document.documentElement.style.visibility = 'hidden';
+      try { window.top.location.replace(window.location.href); } catch (e) { /* el navegador lo impide sin clic */ }
+    }
+  </script>
   <!-- Imágenes WebP: cada foto .jpeg tiene al lado una versión .webp más liviana (misma carpeta y nombre).
        toWebp() pide la .webp; si no carga (navegador antiguo o archivo faltante), se usa el JPEG original. -->
   <script>
@@ -299,7 +312,7 @@
         <button type="button" class="category-option category-circle" data-category="Dama" aria-pressed="false">
           <span class="category-portrait">
             <img src="images/categorias/categoria-dama.webp" alt="Colección de jeans para dama Más Canela Store"
-              width="280" height="280" decoding="async">
+              width="280" height="280" decoding="async" srcset="images/categorias/categoria-dama-320.webp 320w, images/categorias/categoria-dama.webp 640w" sizes="(max-width: 900px) 125px, 180px">
             <svg class="category-stitch" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
               <defs>
                 <mask id="stitch-dama">
@@ -315,7 +328,7 @@
         <button type="button" class="category-option category-circle" data-category="Caballero" aria-pressed="false">
           <span class="category-portrait">
             <img src="images/categorias/categoria-caballero.webp" alt="Colección de jeans para hombre Más Canela Store"
-              width="280" height="280" decoding="async">
+              width="280" height="280" decoding="async" srcset="images/categorias/categoria-caballero-320.webp 320w, images/categorias/categoria-caballero.webp 640w" sizes="(max-width: 900px) 125px, 180px">
             <svg class="category-stitch" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
               <defs>
                 <mask id="stitch-caballero">

@@ -66,3 +66,13 @@
         Header append Vary Accept
     </FilesMatch>
 </IfModule>
+
+# 7. Cabeceras de seguridad (aplican solo en un servidor Apache/LiteSpeed como Hostinger;
+#    GitHub Pages ignora este archivo: ver README, sección Seguridad)
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; upgrade-insecure-requests"
+</IfModule>
